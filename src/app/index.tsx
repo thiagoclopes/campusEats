@@ -3,7 +3,7 @@ import { Header } from "../components/header";
 import Constants from 'expo-constants'
 import { Banner } from "../components/banner";
 import { Footer } from "../components/footer";
-import { Products } from "../components/products";
+import { Products } from "../components/productsList";
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -15,7 +15,7 @@ export default function Index() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <View className="w-full px-4" style={{marginTop: statusBarHeight + 8}}>
+      <View className="w-full px-4">
         <Header/>
         <Banner/>
         <Products/>

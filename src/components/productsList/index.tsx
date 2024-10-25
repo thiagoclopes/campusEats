@@ -1,5 +1,6 @@
+import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, TouchableOpacity, View, Text, Image } from "react-native";
+import { Alert, TouchableOpacity, View, Text, Image, Pressable } from "react-native";
 
 interface FoodItem {
     id: string;
@@ -16,6 +17,8 @@ const foodItems: FoodItem[] = [
     { id: '5', name: 'Pizza Calabresa', category: 'Pizza', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyOaOF_vE3SVjyfSr_nMj059lGnS4Vh77VQ&s'},
     { id: '6', name: 'Feijoada', category: 'Almoço', url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRYUaUvIxqFEApLRiHtIUMp2HO3dYNbe_Yw&s'},
 ];
+
+const router = useRouter();
 
 export function Products(){
 
@@ -82,14 +85,14 @@ export function Products(){
             <View className="flex flex-row flex-wrap">
                 {filteredItems.map(item => (
                 <View key={item.id} className="w-1/2 p-2">
-                    <View className="bg-slate-100 rounded-xl overflow-hidden">
+                    <Pressable className="bg-slate-100 rounded-xl overflow-hidden" onPress={() => router.push('/product')}>
                     <Image
                         source={{ uri: item.url }} 
                         className="w-full h-40" 
                         style={{ resizeMode: 'cover' }}
                     />
                     <Text className="text-slate-500 font-bold text-center py-2">{item.name}</Text>
-                    </View>
+                    </Pressable>
                 </View>
                 ))}
             </View>
