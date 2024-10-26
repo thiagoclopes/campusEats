@@ -65,10 +65,10 @@ export function Products() {
                 {['Todos', 'Combos', 'Almoço', 'Pizza'].map((category) => (
                     <TouchableOpacity
                         key={category}
-                        className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-gray-200'}`} // Troca a cor com base na seleção
+                        className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-slate-100'}`}
                         onPress={() => handleCategorySelect(category)}
                     >
-                        <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black'}`}>
+                        <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
                             {category}
                         </Text>
                     </TouchableOpacity>
@@ -82,7 +82,7 @@ export function Products() {
                     filteredItems.map(item => (
                         <View key={item.id} className="w-1/2 p-2">
                             <Pressable
-                                className="bg-slate-100 rounded-xl overflow-hidden"
+                                className="bg-white rounded-xl shadow-xl overflow-hidden"
                                 onPress={() => router.push(`/product?id=${item.id}`)}
                             >
                                 <Image
