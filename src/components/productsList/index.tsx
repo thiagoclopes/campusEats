@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { TouchableOpacity, View, Text, Image, Pressable } from "react-native";
+import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator } from "react-native";
 
 interface FoodItem {
     id: string;
@@ -26,39 +26,60 @@ const fetchItems = async () => {
 
 export function Products() {
     const [items, setItems] = useState<FoodItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
     const router = useRouter();
 
     useEffect(() => {
         const getData = async () => {
-            const fetchedItems = await fetchItems();
-            console.log('Fetched items:', fetchedItems);
-            setItems(fetchedItems);
+            setLoading(true);
+            setError(null);
+            try {
+                const fetchedItems = await fetchItems();
+                setItems(fetchedItems);
+            } catch (err) {
+                setError('Falha ao carregar os itens. Tente novamente mais tarde.');
+            } finally {
+                setLoading(false);
+            }
         };
         getData();
     }, []);
 
+    const handleCategorySelect = (category: string) => {
+        setSelectedCategory(category);
+    };
+
+    const filteredItems = items.filter(item => 
+        selectedCategory === 'Todos' || item.category === selectedCategory
+    );
+
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+    
     return (
         <View className="p-4">
             <View className="flex flex-row gap-2 mb-4">
-                <TouchableOpacity className={`w-24 py-4 rounded-xl`}>
-                    <Text className={`font-bold text-center`}>Todos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`w-24 py-4 rounded-xl`}>
-                    <Text className={`font-bold text-center`}>Combos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`w-24 py-4 rounded-xl`}>
-                    <Text className={`font-bold text-center`}>Almoço</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className={`w-24 py-4 rounded-xl`}>
-                    <Text className={`font-bold text-center`}>Pizza</Text>
-                </TouchableOpacity>
+                {['Todos', 'Combos', 'Almoço', 'Pizza'].map((category) => (
+                    <TouchableOpacity
+                        key={category}
+                        className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-gray-200'}`} // Troca a cor com base na seleção
+                        onPress={() => handleCategorySelect(category)}
+                    >
+                        <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black'}`}>
+                            {category}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
             </View>
 
             <View className="flex flex-row flex-wrap">
-                {items.length === 0 ? (
+                {filteredItems.length === 0 ? (
                     <Text className="text-center">Nenhum item disponível</Text>
                 ) : (
-                    items.map(item => (
+                    filteredItems.map(item => (
                         <View key={item.id} className="w-1/2 p-2">
                             <Pressable
                                 className="bg-slate-100 rounded-xl overflow-hidden"

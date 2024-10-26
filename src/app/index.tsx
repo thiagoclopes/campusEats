@@ -15,6 +15,7 @@ export default function Index() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
     >
+      <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
       <View className="w-full px-4">
         <Header/>
         <Banner/>
