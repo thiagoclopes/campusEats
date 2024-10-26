@@ -11,7 +11,7 @@ interface FoodItem {
 
 const fetchItems = async () => {
     try {
-        const response = await fetch('http://192.168.1.12:3000/products');
+        const response = await fetch('http://192.168.1.11:3000/products');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

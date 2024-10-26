@@ -9,19 +9,21 @@ const statusBarHeight = Constants.statusBarHeight
 
 export default function Index() {
   return (
-    <ScrollView 
-      style={{ flex: 1}}
-      className="bg-white"
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ flexGrow: 1 }}
-    >
-      <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-      <View className="w-full px-4">
-        <Header/>
-        <Banner/>
-        <Products/>
-      </View>
+    <View className="flex flex-1">
+      <ScrollView 
+        style={{ flex: 1}}
+        className="bg-white"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
+        <View className="w-full px-4">
+          <Header/>
+          <Banner/>
+          <Products/>
+        </View>
+      </ScrollView>
       <Footer/>
-    </ScrollView>
+    </View>
   );
 }
