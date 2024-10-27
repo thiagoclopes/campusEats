@@ -10,7 +10,7 @@ export function Footer() {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-around',
-            backgroundColor: 'red',
+            backgroundColor: '#EF2A39',
             elevation: 5
         }}>
             <Pressable className="w-12 h-12 flex justify-center items-center}"onPress={() => router.push('/')}>

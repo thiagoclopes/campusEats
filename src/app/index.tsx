@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, StatusBar } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import { Header } from "../components/header";
 import Constants from 'expo-constants'
 import { Banner } from "../components/banner";
@@ -16,7 +16,6 @@ export default function Index() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
         <View className="w-full">
           <Header/>
           <Banner/>
