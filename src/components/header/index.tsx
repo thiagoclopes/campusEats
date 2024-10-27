@@ -2,7 +2,7 @@ import { View, Pressable, Text, Image } from "react-native";
 import { Ionicons, Feather, Fontisto, AntDesign } from '@expo/vector-icons'
 export function Header() {
     return (
-        <View className=" w-full flex flex-row items-center justify-between">
+        <View className=" w-full flex flex-row items-center justify-between px-4">
             <View className="w-[30%] h-16">
                 <Image
                     source={require("../../assets/Logo (1).png")}

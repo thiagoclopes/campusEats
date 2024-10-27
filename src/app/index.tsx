@@ -17,7 +17,7 @@ export default function Index() {
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-        <View className="w-full px-4">
+        <View className="w-full">
           <Header/>
           <Banner/>
           <Products/>

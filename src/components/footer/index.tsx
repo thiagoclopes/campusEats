@@ -6,10 +6,6 @@ export function Footer() {
     const router = useRouter();
     return (
         <View style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
             height: 64,
             flexDirection: 'row',
             alignItems: 'center',
