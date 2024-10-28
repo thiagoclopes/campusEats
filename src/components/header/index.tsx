@@ -1,5 +1,6 @@
 import { View, Pressable, Text, Image } from "react-native";
 import { Ionicons, Feather, Fontisto, AntDesign } from '@expo/vector-icons'
+import { router } from "expo-router";
 export function Header() {
     return (
         <View className=" w-full flex flex-row items-center justify-between px-4">
@@ -22,7 +23,7 @@ export function Header() {
                 <Pressable className="bg-slate-100 h-10 w-10 rounded-full flex justify-center items-center">
                     <Feather name="bell" size={20} color="black"/>
                 </Pressable>
-                <Pressable className="bg-slate-100 h-10 w-10 rounded-full flex justify-center items-center">
+                <Pressable className="bg-slate-100 h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/mapscreen')}>
                     <Fontisto name="map" size={20} color="black"/>
                 </Pressable>
             </View>
