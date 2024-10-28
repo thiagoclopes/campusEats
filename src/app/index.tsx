@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, StatusBar } from "react-native";
 import { Header } from "../components/header";
 import Constants from 'expo-constants'
 import { Banner } from "../components/banner";
@@ -10,6 +10,7 @@ const statusBarHeight = Constants.statusBarHeight
 export default function Index() {
   return (
     <View className="flex flex-1">
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       <ScrollView 
         style={{ flex: 1}}
         className="bg-white"

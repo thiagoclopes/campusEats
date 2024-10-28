@@ -12,7 +12,7 @@ export default function RootLayout() {
   }, []);
   
   return (
-    <View className="flex flex-1 h-full" style={{marginTop: statusBarHeight + 8}}>
+    <View className="flex flex-1 h-full" style={{marginTop: statusBarHeight}}>
       <Slot/>
     </View>
   )

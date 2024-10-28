@@ -1,13 +1,33 @@
-import { AntDesign } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { Text, TouchableOpacity, View } from 'react-native';
+
+import { Image, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import BackArrow from '../components/backArrow';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Profile() {
-  return (
-  <View>
-    <TouchableOpacity onPress={() => router.push('/')}>
-        <AntDesign name="arrowleft" size={24} color="black" className='p-2'/>
-    </TouchableOpacity>
-    <Text>Profile PageProfile PageProfile PageProfile PageProfile PageProfile </Text>
-  </View>);
+	return (
+		<View className='w-full flex flex-1 flex-col items-center bg-red-main'>
+			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
+			<View className='w-full flex flex-row items-center justify-between'>
+				<BackArrow color='white'/>
+				<FontAwesome name="gear" size={24} color="white" className='p-4'/>
+			</View>
+			<View className='mt-6 w-40 h-40 rounded-2xl bg-slate-500 overflow-hidden z-10'>
+				<Image
+					source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} 
+					style={{ width: '100%', height: '100%'}}
+				/>
+			</View>
+			<View className='w-full h-full rounded-t-3xl px-4 -mt-10 bg-white'>
+				<View className='h-14 mt-28 px-6 w-full rounded-xl border border-gray-line flex justify-center'>
+					<Text className='font-semibold'>Thiago Lopes</Text>
+				</View>
+				<View className='h-14 mt-8 px-6 w-full rounded-xl border border-gray-line flex justify-center'>
+					<Text className='font-semibold'>thiagoviniciusc33@gmail.com</Text>
+				</View>
+				<TouchableOpacity className={'flex justify-center mt-4 mb-4 w-[50%] py-2 rounded-full bg-black'}>
+                    <Text className={'text-center text-white'}>Editar Perfil</Text>
+                </TouchableOpacity>
+			</View>
+		</View>
+	);
 }

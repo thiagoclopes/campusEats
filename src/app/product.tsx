@@ -1,12 +1,8 @@
-import { Text, View, ScrollView, StatusBar, Image, ActivityIndicator, TouchableOpacity, TextInput } from "react-native";
-import { Header } from "../components/header";
+import { Text, View, ScrollView, Image, ActivityIndicator, TouchableOpacity, TextInput, StatusBar } from "react-native";
 import Constants from 'expo-constants'
-import { Banner } from "../components/banner";
-import { Footer } from "../components/footer";
-import { Products } from "../components/productsList";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { AntDesign } from "@expo/vector-icons";
+import BackArrow from "../components/backArrow";
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -61,9 +57,8 @@ export default function Product() {
     }
     return (
         <View className="flex flex-1">
-            <TouchableOpacity onPress={() => router.push('/')}>
-                <AntDesign name="arrowleft" size={24} color="black" className='p-2' />
-            </TouchableOpacity>
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+            <BackArrow />
             <ScrollView 
                 style={{ flex: 1 }}
                 className="bg-white"
