@@ -1,0 +1,22 @@
+Tipos Comuns de Commits
+
+feat: Para adicionar uma nova funcionalidade.
+Exemplo: feat(auth): add login endpoint
+
+fix: Para correções de bugs.
+Exemplo: fix(profile): resolve profile image upload error
+
+docs: Para mudanças na documentação.
+Exemplo: docs(readme): update installation instructions
+
+style: Alterações que não afetam o funcionamento do código (espaços, formatação, etc).
+Exemplo: style(home): adjust button margin
+
+refactor: Para mudanças no código que não adicionam funcionalidades nem corrigem bugs.
+Exemplo: refactor(cart): improve item removal logic
+
+test: Para adicionar ou corrigir testes.
+Exemplo: test(orders): add test cases for order validation
+
+chore: Para tarefas de manutenção, como atualização de dependências.
+Exemplo: chore(deps): update axios to v0.21.1
