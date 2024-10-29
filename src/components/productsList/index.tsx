@@ -5,13 +5,16 @@ import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, Scro
 interface FoodItem {
     id: string;
     name: string;
+    restaurant: string;
+    rating: string;
+    isFavorite: boolean;
     category: string;
     url: string;
 }
 
 const fetchItems = async () => {
     try {
-        const response = await fetch('http://192.168.1.11:3000/products');
+        const response = await fetch('http://192.168.72.176:3000/products');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -88,7 +91,7 @@ export function Products() {
                     filteredItems.map(item => (
                         <View key={item.id} className="w-1/2 p-2">
                             <Pressable
-                                className="bg-white rounded-xl shadow-xl overflow-hidden"
+                                className="bg-white rounded-xl overflow-hidden"
                                 onPress={() => router.push(`/product?id=${item.id}`)}
                             >
                                 <Image
@@ -97,6 +100,11 @@ export function Products() {
                                     style={{ resizeMode: 'cover' }}
                                 />
                                 <Text className="text-slate-500 font-bold text-center py-2">{item.name}</Text>
+                                <Text className="text-slate-500 font-bold text-center py-2">{item.restaurant}</Text>
+                                <View className="flex flex-row justify-between px-4">
+                                    <Text className="text-slate-500 font-bold text-center py-2">{item.rating}</Text>
+                                    <Text className="font-bold text-center py-2">{item.isFavorite ? 'TRUE' : 'FALSE'}</Text>
+                                </View>
                             </Pressable>
                         </View>
                     ))

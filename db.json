@@ -1,11 +1,11 @@
 {
     "products": [
-        { "id": "1", "name": "Combo 1", "category": "Combos", "url": "https://d2umxhib5z7frz.cloudfront.net/Brasil/9600337_mop_1.png" },
-        { "id": "2", "name": "Combo 2", "category": "Combos", "url": "https://static.ifood-static.com.br/image/upload/t_high/pratos/73b7bfea-decb-4427-8814-ed33f51badfd/202303271535_U10X_i.jpg" },
-        { "id": "3", "name": "Almoço Executivo", "category": "Almoço", "url": "https://t4.ftcdn.net/jpg/04/47/67/77/360_F_447677793_qlwuEq0EKegA6J55cIsxr39Ue4dyHIBA.jpg" },
-        { "id": "4", "name": "Pizza Margherita", "category": "Pizza", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgzP_zfQ-35CWuFMZ3THXJPxF5WntHqHXETw&s" },
-        { "id": "5", "name": "Pizza Calabresa", "category": "Pizza", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyOaOF_vE3SVjyfSr_nMj059lGnS4Vh77VQ&s" },
-        { "id": "6", "name": "Feijoada", "category": "Almoço", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRYUaUvIxqFEApLRiHtIUMp2HO3dYNbe_Yw&s" }
+        { "id": "1", "name": "Combo 1", "restaurant": "Nordestino", "rating":"4.9", "isFavorite": true, "category": "Combos", "url": "https://d2umxhib5z7frz.cloudfront.net/Brasil/9600337_mop_1.png" },
+        { "id": "2", "name": "Combo 2", "restaurant": "A marmitaria", "rating":"5.0", "isFavorite": false, "category": "Combos", "url": "https://static.ifood-static.com.br/image/upload/t_high/pratos/73b7bfea-decb-4427-8814-ed33f51badfd/202303271535_U10X_i.jpg" },
+        { "id": "3", "name": "Almoço Executivo", "restaurant": "A marmitaria", "rating":"4.9", "isFavorite": true, "category": "Almoço", "url": "https://t4.ftcdn.net/jpg/04/47/67/77/360_F_447677793_qlwuEq0EKegA6J55cIsxr39Ue4dyHIBA.jpg" },
+        { "id": "4", "name": "Pizza Margherita", "restaurant": "A marmitaria", "rating":"4.8", "isFavorite": false, "category": "Pizza", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgzP_zfQ-35CWuFMZ3THXJPxF5WntHqHXETw&s" },
+        { "id": "5", "name": "Pizza Calabresa", "restaurant": "Nordestino", "rating":"4.8", "isFavorite": false, "category": "Pizza", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyOaOF_vE3SVjyfSr_nMj059lGnS4Vh77VQ&s" },
+        { "id": "6", "name": "Feijoada", "restaurant": "Nordestino", "rating":"4.7", "isFavorite": false, "category": "Almoço", "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRYUaUvIxqFEApLRiHtIUMp2HO3dYNbe_Yw&s" }
     ]
 
 }
