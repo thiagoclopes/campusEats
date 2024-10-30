@@ -10,11 +10,12 @@ interface FoodItem {
     isFavorite: boolean;
     category: string;
     url: string;
+    price: number;
 }
 
 const fetchItems = async () => {
     try {
-        const response = await fetch('http://192.168.72.176:3000/products');
+        const response = await fetch('http://192.168.72.154:3000/products');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -93,14 +94,24 @@ export function Products() {
                             <Pressable
                                 className="bg-white rounded-xl overflow-hidden"
                                 onPress={() => router.push(`/product?id=${item.id}`)}
+                                style={{
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5, // Para Android
+                                }}
                             >
                                 <Image
                                     source={{ uri: item.url }}
                                     className="w-full h-40"
                                     style={{ resizeMode: 'cover' }}
                                 />
-                                <Text className="text-slate-500 font-bold text-center py-2">{item.name}</Text>
-                                <Text className="text-slate-500 font-bold text-center py-2">{item.restaurant}</Text>
+                                <Text className="text-red-400 font-bold text-left py-2 px-4">{item.restaurant}</Text>
+                                <View className="flex flex-row justify-between px-4">
+                                    <Text className="text-slate-500 font-bold text-center py-2">{item.name}</Text>
+                                    <Text className="text-slate-500 font-bold text-center py-2">R$ {item.price}</Text>
+                                </View>
                                 <View className="flex flex-row justify-between px-4">
                                     <Text className="text-slate-500 font-bold text-center py-2">{item.rating}</Text>
                                     <Text className="font-bold text-center py-2">{item.isFavorite ? 'TRUE' : 'FALSE'}</Text>
