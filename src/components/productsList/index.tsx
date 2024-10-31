@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, ScrollView } from "react-native";
+import { Entypo } from '@expo/vector-icons'
 
 interface FoodItem {
     id: string;
@@ -15,7 +16,7 @@ interface FoodItem {
 
 const fetchItems = async () => {
     try {
-        const response = await fetch('http://192.168.72.154:3000/products');
+        const response = await fetch('http://192.168.0.111:3000/products');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -25,6 +26,27 @@ const fetchItems = async () => {
     } catch (error) {
         console.error('Erro ao buscar itens:', error);
         return [];
+    }
+};
+
+const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
+    try {
+        const response = await fetch(`http://192.168.0.111:3000/products/${id}`, {
+            method: 'PATCH', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ isFavorite }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Erro ao atualizar o favorito: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Status de favorito atualizado:', data);
+    } catch (error) {
+        console.error('Erro ao atualizar favorito:', error);
     }
 };
 
@@ -59,10 +81,21 @@ export function Products() {
         selectedCategory === 'Todos' || item.category === selectedCategory
     );
 
+    const toggleFavorite = async (id: string, currentStatus: boolean) => {
+        const newStatus = !currentStatus;
+        setItems(prevItems =>
+            prevItems.map(item =>
+                item.id === id ? { ...item, isFavorite: newStatus } : item
+            )
+        );
+
+        await updateFavoriteStatus(id, newStatus);
+    };
+
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
-    
+
     return (
         <View>
             <ScrollView
@@ -92,29 +125,42 @@ export function Products() {
                     filteredItems.map(item => (
                         <View key={item.id} className="w-1/2 p-2">
                             <Pressable
-                                className="bg-white rounded-xl overflow-hidden"
+                                className="bg-white rounded-xl p-3"
                                 onPress={() => router.push(`/product?id=${item.id}`)}
                                 style={{
                                     shadowColor: '#000',
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
-                                    elevation: 5, // Para Android
+                                    elevation: 5,
                                 }}
                             >
+                                <View className="flex flex-row items-center absolute left-3 top-3 z-10">
+                                    <Pressable onPress={() => toggleFavorite(item.id, item.isFavorite)}>
+                                        {item.isFavorite ? (
+                                            <Entypo name="heart" size={24} color="red" /> 
+                                        ) : (
+                                            <Entypo name="heart-outlined" size={24} color="black" /> 
+                                        )}
+                                    </Pressable>
+                                </View>
                                 <Image
                                     source={{ uri: item.url }}
-                                    className="w-full h-40"
+                                    className="w-full mx-auto h-40"
                                     style={{ resizeMode: 'cover' }}
                                 />
-                                <Text className="text-red-400 font-bold text-left py-2 px-4">{item.restaurant}</Text>
-                                <View className="flex flex-row justify-between px-4">
-                                    <Text className="text-slate-500 font-bold text-center py-2">{item.name}</Text>
-                                    <Text className="text-slate-500 font-bold text-center py-2">R$ {item.price}</Text>
+                                <Text className="text-dark-brown font-regular text-left mt-2 px-1">{item.restaurant}</Text>
+                                <View className="flex flex-row justify-between items-center px-1">
+                                    <Text className="text-dark-brown text-lg font-semibold text-center">{item.name}</Text>
                                 </View>
-                                <View className="flex flex-row justify-between px-4">
-                                    <Text className="text-slate-500 font-bold text-center py-2">{item.rating}</Text>
-                                    <Text className="font-bold text-center py-2">{item.isFavorite ? 'TRUE' : 'FALSE'}</Text>
+                                <View className="flex flex-row justify-between mt-2 px-1 items-center">
+                                    <View className="flex flex-row items-center">
+                                        <Entypo name="star" size={16} color="#FFD700" className="mr-1" />
+                                        <Text className="text-dark-brown font-bold text-center py-2">{item.rating}</Text>
+                                    </View>
+                                    <Text className="text-dark-brown text-lg font-semibold text-center">
+                                        R$ {item.price.toFixed(2).replace('.', ',')}
+                                    </Text>
                                 </View>
                             </Pressable>
                         </View>

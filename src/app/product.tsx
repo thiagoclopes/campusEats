@@ -3,19 +3,24 @@ import Constants from 'expo-constants'
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import BackArrow from "../components/backArrow";
+import { useRouter } from "expo-router";
 
 const statusBarHeight = Constants.statusBarHeight
 
 interface FoodItem {
     id: string;
     name: string;
+    restaurant: string;
+    rating: string;
+    isFavorite: boolean;
     category: string;
     url: string;
+    price: number;
   }
 
 const fetchProduct = async (id: string) => {
     try {
-        const response = await fetch(`http://192.168.72.154:3000/products/${id}`);
+        const response = await fetch(`http://192.168.0.111:3000/products/${id}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -29,9 +34,11 @@ const fetchProduct = async (id: string) => {
 };
 
 export default function Product() {
+    const router = useRouter();
     const { id } = useLocalSearchParams<{ id: string }>();
     const [product, setProduct] = useState<FoodItem | null>(null);
     const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(1);
     
     useEffect(() => {
         const getProductData = async () => {
@@ -43,6 +50,14 @@ export default function Product() {
         };
         getProductData();
     }, [id]);
+
+    const incrementQuantity = () => {
+        setQuantity(prev => prev + 1);
+    };
+
+    const decrementQuantity = () => {
+        setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    };
     
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -55,6 +70,9 @@ export default function Product() {
             </View>
         );
     }
+
+    const totalPrice = (product.price * quantity).toFixed(2).replace('.', ',');
+
     return (
         <View className="flex flex-1">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -72,17 +90,17 @@ export default function Product() {
                     />
                     <View className='flex w-full p-4 flex-row justify-between mb-3'>
                         <View>
-                            <Text className='text-xl text-gray font-semibold'>{product.category}</Text>
+                            <Text className='text-xl text-gray font-semibold'>{product.restaurant}</Text>
                             <Text className='text-3xl font-semibold'>{product.name}</Text>
                             <Text className='text-lg mt-1 text-black-gray'>* 4.9 | 26 mins</Text>
                         </View>
     
                         <View className='flex flex-row h-24 items-center'>
-                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center'>
+                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center' onPress={decrementQuantity}>
                                 <Text className='text-white text-2xl font-semibold'>-</Text>
                             </TouchableOpacity>
-                            <Text className='mx-5 text-2xl'>1</Text>
-                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center'>
+                            <Text className='mx-5 text-2xl'>{quantity}</Text>
+                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center' onPress={incrementQuantity}>
                                 <Text className='text-white text-2xl font-semibold'>+</Text>
                             </TouchableOpacity>
                         </View>
@@ -115,9 +133,9 @@ export default function Product() {
             }}>
                 <View className='flex flex-col items-center justify-center'>
                     <Text className='text-slate-500 text-xl'>Total:</Text>
-                    <Text className='font-bold text-2xl'>R$ 20,00</Text>
+                    <Text className='font-bold text-2xl'>R$ {totalPrice}</Text>
                 </View>
-                <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'}>
+                <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'} onPress={() => router.push('/cart')}>
                     <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
                 </TouchableOpacity>
             </View>
