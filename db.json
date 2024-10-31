@@ -1,11 +1,27 @@
 {
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Nordestino",
+      "logo": "https://exemplo.com/nordestino-logo.png",
+      "rating": "4.8",
+      "category": "Brasileira"
+    },
+    {
+      "id": "2",
+      "name": "A marmitaria",
+      "logo": "https://exemplo.com/amarmitaria-logo.png",
+      "rating": "4.9",
+      "category": "Variada"
+    }
+  ],
   "products": [
     {
       "id": "1",
       "name": "Combo 1",
-      "restaurant": "Nordestino",
+      "restaurantId": "1",
       "rating": "4.9",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Combos",
       "url": "https://d2umxhib5z7frz.cloudfront.net/Brasil/9600337_mop_1.png",
       "price": 29.9
@@ -13,7 +29,7 @@
     {
       "id": "2",
       "name": "Combo 2",
-      "restaurant": "A marmitaria",
+      "restaurantId": "2",
       "rating": "5.0",
       "isFavorite": false,
       "category": "Combos",
@@ -23,7 +39,7 @@
     {
       "id": "3",
       "name": "Almoço Executivo",
-      "restaurant": "A marmitaria",
+      "restaurantId": "2",
       "rating": "4.9",
       "isFavorite": false,
       "category": "Almoço",
@@ -33,7 +49,7 @@
     {
       "id": "4",
       "name": "Pizza Margherita",
-      "restaurant": "A marmitaria",
+      "restaurantId": "2",
       "rating": "4.8",
       "isFavorite": false,
       "category": "Pizza",
@@ -43,7 +59,7 @@
     {
       "id": "5",
       "name": "Pizza Calabresa",
-      "restaurant": "Nordestino",
+      "restaurantId": "1",
       "rating": "4.8",
       "isFavorite": false,
       "category": "Pizza",
@@ -53,13 +69,12 @@
     {
       "id": "6",
       "name": "Feijoada",
-      "restaurant": "Nordestino",
+      "restaurantId": "1",
       "rating": "4.7",
       "isFavorite": false,
       "category": "Almoço",
       "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRYUaUvIxqFEApLRiHtIUMp2HO3dYNbe_Yw&s",
       "price": 32.5
     }
-  ],
-  "favorites": []
+  ]
 }

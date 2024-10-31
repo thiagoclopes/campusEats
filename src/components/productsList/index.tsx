@@ -1,14 +1,15 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, ScrollView } from "react-native";
-import { Entypo } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants';
 import LOCAL_IP from '../../../config';
+import axios from 'axios';
 
 interface FoodItem {
     id: string;
     name: string;
-    restaurant: string;
+    restaurantId: string;
     rating: string;
     isFavorite: boolean;
     category: string;
@@ -16,38 +17,37 @@ interface FoodItem {
     price: number;
 }
 
+interface Restaurant {
+    id: string;
+    name: string;
+}
+
 const fetchItems = async () => {
-    console.log(LOCAL_IP)
+    console.log(LOCAL_IP);
     try {
-        const response = await fetch(`${LOCAL_IP}/products`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('Fetched data:', data);
-        return data;
+        const response = await axios.get(`${LOCAL_IP}/products`);
+        console.log('Fetched data:', response.data);
+        return response.data;
     } catch (error) {
         console.error('Erro ao buscar itens:', error);
         return [];
     }
 };
 
+const fetchRestaurant = async (id: string) => {
+    try {
+        const response = await axios.get(`${LOCAL_IP}/restaurants/${id}`);
+        return response.data.name; // Supondo que o retorno contém um campo 'name'
+    } catch (error) {
+        console.error('Erro ao buscar restaurante:', error);
+        return null;
+    }
+};
+
 const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     try {
-        const response = await fetch(`${LOCAL_IP}/products/${id}`, {
-            method: 'PATCH', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ isFavorite }),
-        });
-        
-        if (!response.ok) {
-            throw new Error(`Erro ao atualizar o favorito: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Status de favorito atualizado:', data);
+        const response = await axios.patch(`${LOCAL_IP}/products/${id}`, { isFavorite });
+        console.log('Status de favorito atualizado:', response.data);
     } catch (error) {
         console.error('Erro ao atualizar favorito:', error);
     }
@@ -58,6 +58,7 @@ export function Products() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+    const [restaurantNames, setRestaurantNames] = useState<{ [key: string]: string }>({});
     const router = useRouter();
 
     useEffect(() => {
@@ -67,6 +68,15 @@ export function Products() {
             try {
                 const fetchedItems = await fetchItems();
                 setItems(fetchedItems);
+
+                const names: { [key: string]: string } = {};
+                for (const item of fetchedItems) {
+                    if (!names[item.restaurantId]) {
+                        const name = await fetchRestaurant(item.restaurantId);
+                        names[item.restaurantId] = name || "Restaurante Desconhecido"; // Valor padrão
+                    }
+                }
+                setRestaurantNames(names);
             } catch (err) {
                 setError('Falha ao carregar os itens. Tente novamente mais tarde.');
             } finally {
@@ -93,6 +103,11 @@ export function Products() {
         );
 
         await updateFavoriteStatus(id, newStatus);
+    };
+
+    const getRestaurantName = async (restaurantId: string) => {
+        const name = await fetchRestaurant(restaurantId);
+        return name || "Restaurante Desconhecido";
     };
 
     if (loading) {
@@ -141,9 +156,9 @@ export function Products() {
                                 <View className="flex flex-row items-center absolute left-3 top-3 z-10">
                                     <Pressable onPress={() => toggleFavorite(item.id, item.isFavorite)}>
                                         {item.isFavorite ? (
-                                            <Entypo name="heart" size={24} color="red" /> 
+                                            <AntDesign name="heart" size={20} color="red" /> 
                                         ) : (
-                                            <Entypo name="heart-outlined" size={24} color="black" /> 
+                                            <AntDesign name="hearto" size={20} color="black" /> 
                                         )}
                                     </Pressable>
                                 </View>
@@ -152,7 +167,9 @@ export function Products() {
                                     className="w-full mx-auto h-40"
                                     style={{ resizeMode: 'cover' }}
                                 />
-                                <Text className="text-dark-brown font-regular text-left mt-2 px-1">{item.restaurant}</Text>
+                                <Text className="text-dark-brown font-regular text-left mt-2 px-1">
+                                    {restaurantNames[item.restaurantId] || "Carregando..."}
+                                </Text>
                                 <View className="flex flex-row justify-between items-center px-1">
                                     <Text className="text-dark-brown text-lg font-semibold text-center">{item.name}</Text>
                                 </View>

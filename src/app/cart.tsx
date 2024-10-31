@@ -5,8 +5,11 @@ import BackArrow from '../components/backArrow';
 
 export default function Cart() {
   return (
-  <View>
+  <View className='w-full h-full absolute bg-red-main'>
     <BackArrow />
-    <Text>Carrinho </Text>
+    <View className='px-4 mt-10 bg-slate-600'>
+      <Text>Carrinho </Text>
+    </View>
+    <View className='mt-4 rounded-t-3xl p-6 h-full bg-white'><Text>gadsjdskla</Text></View>
   </View>);
 }
