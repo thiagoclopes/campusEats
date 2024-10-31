@@ -2,6 +2,8 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, ScrollView } from "react-native";
 import { Entypo } from '@expo/vector-icons'
+import Constants from 'expo-constants';
+import LOCAL_IP from '../../../config';
 
 interface FoodItem {
     id: string;
@@ -15,8 +17,9 @@ interface FoodItem {
 }
 
 const fetchItems = async () => {
+    console.log(LOCAL_IP)
     try {
-        const response = await fetch('http://192.168.0.111:3000/products');
+        const response = await fetch(`${LOCAL_IP}/products`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -31,7 +34,7 @@ const fetchItems = async () => {
 
 const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     try {
-        const response = await fetch(`http://192.168.0.111:3000/products/${id}`, {
+        const response = await fetch(`${LOCAL_IP}/products/${id}`, {
             method: 'PATCH', 
             headers: {
                 'Content-Type': 'application/json',

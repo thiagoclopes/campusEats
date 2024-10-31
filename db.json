@@ -5,7 +5,7 @@
       "name": "Combo 1",
       "restaurant": "Nordestino",
       "rating": "4.9",
-      "isFavorite": true,
+      "isFavorite": false,
       "category": "Combos",
       "url": "https://d2umxhib5z7frz.cloudfront.net/Brasil/9600337_mop_1.png",
       "price": 29.9
@@ -25,7 +25,7 @@
       "name": "Almoço Executivo",
       "restaurant": "A marmitaria",
       "rating": "4.9",
-      "isFavorite": true,
+      "isFavorite": false,
       "category": "Almoço",
       "url": "https://t4.ftcdn.net/jpg/04/47/67/77/360_F_447677793_qlwuEq0EKegA6J55cIsxr39Ue4dyHIBA.jpg",
       "price": 24.5
@@ -45,7 +45,7 @@
       "name": "Pizza Calabresa",
       "restaurant": "Nordestino",
       "rating": "4.8",
-      "isFavorite": true,
+      "isFavorite": false,
       "category": "Pizza",
       "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyOaOF_vE3SVjyfSr_nMj059lGnS4Vh77VQ&s",
       "price": 42

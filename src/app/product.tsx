@@ -4,6 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import BackArrow from "../components/backArrow";
 import { useRouter } from "expo-router";
+import LOCAL_IP from '../../config';
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -20,7 +21,7 @@ interface FoodItem {
 
 const fetchProduct = async (id: string) => {
     try {
-        const response = await fetch(`http://192.168.0.111:3000/products/${id}`);
+        const response = await fetch(`${LOCAL_IP}/products/${id}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
