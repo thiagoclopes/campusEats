@@ -37,7 +37,7 @@ const fetchItems = async () => {
 const fetchRestaurant = async (id: string) => {
     try {
         const response = await axios.get(`${LOCAL_IP}/restaurants/${id}`);
-        return response.data.name; // Supondo que o retorno contém um campo 'name'
+        return response.data.name;
     } catch (error) {
         console.error('Erro ao buscar restaurante:', error);
         return null;
@@ -73,7 +73,7 @@ export function Products() {
                 for (const item of fetchedItems) {
                     if (!names[item.restaurantId]) {
                         const name = await fetchRestaurant(item.restaurantId);
-                        names[item.restaurantId] = name || "Restaurante Desconhecido"; // Valor padrão
+                        names[item.restaurantId] = name || "Restaurante Desconhecido";
                     }
                 }
                 setRestaurantNames(names);
@@ -105,10 +105,6 @@ export function Products() {
         await updateFavoriteStatus(id, newStatus);
     };
 
-    const getRestaurantName = async (restaurantId: string) => {
-        const name = await fetchRestaurant(restaurantId);
-        return name || "Restaurante Desconhecido";
-    };
 
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;

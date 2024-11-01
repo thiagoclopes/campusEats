@@ -5,19 +5,27 @@ import { useEffect, useState } from "react";
 import BackArrow from "../components/backArrow";
 import { useRouter } from "expo-router";
 import LOCAL_IP from '../../config';
+import axios from "axios";
 
 const statusBarHeight = Constants.statusBarHeight
 
 interface FoodItem {
     id: string;
     name: string;
-    restaurant: string;
+    restaurantId: string;
     rating: string;
     isFavorite: boolean;
     category: string;
     url: string;
     price: number;
-  }
+}
+
+interface Restaurant {
+    id: string;
+    name: string;
+    logo: string;
+    rating: number;
+}
 
 const fetchProduct = async (id: string) => {
     try {
@@ -34,23 +42,44 @@ const fetchProduct = async (id: string) => {
     }
 };
 
+const fetchRestaurant = async (id: string) => {
+    try {
+        const response = await fetch(`${LOCAL_IP}/restaurants/${id}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Fetched restaurant data:', data);
+        return data;
+    } catch (error) {
+        console.error('Erro ao buscar restaurante:', error);
+        return null;
+    }
+};
+
 export default function Product() {
     const router = useRouter();
     const { id } = useLocalSearchParams<{ id: string }>();
     const [product, setProduct] = useState<FoodItem | null>(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
-    
+    const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+
     useEffect(() => {
         const getProductData = async () => {
             if (id) {
                 const fetchedProduct = await fetchProduct(id);
-                setProduct(fetchedProduct);
+                if (fetchedProduct) {
+                    const fetchedRestaurant = await fetchRestaurant(fetchedProduct.restaurantId);
+                    setProduct(fetchedProduct);
+                    setRestaurant(fetchedRestaurant);
+                }
             }
             setLoading(false);
         };
         getProductData();
     }, [id]);
+    
 
     const incrementQuantity = () => {
         setQuantity(prev => prev + 1);
@@ -58,6 +87,23 @@ export default function Product() {
 
     const decrementQuantity = () => {
         setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    };
+
+
+    const addToCart = async (product: FoodItem, quantity: number) => {
+        try {
+            const id = Math.random().toString(36).slice(2, 11);
+            const cartItem = {
+                id: id,
+                foodId: product.id,
+                restaurantId: product.restaurantId,
+                quantity,
+            };
+            const response = await axios.post(`${LOCAL_IP}/cart`, cartItem);
+            console.log('Produto adicionado ao carrinho:', response.data);
+        } catch (error) {
+            console.error('Erro ao adicionar produto ao carrinho:', error);
+        }
     };
     
     if (loading) {
@@ -91,7 +137,7 @@ export default function Product() {
                     />
                     <View className='flex w-full p-4 flex-row justify-between mb-3'>
                         <View>
-                            <Text className='text-xl text-gray font-semibold'>{product.restaurant}</Text>
+                            <Text className='text-xl text-gray font-semibold'>{restaurant?.name}</Text>
                             <Text className='text-3xl font-semibold'>{product.name}</Text>
                             <Text className='text-lg mt-1 text-black-gray'>* 4.9 | 26 mins</Text>
                         </View>
@@ -136,7 +182,10 @@ export default function Product() {
                     <Text className='text-slate-500 text-xl'>Total:</Text>
                     <Text className='font-bold text-2xl'>R$ {totalPrice}</Text>
                 </View>
-                <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'} onPress={() => router.push('/cart')}>
+                <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'} onPress={() => {
+                    addToCart(product, quantity);
+                    router.push('/cart');
+                }}>
                     <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
                 </TouchableOpacity>
             </View>
