@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator, Image, StatusBar } from "react-native";
 import { router, useRouter } from "expo-router";
 import axios from 'axios';
@@ -129,26 +129,39 @@ const Cart = () => {
 		}
     };
 
+    const updateCartItemQuantityDebounced = useCallback(
+        debounce(async (id: string, quantity: number) => {
+            await updateCartItemQuantity(id, quantity);
+        }, 1000),
+        []
+    );
+
     const increaseQuantity = async (id: string) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.id === id) {
-                item.quantity += 1; // Aumenta a quantidade
-            }
-            return item;
+        setCartItems((prevCartItems) => {
+            const updatedCartItems = prevCartItems.map(item => {
+                if (item.id === id) {
+                    return { ...item, quantity: item.quantity + 1 };
+                }
+                return item;
+            });
+            const newQuantity = updatedCartItems.find(item => item.id === id)!.quantity;
+            updateCartItemQuantityDebounced(id, newQuantity);
+            return updatedCartItems;
         });
-        setCartItems(updatedCartItems);
-        await updateCartItemQuantity(id, updatedCartItems.find(item => item.id === id)!.quantity);
     };
 
 	const decreaseQuantity = async (id: string) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.id === id && item.quantity > 1) {
-                item.quantity -= 1;
-            }
-            return item;
+        setCartItems((prevCartItems) => {
+            const updatedCartItems = prevCartItems.map(item => {
+                if (item.id === id && item.quantity > 1) {
+                    return { ...item, quantity: item.quantity - 1 };
+                }
+                return item;
+            });
+            const newQuantity = updatedCartItems.find(item => item.id === id)!.quantity;
+            updateCartItemQuantityDebounced(id, newQuantity);
+            return updatedCartItems;
         });
-        setCartItems(updatedCartItems);
-        await updateCartItemQuantity(id, updatedCartItems.find(item => item.id === id)!.quantity);
     };
 
 	const totalAmount = cartItems.reduce((acc, item) => {
