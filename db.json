@@ -83,12 +83,6 @@
       "foodId": "1",
       "restaurantId": "1",
       "quantity": 3
-    },
-    {
-      "id": "3euqvy822",
-      "foodId": "5",
-      "restaurantId": "1",
-      "quantity": 2
     }
   ]
 }

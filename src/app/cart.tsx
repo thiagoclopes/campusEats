@@ -7,6 +7,7 @@ import BackArrow from "../components/backArrow";
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import DashedLine from "../components/dashedLine";
+import { debounce } from 'lodash';
 
 interface CartItem {
     id: string;
