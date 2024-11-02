@@ -24,7 +24,7 @@ export function Footer() {
                 <FontAwesome5 name="list-alt" size={24} color="#FFFFFF" />
             </Pressable>
 
-            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/chat')}>
+            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/chatList')}>
                 <Entypo name="chat" size={24} color="#FFFFFF" />
             </Pressable>
 

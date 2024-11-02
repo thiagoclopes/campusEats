@@ -268,11 +268,11 @@ const Cart = () => {
 					backgroundColor: 'white',
 				}}>
 					<View className='flex flex-col items-center justify-center'>
-						<Text className='text-slate-500 text-xl'>Total:</Text>
-						<Text className='font-bold text-2xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
+						<Text className='text-slate-500 text-lg'>Total:</Text>
+						<Text className='font-bold text-xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
 					</View>
-					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'}>
-						<Text className='text-center text-white font-semibold'>IR PARA O PAGAMENTO</Text>
+					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'} onPress={() => router.push('/selectAddress')}>
+						<Text className='text-center text-white font-semibold'>Continuar</Text>
 					</TouchableOpacity>
 				</View>
 			)}
