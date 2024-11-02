@@ -79,66 +79,92 @@
   ],
   "cart": [
     {
-      "id": "8c1e86r30",
-      "foodId": "1",
-      "restaurantId": "1",
+      "id": "3tmbdlb94",
+      "foodId": "2",
+      "restaurantId": "2",
       "quantity": 1
     },
     {
-      "id": "v1s66vbjw",
-      "foodId": "1",
-      "restaurantId": "1",
+      "id": "zwu6fd3fw",
+      "foodId": "2",
+      "restaurantId": "2",
       "quantity": 1
+    },
+    {
+      "id": "ns7er56j0",
+      "foodId": "2",
+      "restaurantId": "2",
+      "quantity": 1
+    }
+  ],
+  "chatList": [
+    {
+      "restaurantId": "1",
+      "lastMessage": "Ok, vou dar uma olhada",
+      "timestamp": "2024-11-01T12:00:10Z"
+    },
+    {
+      "restaurantId": "2",
+      "lastMessage": "Boa tarde! Como posso ajudar?",
+      "timestamp": "2024-11-01T12:01:00Z"
     }
   ],
   "messages": [
     {
       "id": 1,
+      "restaurantId": "1",
       "sender": "seller",
       "text": "Olá, como posso ajudar?",
       "timestamp": "2024-11-01T12:00:00Z"
     },
     {
       "id": 2,
+      "restaurantId": "1",
       "sender": "user",
       "text": "Oi! Pedi dois almoços mas só veio um. Talvez você tenha esquecido no restaurante",
       "timestamp": "2024-11-01T12:00:05Z"
     },
     {
       "id": 3,
+      "restaurantId": "1",
       "sender": "seller",
       "text": "Ok, vou dar uma olhada",
       "timestamp": "2024-11-01T12:00:10Z"
     },
     {
       "id": 4,
+      "restaurantId": "1",
       "sender": "user",
       "text": "Ok...",
       "timestamp": "2024-11-01T12:00:15Z"
     },
     {
       "id": 5,
+      "restaurantId": "2",
       "sender": "seller",
-      "text": "Peguei a quantidade errada. Vou voltar!",
-      "timestamp": "2024-11-01T23:50:37.608Z"
+      "text": "Boa tarde! Como posso ajudar?",
+      "timestamp": "2024-11-01T12:01:00Z"
     },
     {
       "id": 6,
+      "restaurantId": "2",
       "sender": "user",
-      "text": "Hahahah",
-      "timestamp": "2024-11-01T23:50:41.586Z"
+      "text": "Gostaria de saber o tempo de entrega",
+      "timestamp": "2024-11-01T12:01:05Z"
     },
     {
-      "id": 7,
+      "id": 5,
       "sender": "user",
-      "text": "Alo",
-      "timestamp": "2024-11-02T01:47:44.174Z"
+      "text": "Kk",
+      "timestamp": "2024-11-02T15:40:45.975Z",
+      "restaurantId": "1"
     },
     {
-      "id": 8,
+      "id": 3,
       "sender": "user",
       "text": "Teste",
-      "timestamp": "2024-11-02T01:47:45.785Z"
+      "timestamp": "2024-11-02T15:40:53.056Z",
+      "restaurantId": "2"
     }
   ]
 }

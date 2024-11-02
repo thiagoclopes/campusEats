@@ -1,5 +1,5 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Text, TouchableOpacity, View, ScrollView, TextInput, Image, Pressable, StatusBar } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { useEffect, useState } from 'react';
@@ -11,24 +11,44 @@ interface Message {
     sender: string;
     text: string;
     timestamp: string;
+    restaurantId: string;
+}
+
+interface Restaurant {
+    id: string;
+    name: string;
+    logo: string;
 }
 
 export default function Chat() {
+    const router = useRouter();
+    const { restaurantId } = useLocalSearchParams<{ restaurantId: string }>();
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
+    const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 
     useEffect(() => {
-        const fetchMessages = async () => {
+        const fetchMessagesAndRestaurant = async () => {
             try {
-                const response = await axios.get(`${LOCAL_IP}/messages`);
-                setMessages(response.data);
+                const messagesResponse = await axios.get(`${LOCAL_IP}/messages`);
+                const allMessages: Message[] = messagesResponse.data;
+
+                const filteredMessages = allMessages.filter(
+                    (message) => message.restaurantId === restaurantId
+                );
+                setMessages(filteredMessages);
+
+                const restaurantResponse = await axios.get(`${LOCAL_IP}/restaurants/${restaurantId}`);
+                const restaurantData: Restaurant = restaurantResponse.data;
+                setRestaurant(restaurantData);
+
             } catch (error) {
-                console.error("Erro ao buscar mensagens:", error);
+                console.error("Erro ao buscar mensagens ou restaurante:", error);
             }
         };
 
-        fetchMessages();
-    }, []);
+        fetchMessagesAndRestaurant();
+    }, [restaurantId]);
 
     const handleSendMessage = async () => {
         if (newMessage.trim()) {
@@ -37,6 +57,7 @@ export default function Chat() {
                 sender: 'user',
                 text: newMessage,
                 timestamp: new Date().toISOString(),
+                restaurantId: restaurantId as string,
             };
 
             try {
@@ -51,16 +72,18 @@ export default function Chat() {
 
     return (
         <View className="flex-1 bg-white">
-          <StatusBar backgroundColor="white" barStyle="dark-content" />
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
             <View className='flex flex-row items-center py-4'>
                 <BackArrow />
                 <View className="flex flex-row items-center gap-2 p-4">
-                    <Image
-                        source={{ uri: "https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/74892118_745468709301582_6308768175651553280_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=RvZCmU74I_AQ7kNvgH3BrZC&_nc_gid=eb0821703f0740e39781387f438587bc&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYCkTMicajCjWuLoAtM1v6PXs2oEapRpgJw07_Gs0ulxIw&oe=6729DE73&_nc_sid=7a9f4b" }} 
-                        style={{ width: 40, height: 40, resizeMode: 'cover' }}
-                    />
+                    {restaurant?.logo && (
+                        <Image
+                            source={{ uri: restaurant.logo }} 
+                            style={{ width: 40, height: 40, resizeMode: 'cover' }}
+                        />
+                    )}
                     <View>
-                        <Text className="font-semibold text-black">Nordestino</Text>
+                        <Text className="font-semibold text-black">{restaurant?.name || "Carregando..."}</Text>
                         <Text className="text-sm font-semibold text-gray">Loja</Text>
                     </View>
                 </View>
@@ -89,9 +112,7 @@ export default function Chat() {
                                 {message.text}
                             </Text>
                             <Text
-                                className={`text-xs ${
-                                    message.sender === 'user' ? 'text-white' : 'text-black'
-                                }`}
+                                className={`text-xs ${ message.sender === 'user' ? 'text-white' : 'text-black'}`}
                             >
                                 {new Date(message.timestamp).toLocaleTimeString()}
                             </Text>
