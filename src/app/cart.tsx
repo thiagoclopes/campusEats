@@ -236,6 +236,10 @@ const Cart = () => {
 					)}
 					
 					<View className="w-96 mt-5">
+                        <TouchableOpacity className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500" onPress={() => router.push('/selectAddress')}>
+                            <Feather name="map-pin" size={14} color="#7D7D7D"/>
+                            <Text className="text-black-gray-500">Calcular taxa de entrega</Text>
+                        </TouchableOpacity>
                         <Text className="font-semibold mb-5 text-xl">Valores</Text>
                         <View className="flex flex-col gap-3 w-full px-4">
                             <View className="flex flex-row justify-between ">
@@ -271,7 +275,7 @@ const Cart = () => {
 						<Text className='text-slate-500 text-lg'>Total:</Text>
 						<Text className='font-bold text-xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
 					</View>
-					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'} onPress={() => router.push('/selectAddress')}>
+					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'}>
 						<Text className='text-center text-white font-semibold'>Continuar</Text>
 					</TouchableOpacity>
 				</View>
