@@ -1,38 +1,47 @@
-import { View, Pressable, Text, Button } from "react-native";
-import { Ionicons, Feather, Fontisto, AntDesign, FontAwesome5, Entypo } from '@expo/vector-icons'
-import { Link, useRouter } from 'expo-router';
+import { View, Pressable } from "react-native";
+import { Feather, FontAwesome5, Entypo, AntDesign } from '@expo/vector-icons';
+import { useRouter, usePathname } from 'expo-router';
+import { useState, useEffect } from 'react';
 
 export function Footer() {
     const router = useRouter();
+    const pathname = usePathname();
+    const [activeRoute, setActiveRoute] = useState('/');
+
+    useEffect(() => {
+        setActiveRoute(pathname);
+    }, [pathname]);
+    
+
+    const IconWithDot = ({ route, IconComponent, iconName }) => (
+        <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push(route)}>
+            <IconComponent name={iconName} size={24} color="#FFFFFF" />
+            {activeRoute === route && (
+                <View style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: '#FFFFFF',
+                    marginTop: 4,
+                }} />
+            )}
+        </Pressable>
+    );
+
     return (
         <View style={{
-            height: 64,
+            height: 70,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-around',
             backgroundColor: '#EF2A39',
-            elevation: 5
+            elevation: 5,
         }}>
-            <Pressable className="w-12 h-12 flex justify-center items-center}"onPress={() => router.push('/')}>
-                <Feather name="home" size={24} color="#FFFFFF" />
-            </Pressable>
-            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/search')}>
-                <Feather name="search" size={24} color="#FFFFFF" />
-            </Pressable>
-
-            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/orders')}>
-                <FontAwesome5 name="list-alt" size={24} color="#FFFFFF" />
-            </Pressable>
-
-            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/chatList')}>
-                <Entypo name="chat" size={24} color="#FFFFFF" />
-            </Pressable>
-
-            <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push('/profile')}>
-                <AntDesign name="user" size={24} color="#FFFFFF"/>
-            </Pressable>
-
-            
+            <IconWithDot route="/" IconComponent={Feather} iconName="home" />
+            <IconWithDot route="/success" IconComponent={Feather} iconName="search" />
+            <IconWithDot route="/orders" IconComponent={FontAwesome5} iconName="list-alt" />
+            <IconWithDot route="/chatList" IconComponent={Entypo} iconName="chat" />
+            <IconWithDot route="/profile" IconComponent={AntDesign} iconName="user" />
         </View>
     );
 }

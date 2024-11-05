@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FlatList, Pressable, StatusBar, Text, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
 import BackArrow from '../components/backArrow';
 
@@ -98,6 +99,7 @@ export default function ChatList() {
           </Pressable>
         )}
       />
+      <Footer/>
     </View>
   );
 }

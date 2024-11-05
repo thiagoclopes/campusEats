@@ -31,7 +31,7 @@
       "name": "Combo 2",
       "restaurantId": "2",
       "rating": "5.0",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Combos",
       "url": "https://static.ifood-static.com.br/image/upload/t_high/pratos/73b7bfea-decb-4427-8814-ed33f51badfd/202303271535_U10X_i.jpg",
       "price": 34.9
@@ -41,7 +41,7 @@
       "name": "Almoço Executivo",
       "restaurantId": "2",
       "rating": "4.9",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Almoço",
       "url": "https://t4.ftcdn.net/jpg/04/47/67/77/360_F_447677793_qlwuEq0EKegA6J55cIsxr39Ue4dyHIBA.jpg",
       "price": 24.5
@@ -79,21 +79,9 @@
   ],
   "cart": [
     {
-      "id": "3tmbdlb94",
-      "foodId": "2",
-      "restaurantId": "2",
-      "quantity": 1
-    },
-    {
-      "id": "zwu6fd3fw",
-      "foodId": "2",
-      "restaurantId": "2",
-      "quantity": 1
-    },
-    {
-      "id": "ns7er56j0",
-      "foodId": "2",
-      "restaurantId": "2",
+      "id": "cqqlrky1p",
+      "foodId": "1",
+      "restaurantId": "1",
       "quantity": 1
     }
   ],
@@ -101,66 +89,68 @@
     {
       "restaurantId": "1",
       "lastMessage": "Ok, vou dar uma olhada",
-      "timestamp": "2024-11-01T12:00:10Z"
+      "timestamp": "2024-11-01T12:00:10Z",
+      "id": "954e"
     },
     {
       "restaurantId": "2",
       "lastMessage": "Boa tarde! Como posso ajudar?",
-      "timestamp": "2024-11-01T12:01:00Z"
+      "timestamp": "2024-11-01T12:01:00Z",
+      "id": "dd40"
     }
   ],
   "messages": [
     {
-      "id": 1,
+      "id": "1",
       "restaurantId": "1",
       "sender": "seller",
       "text": "Olá, como posso ajudar?",
       "timestamp": "2024-11-01T12:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "restaurantId": "1",
       "sender": "user",
       "text": "Oi! Pedi dois almoços mas só veio um. Talvez você tenha esquecido no restaurante",
       "timestamp": "2024-11-01T12:00:05Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "restaurantId": "1",
       "sender": "seller",
       "text": "Ok, vou dar uma olhada",
       "timestamp": "2024-11-01T12:00:10Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "restaurantId": "1",
       "sender": "user",
       "text": "Ok...",
       "timestamp": "2024-11-01T12:00:15Z"
     },
     {
-      "id": 5,
+      "id": "5",
       "restaurantId": "2",
       "sender": "seller",
       "text": "Boa tarde! Como posso ajudar?",
       "timestamp": "2024-11-01T12:01:00Z"
     },
     {
-      "id": 6,
+      "id": "6",
       "restaurantId": "2",
       "sender": "user",
       "text": "Gostaria de saber o tempo de entrega",
       "timestamp": "2024-11-01T12:01:05Z"
     },
     {
-      "id": 5,
+      "id": "5",
       "sender": "user",
       "text": "Kk",
       "timestamp": "2024-11-02T15:40:45.975Z",
       "restaurantId": "1"
     },
     {
-      "id": 3,
+      "id": "3",
       "sender": "user",
       "text": "Teste",
       "timestamp": "2024-11-02T15:40:53.056Z",
