@@ -41,7 +41,7 @@
       "name": "Almoço Executivo",
       "restaurantId": "2",
       "rating": "4.9",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Almoço",
       "url": "https://t4.ftcdn.net/jpg/04/47/67/77/360_F_447677793_qlwuEq0EKegA6J55cIsxr39Ue4dyHIBA.jpg",
       "price": 24.5
