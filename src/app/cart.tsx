@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator, Image, StatusBar } from "react-native";
-import { router, useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import axios from 'axios';
 import LOCAL_IP from '../../config';
 import BackArrow from "../components/backArrow";
@@ -15,6 +15,13 @@ interface CartItem {
     restaurantId: string;
     quantity: number;
     price: number;
+}
+
+interface Order {
+    id: string;
+    items: CartItem[];
+    address: string;
+    status: string;
 }
 
 interface Restaurant {
@@ -41,6 +48,22 @@ const fetchCartItems = async (): Promise<CartItem[]> => {
     } catch (error) {
         console.error('Erro ao buscar itens do carrinho:', error);
         return [];
+    }
+};
+
+const createOrder = async (cartItems: CartItem[], address: string) => {
+    const orderData = {
+        items: cartItems,
+        address: address,
+        status: 'Pendente',
+    };
+
+    try {
+        const response = await axios.post(`${LOCAL_IP}/orders`, orderData);
+        console.log("Pedido criado com sucesso:", response.data);
+        cartItems.forEach(async item => await removeCartItem(item.id));
+    } catch (error) {
+        console.error("Erro ao criar pedido:", error);
     }
 };
 
@@ -82,11 +105,22 @@ const updateCartItemQuantity = async (id: string, quantity: number) => {
     }
 };
 
+
+
 const Cart = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
     const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
     const [loading, setLoading] = useState(true);
+    const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+
+    const { pointName } = useLocalSearchParams();
+
+    useEffect(() => {
+        if (pointName) {
+            setSelectedAddress(Array.isArray(pointName) ? pointName[0] : pointName);
+        }
+    }, [pointName]);
 
     useEffect(() => {
         const getCartItems = async () => {
@@ -117,6 +151,15 @@ const Cart = () => {
 
         getCartItems();
     }, []);
+
+    const handleOrderCreation = async () => {
+        if (cartItems.length > 0 && selectedAddress) {
+            await createOrder(cartItems, selectedAddress);
+            router.push("/orderConfirmation");
+        } else {
+            console.log("Endereço não selecionado ou carrinho vazio");
+        }
+    };
 
     const handleRemoveItem = async (id: string) => {
         await removeCartItem(id);
@@ -236,13 +279,23 @@ const Cart = () => {
 					)}
 					
 					<View className="w-96 mt-5">
+                        <TouchableOpacity
+                            className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
+                            onPress={() => router.push('/selectAddress')}>
+                            <Feather name="map-pin" size={14} color="#7D7D7D" />
+                            {selectedAddress ? (
+                                <Text className="text-black-gray-500">{selectedAddress}</Text>
+                            ) : (
+                                <Text className="text-black-gray-500">Calcular taxa de entrega</Text>
+                            )}
+                        </TouchableOpacity>
                         <Text className="font-semibold mb-5 text-xl">Valores</Text>
                         <View className="flex flex-col gap-3 w-full px-4">
                             <View className="flex flex-row justify-between ">
                                 <Text>Subtotal</Text>
                                 <Text>R$ {totalAmount.toFixed(2).replace('.', ',')}</Text>
                             </View>
-							<View className="flex flex-row justify-between ">
+                            <View className="flex flex-row justify-between ">
                                 <Text>Taxa de entrega</Text>
                                 <Text>R$ 3,75</Text>
                             </View>
@@ -250,7 +303,7 @@ const Cart = () => {
                                 <Text className="font-bold">Total</Text>
                                 <Text className="font-bold">R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
                             </View>
-							<View className="flex flex-row justify-between mt-5">
+                            <View className="flex flex-row justify-between mt-5">
                                 <Text className="font-bold">Tempo de entrega: </Text>
                                 <Text className="font-bold text-sm">15 - 30mins</Text>
                             </View>
@@ -271,7 +324,7 @@ const Cart = () => {
 						<Text className='text-slate-500 text-lg'>Total:</Text>
 						<Text className='font-bold text-xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
 					</View>
-					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'} onPress={() => router.push('/selectAddress')}>
+					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'} onPress={handleOrderCreation}>
 						<Text className='text-center text-white font-semibold'>Continuar</Text>
 					</TouchableOpacity>
 				</View>

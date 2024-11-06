@@ -77,26 +77,19 @@
       "price": 32.5
     }
   ],
-  "cart": [
-    {
-      "id": "cqqlrky1p",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "chatList": [
     {
       "restaurantId": "1",
       "lastMessage": "Ok, vou dar uma olhada",
       "timestamp": "2024-11-01T12:00:10Z",
-      "id": "954e"
+      "id": "7f30"
     },
     {
       "restaurantId": "2",
       "lastMessage": "Boa tarde! Como posso ajudar?",
       "timestamp": "2024-11-01T12:01:00Z",
-      "id": "dd40"
+      "id": "e6f3"
     }
   ],
   "messages": [
@@ -136,7 +129,7 @@
       "timestamp": "2024-11-01T12:01:00Z"
     },
     {
-      "id": "6",
+      "id": "1",
       "restaurantId": "2",
       "sender": "user",
       "text": "Gostaria de saber o tempo de entrega",
@@ -150,11 +143,13 @@
       "restaurantId": "1"
     },
     {
-      "id": "3",
+      "id": "2",
       "sender": "user",
       "text": "Teste",
       "timestamp": "2024-11-02T15:40:53.056Z",
       "restaurantId": "2"
     }
+  ],
+  "orders": [
   ]
 }

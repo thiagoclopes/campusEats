@@ -92,9 +92,7 @@ export default function Product() {
 
     const addToCart = async (product: FoodItem, quantity: number) => {
         try {
-            const id = Math.random().toString(36).slice(2, 11);
             const cartItem = {
-                id: id,
                 foodId: product.id,
                 restaurantId: product.restaurantId,
                 quantity,
