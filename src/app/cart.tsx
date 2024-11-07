@@ -51,10 +51,12 @@ const fetchCartItems = async (): Promise<CartItem[]> => {
     }
 };
 
-const createOrder = async (cartItems: CartItem[], address: string) => {
+const createOrder = async (cartItems: CartItem[], address: string, latitude: number, longitude: number) => {
     const orderData = {
         items: cartItems,
         address: address,
+        latitude: latitude,
+        longitude: longitude,
         status: 'Pendente',
     };
 
@@ -114,9 +116,15 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
     const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
 
-    const { pointName } = useLocalSearchParams();
+    const { pointName, latitudeParam, longitudeParam } = useLocalSearchParams();
+    const latitude = latitudeParam ? Number(latitudeParam) : 0;
+    const longitude = longitudeParam ? Number(longitudeParam) : 0;
+
 
     useEffect(() => {
+        console.log('latitudeParam:', latitudeParam);
+        console.log('longitudeParam:', longitudeParam);
+
         if (pointName) {
             setSelectedAddress(Array.isArray(pointName) ? pointName[0] : pointName);
         }
@@ -154,7 +162,7 @@ const Cart = () => {
 
     const handleOrderCreation = async () => {
         if (cartItems.length > 0 && selectedAddress) {
-            await createOrder(cartItems, selectedAddress);
+            await createOrder(cartItems, selectedAddress, latitude, longitude);
             router.push("/orderConfirmation");
         } else {
             console.log("Endereço não selecionado ou carrinho vazio");

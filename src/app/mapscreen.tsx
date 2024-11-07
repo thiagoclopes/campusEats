@@ -1,4 +1,3 @@
-// MapScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
