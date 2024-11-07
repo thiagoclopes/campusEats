@@ -1,7 +1,16 @@
 import { View, Pressable } from "react-native";
 import { Feather, FontAwesome5, Entypo, AntDesign } from '@expo/vector-icons';
-import { useRouter, usePathname } from 'expo-router';
+import { useRouter, usePathname, Href } from 'expo-router';
 import { useState, useEffect } from 'react';
+
+
+
+interface IconWithDotProps {
+    route: Href<string | object>;
+    IconComponent: typeof Feather | typeof FontAwesome5 | typeof Entypo | typeof AntDesign;
+    iconName: string;
+}
+
 
 export function Footer() {
     const router = useRouter();
@@ -13,7 +22,7 @@ export function Footer() {
     }, [pathname]);
     
 
-    const IconWithDot = ({ route, IconComponent, iconName }) => (
+    const IconWithDot = ({ route, IconComponent, iconName }: IconWithDotProps) => (
         <Pressable className="w-12 h-12 flex justify-center items-center" onPress={() => router.push(route)}>
             <IconComponent name={iconName} size={24} color="#FFFFFF" />
             {activeRoute === route && (
