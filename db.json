@@ -51,7 +51,7 @@
       "name": "Pizza Margherita",
       "restaurantId": "2",
       "rating": "4.8",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Pizza",
       "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgzP_zfQ-35CWuFMZ3THXJPxF5WntHqHXETw&s",
       "price": 39.9
@@ -61,7 +61,7 @@
       "name": "Pizza Calabresa",
       "restaurantId": "1",
       "rating": "4.8",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Pizza",
       "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhyOaOF_vE3SVjyfSr_nMj059lGnS4Vh77VQ&s",
       "price": 42
@@ -71,7 +71,7 @@
       "name": "Feijoada",
       "restaurantId": "1",
       "rating": "4.7",
-      "isFavorite": false,
+      "isFavorite": true,
       "category": "Almoço",
       "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRYUaUvIxqFEApLRiHtIUMp2HO3dYNbe_Yw&s",
       "price": 32.5
@@ -151,5 +151,18 @@
     }
   ],
   "orders": [
+    {
+      "id": "5cb1",
+      "items": [
+        {
+          "id": "8605",
+          "foodId": "4",
+          "restaurantId": "2",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "status": "Pendente"
+    }
   ]
 }
