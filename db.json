@@ -78,6 +78,18 @@
     }
   ],
   "cart": [],
+  "notifications": [
+    {
+      "restaurantId":"2",
+      "message":"Seu pedido saiu para entrega!",
+      "timestamp": "2024-11-01T12:00:10Z"
+    },
+    {
+      "restaurantId":"1",
+      "message":"Seu pedido saiu para entrega!",
+      "timestamp": "2024-11-07T10:21:09Z"
+    }
+  ],
   "chatList": [
     {
       "restaurantId": "1",
