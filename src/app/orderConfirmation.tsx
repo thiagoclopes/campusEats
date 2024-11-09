@@ -5,7 +5,7 @@ export default function OrderConfirmation(){
     const router = useRouter();
     return (
         <View className="flex flex-col h-full items-center justify-center">
-            <TouchableOpacity className=" bg-slate-500 p-4" onPress={() => router.push('/orderProgress')}>
+            <TouchableOpacity className=" bg-slate-500 p-4" onPress={() => router.push('/success')}>
                 <Text className="text-white">
                     Confirmar Pagamento
                 </Text>

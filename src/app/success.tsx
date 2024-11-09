@@ -13,8 +13,8 @@ export default function Success() {
         <Text className="text-3xl font-bold text-red-main text-center mt-4">Sucesso!</Text>
         <Text className="text-lg font-regular text-black-gray text-center mt-2 w-full">Seu pagamento foi aceito. Aguarde seu pedido...</Text> 
         
-        <TouchableOpacity className="bg-red-main rounded-2xl p-6 w-[70%] mt-10" onPress={() => router.push('/')}> 
-          <Text className="text-white text-center font-bold">Voltar para o menu</Text>
+        <TouchableOpacity className="bg-red-main rounded-2xl p-6 w-[70%] mt-10" onPress={() => router.push('/orderProgress')}> 
+          <Text className="text-white text-center font-bold">Acompanhar pedido</Text>
         </TouchableOpacity>
       </View>
     </View>

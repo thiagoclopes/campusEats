@@ -122,7 +122,7 @@ export default function OrderProgress() {
                             latitude: orders[0].latitude,
                             longitude: orders[0].longitude,
                         }} 
-                        apikey="AIzaSyBMj0JfoC2r9JnxFcq_1n6wXusosepUZRc"
+                        apikey=""
                         strokeWidth={3}
                         strokeColor="blue"
                     />

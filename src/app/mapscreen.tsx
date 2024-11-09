@@ -81,7 +81,7 @@ export default function MapScreen() {
                 showsCompass={false}
                 style={styles.map}
                 initialRegion={initialRegion}
-                showsUserLocation={true} // Para mostrar a localização do usuário no mapa
+                showsUserLocation={true}
             >
                 {restaurants.map((restaurant) => (
                     <Marker
