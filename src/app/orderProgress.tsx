@@ -1,7 +1,7 @@
-import { Text, TouchableOpacity, View, StyleSheet, StatusBar, Image } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, StatusBar, Image, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import axios from 'axios';
 import LOCAL_IP from '@/config';
 import { Entypo, Feather, FontAwesome5, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -23,11 +23,24 @@ interface Order {
     latitude: number;
     longitude: number;
     status: string;
+    courierId: string;
+}
+
+interface Courier {
+    id: string;
+    name: string;
+    vehicle: string;
+    vehiclePlate: number;
+    rating: string;
+    availability: boolean;
 }
 
 export default function OrderProgress() {
-    const [orders, setOrders] = useState<Order[]>([]);
+    const { orderId } = useLocalSearchParams();
+    const [order, setOrder] = useState<Order | null>(null);
+    const [courier, setCourier] = useState<Courier | null>(null);
     const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+    const [loadingCourier, setLoadingCourier] = useState(true);
     const router = useRouter();
 
     const requestLocationPermission = async () => {
@@ -52,23 +65,52 @@ export default function OrderProgress() {
     };
 
     useEffect(() => {
-        requestLocationPermission();
-        async function fetchOrdersData() {
+        requestLocationPermission()
+        async function fetchOrderData() {
             try {
-                const response = await axios.get(`${LOCAL_IP}/orders/`);
-                setOrders(response.data);
+                const response = await axios.get(`${LOCAL_IP}/orders/${orderId}`);
+                setOrder(response.data);
+                setLoadingCourier(false);
             } catch (error) {
-                console.error('Erro ao buscar dados:', error);
+                console.error('Erro ao buscar dados do pedido:', error);
             }
         }
 
-        fetchOrdersData();
-    }, []);
+        if (orderId) {
+            fetchOrderData();
+        }
+    }, [orderId]);
+
+    useEffect(() => {
+        if (order && order.courierId) {
+            const courierId = order.courierId;
+            
+            async function fetchCourierData() {
+                try {
+                    const response = await axios.get(`${LOCAL_IP}/delivery_persons/${courierId}`);
+                    setCourier(response.data)
+                    setLoadingCourier(false);
+                } catch (error) {
+                    console.error('Erro ao buscar dados do entregador:', error);
+                }
+            }
+    
+            fetchCourierData();
+        }
+    }, [order]);
+
 
     async function handleOrderReceived(orderId: string) {
         try {
             await axios.delete(`${LOCAL_IP}/orders/${orderId}`);
-            setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+            
+            setOrder(prevOrder => {
+                if (prevOrder && prevOrder.id === orderId) {
+                    return null;
+                }
+                return prevOrder;
+            });
+    
             router.push('/');
         } catch (error) {
             console.error('Erro ao deletar o pedido:', error);
@@ -92,11 +134,18 @@ export default function OrderProgress() {
     return (
         <View style={styles.container}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-
-            <TouchableOpacity className='absolute z-10 px-5 py-2 ml-2 mt-4 bg-red-main rounded-2xl' onPress={() => handleOrderReceived(orders[0].id)}>
+    
+            <TouchableOpacity
+                className='absolute z-10 px-5 py-2 ml-2 mt-4 bg-red-main rounded-2xl'
+                onPress={() => {
+                    if (order) {
+                        handleOrderReceived(order.id);
+                    }
+                }}
+            >
                 <Text className='text-white'>Voltar</Text>
             </TouchableOpacity>
-
+    
             <MapView
                 mapType="standard"
                 showsCompass={false}
@@ -105,22 +154,22 @@ export default function OrderProgress() {
                 showsUserLocation={true}
                 customMapStyle={customMapStyle}
             >
-                {orders.length > 0 && (
+                {order && (
                     <Marker
-                        key={orders[0].id}
+                        key={order.id}
                         coordinate={{
-                            latitude: orders[0].latitude,
-                            longitude: orders[0].longitude,
+                            latitude: order.latitude,
+                            longitude: order.longitude,
                         }}
-                        title={orders[0].address}
+                        title={order.address}
                     />
                 )}
-                {userLocation && orders.length > 0 && (
+                {userLocation && order && (
                     <MapViewDirections
                         origin={userLocation}
                         destination={{
-                            latitude: orders[0].latitude,
-                            longitude: orders[0].longitude,
+                            latitude: order.latitude,
+                            longitude: order.longitude,
                         }} 
                         apikey=""
                         strokeWidth={3}
@@ -128,7 +177,7 @@ export default function OrderProgress() {
                     />
                 )}
             </MapView>
-
+    
             <View className='w-full h-72 bg-white rounded-t-3xl -mt-9 flex flex-col items-center py-4 '
                 style={{
                     backgroundColor: 'white',
@@ -139,51 +188,63 @@ export default function OrderProgress() {
                     elevation: 10, 
                 }}
             >
-                <View className="-mt-20 w-28 h-28 rounded-2xl bg-slate-500 overflow-hidden z-10">
-                    <Image
-                        source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </View>
-                <View className='flex flex-row items-center justify-center gap-2'>
-                    <Text className='font-bold'>Matheus Alves</Text>
-                    <View className='flex-row items-center justify-center'>
-                        <Entypo name="star" size={24} color="#FF9633" />
-                        <Text className='font-medium'>4.8</Text>
+                {loadingCourier ? (
+                    <View className="flex-1 justify-center items-center">
+                        <ActivityIndicator size="large" color="#EF2A39" />
+                        <Text>Loading Courier...</Text>
                     </View>
-                </View>
-                <Text className='text-xs text-center font-medium'>HONDA CG 150 | HTX-5738</Text>
-
-                <View className='h-full w-full flex flex-col gap-3 items-center mt-4 p-2'
-                    style={{
-                        backgroundColor: 'white',
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: -3 },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 4, 
-                        elevation: 10, 
-                    }}
-                >
-                    <View className='flex-row gap-1'>
-                        <Feather name="check-circle" size={24} color="#EF2A39" />
-                        <Text className='font-bold text-red-main'>.....</Text>
-                        <MaterialCommunityIcons name="chef-hat" size={24} color="#EF2A39" />
-                        <Text className='font-bold text-red-main'>.....</Text>
-                        <FontAwesome6 name="box" size={24} color="#EF2A39" />
-                        <Text className='font-bold text-red-main'>.....</Text>
-                        <FontAwesome6 name="motorcycle" size={24} color="#EF2A39" />
-                        <Text className='font-bold text-red-main'>.....</Text>
-                        <FontAwesome5 name="hands-helping" size={24} color="#EF2A39" style={{ opacity: 0.3 }} />
-                    </View>
-                    <View className='flex-col items-center'>
-                        <Text className='font-medium'>O entregador está a caminho...</Text>
-                        <Text className='font-medium'>Tempo estimado: 2min</Text>
-                    </View>
-                    
-                    <TouchableOpacity className='px-5 py-2 ml-2 mt-4 bg-red-main rounded-xl' onPress={() => handleOrderReceived(orders[0].id)}>
-                        <MaterialCommunityIcons name="chat-plus" size={24} color="white" />
-                    </TouchableOpacity>
-                </View>
+                ) : (
+                    <>
+                        <View className="-mt-20 w-28 h-28 rounded-2xl bg-slate-500 overflow-hidden z-10">
+                            <Image
+                                source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        </View>
+                        <View className='flex flex-row items-center justify-center gap-2'>
+                            <Text className='font-bold'>{courier?.name} </Text>
+                            <View className='flex-row items-center justify-center'>
+                                <Entypo name="star" size={24} color="#FF9633" />
+                                <Text className='font-medium'>{courier?.rating}</Text>
+                            </View>
+                        </View>
+                        <Text className='text-xs text-center font-medium'>{courier?.vehicle} | {courier?.vehiclePlate}</Text>
+                        <View className='h-full w-full flex flex-col gap-3 items-center mt-4 p-2'
+                            style={{
+                                backgroundColor: 'white',
+                                shadowColor: '#000',
+                                shadowOffset: { width: 0, height: -3 },
+                                shadowOpacity: 0.3,
+                                shadowRadius: 4, 
+                                elevation: 10, 
+                            }}
+                        >
+                            <View className='flex-row gap-1'>
+                                <Feather name="check-circle" size={24} color="#EF2A39" />
+                                <Text className='font-bold text-red-main'>.....</Text>
+                                <MaterialCommunityIcons name="chef-hat" size={24} color="#EF2A39" />
+                                <Text className='font-bold text-red-main'>.....</Text>
+                                <FontAwesome6 name="box" size={24} color="#EF2A39" />
+                                <Text className='font-bold text-red-main'>.....</Text>
+                                <FontAwesome6 name="motorcycle" size={24} color="#EF2A39" />
+                                <Text className='font-bold text-red-main'>.....</Text>
+                                <FontAwesome5 name="hands-helping" size={24} color="#EF2A39" style={{ opacity: 0.3 }} />
+                            </View>
+                            <View className='flex-col items-center'>
+                                <Text className='font-medium'>O entregador está a caminho...</Text>
+                                <Text className='font-medium'>Tempo estimado: 2min</Text>
+                            </View>
+                            
+                            <TouchableOpacity
+                                className="px-5 py-2 ml-2 mt-4 bg-red-main rounded-xl"
+                            >
+                                <MaterialCommunityIcons name="chat-plus" size={24} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                )}
+    
+                
             </View>
         </View>
     );

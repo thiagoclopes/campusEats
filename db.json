@@ -77,7 +77,6 @@
       "price": 32.5
     }
   ],
-  "cart": [],
   "chatList": [
     {
       "restaurantId": "1",
@@ -150,5 +149,25 @@
       "restaurantId": "2"
     }
   ],
-  "orders": []
+  "delivery_persons": [
+    {
+      "id": "123",
+      "name": "Gilberto Lima",
+      "vehicle": "BIKE",
+      "vehiclePlate": "SEM PLACA",
+      "rating": "4.8",
+      "availability": true
+    },
+    {
+      "id": "321",
+      "name": "Natan Bastos",
+      "vehicle": "Fox",
+      "vehiclePlate": "HTX-5738",
+      "rating": "4.8",
+      "availability": true
+    }
+  ],
+  "cart": [],
+  "orders": [
+  ]
 }
