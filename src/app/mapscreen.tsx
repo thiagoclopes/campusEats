@@ -1,4 +1,3 @@
-// MapScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity, View, Image, Text } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
@@ -82,7 +81,7 @@ export default function MapScreen() {
                 showsCompass={false}
                 style={styles.map}
                 initialRegion={initialRegion}
-                showsUserLocation={true} // Para mostrar a localização do usuário no mapa
+                showsUserLocation={true}
             >
                 {restaurants.map((restaurant) => (
                     <Marker

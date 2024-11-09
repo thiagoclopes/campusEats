@@ -6,7 +6,6 @@ import LOCAL_IP from '../../config';
 import BackArrow from "../components/backArrow";
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import DashedLine from "../components/dashedLine";
 import { debounce } from 'lodash';
 
 interface CartItem {
@@ -51,10 +50,12 @@ const fetchCartItems = async (): Promise<CartItem[]> => {
     }
 };
 
-const createOrder = async (cartItems: CartItem[], address: string) => {
+const createOrder = async (cartItems: CartItem[], address: string, latitude: number, longitude: number) => {
     const orderData = {
         items: cartItems,
         address: address,
+        latitude: latitude,
+        longitude: longitude,
         status: 'Pendente',
     };
 
@@ -62,6 +63,7 @@ const createOrder = async (cartItems: CartItem[], address: string) => {
         const response = await axios.post(`${LOCAL_IP}/orders`, orderData);
         console.log("Pedido criado com sucesso:", response.data);
         cartItems.forEach(async item => await removeCartItem(item.id));
+        return response.data.id;
     } catch (error) {
         console.error("Erro ao criar pedido:", error);
     }
@@ -114,9 +116,15 @@ const Cart = () => {
     const [loading, setLoading] = useState(true);
     const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
 
-    const { pointName } = useLocalSearchParams();
+    const { pointName, latitudeParam, longitudeParam } = useLocalSearchParams();
+    const latitude = latitudeParam ? Number(latitudeParam) : 0;
+    const longitude = longitudeParam ? Number(longitudeParam) : 0;
+
 
     useEffect(() => {
+        console.log('latitudeParam:', latitudeParam);
+        console.log('longitudeParam:', longitudeParam);
+
         if (pointName) {
             setSelectedAddress(Array.isArray(pointName) ? pointName[0] : pointName);
         }
@@ -154,8 +162,13 @@ const Cart = () => {
 
     const handleOrderCreation = async () => {
         if (cartItems.length > 0 && selectedAddress) {
-            await createOrder(cartItems, selectedAddress);
-            router.push("/orderConfirmation");
+            const orderId = await createOrder(cartItems, selectedAddress, latitude, longitude);
+            
+            if (orderId) {
+                router.push(`/orderConfirmation?orderId=${orderId}`);
+            } else {
+                console.log("Erro ao criar pedido");
+            }
         } else {
             console.log("Endereço não selecionado ou carrinho vazio");
         }

@@ -8,7 +8,6 @@ export default function Profile() {
 		<View className="flex-1 bg-red-main">
 			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
 
-			{/* Conteúdo principal */}
 			<View className="flex-1 items-center w-full">
 				<View className="w-full flex flex-row items-center justify-between p-4">
 					<BackArrow color="white" />

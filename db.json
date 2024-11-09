@@ -77,19 +77,6 @@
       "price": 32.5
     }
   ],
-  "cart": [],
-  "notifications": [
-    {
-      "restaurantId":"2",
-      "message":"Seu pedido saiu para entrega!",
-      "timestamp": "2024-11-01T12:00:10Z"
-    },
-    {
-      "restaurantId":"1",
-      "message":"Seu pedido saiu para entrega!",
-      "timestamp": "2024-11-07T10:21:09Z"
-    }
-  ],
   "chatList": [
     {
       "restaurantId": "1",
@@ -162,6 +149,25 @@
       "restaurantId": "2"
     }
   ],
+  "delivery_persons": [
+    {
+      "id": "123",
+      "name": "Gilberto Lima",
+      "vehicle": "BIKE",
+      "vehiclePlate": "SEM PLACA",
+      "rating": "4.8",
+      "availability": true
+    },
+    {
+      "id": "321",
+      "name": "Natan Bastos",
+      "vehicle": "Fox",
+      "vehiclePlate": "HTX-5738",
+      "rating": "4.8",
+      "availability": true
+    }
+  ],
+  "cart": [],
   "orders": [
     {
       "id": "5cb1",

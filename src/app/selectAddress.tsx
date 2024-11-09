@@ -118,7 +118,11 @@ export default function SelectAdress() {
         console.log('Selected Point:', point);
         router.push({
             pathname: '/cart',
-            params: { pointName: point.name },
+            params: { 
+                pointName: point.name,
+                latitudeParam: String(point.coords.latitude),
+                longitudeParam: String(point.coords.longitude)
+            },
         });
     };
 
