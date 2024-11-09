@@ -4,7 +4,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 import LOCAL_IP from '@/config';
-import { AntDesign, Entypo, Feather, FontAwesome5, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome5, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
+import MapViewDirections from 'react-native-maps-directions';
+import * as Location from 'expo-location';
 
 interface CartItem {
     id: string;
@@ -25,9 +27,32 @@ interface Order {
 
 export default function OrderProgress() {
     const [orders, setOrders] = useState<Order[]>([]);
+    const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const router = useRouter();
 
+    const requestLocationPermission = async () => {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'granted') {
+            console.log('You can use the Location');
+            getuserLocation();
+        } else {
+            console.log('Location permission denied');
+        }
+    };
+
+    const getuserLocation = async () => {
+        try {
+            const location = await Location.getCurrentPositionAsync({});
+            const { latitude, longitude } = location.coords;
+            setUserLocation({ latitude, longitude });
+            console.log(latitude, longitude);
+        } catch (error) {
+            alert(error);
+        }
+    };
+
     useEffect(() => {
+        requestLocationPermission();
         async function fetchOrdersData() {
             try {
                 const response = await axios.get(`${LOCAL_IP}/orders/`);
@@ -69,8 +94,9 @@ export default function OrderProgress() {
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
 
             <TouchableOpacity className='absolute z-10 px-5 py-2 ml-2 mt-4 bg-red-main rounded-2xl' onPress={() => handleOrderReceived(orders[0].id)}>
-                    <Text className='text-white'>Voltar</Text>
+                <Text className='text-white'>Voltar</Text>
             </TouchableOpacity>
+
             <MapView
                 mapType="standard"
                 showsCompass={false}
@@ -89,7 +115,20 @@ export default function OrderProgress() {
                         title={orders[0].address}
                     />
                 )}
+                {userLocation && orders.length > 0 && (
+                    <MapViewDirections
+                        origin={userLocation}
+                        destination={{
+                            latitude: orders[0].latitude,
+                            longitude: orders[0].longitude,
+                        }} 
+                        apikey="AIzaSyBMj0JfoC2r9JnxFcq_1n6wXusosepUZRc"
+                        strokeWidth={3}
+                        strokeColor="blue"
+                    />
+                )}
             </MapView>
+
             <View className='w-full h-72 bg-white rounded-t-3xl -mt-9 flex flex-col items-center py-4 '
                 style={{
                     backgroundColor: 'white',
@@ -134,8 +173,7 @@ export default function OrderProgress() {
                         <Text className='font-bold text-red-main'>.....</Text>
                         <FontAwesome6 name="motorcycle" size={24} color="#EF2A39" />
                         <Text className='font-bold text-red-main'>.....</Text>
-                        <FontAwesome5 name="hands-helping" size={24} color="#EF2A39" style={{ opacity: 0.3 }}/>
-
+                        <FontAwesome5 name="hands-helping" size={24} color="#EF2A39" style={{ opacity: 0.3 }} />
                     </View>
                     <View className='flex-col items-center'>
                         <Text className='font-medium'>O entregador está a caminho...</Text>
@@ -147,7 +185,6 @@ export default function OrderProgress() {
                     </TouchableOpacity>
                 </View>
             </View>
-            
         </View>
     );
 }
