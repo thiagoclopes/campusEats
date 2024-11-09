@@ -20,7 +20,7 @@ interface Restaurant {
     logo: string;
 }
 
-export default function Chat() {
+export default function Chat({ color = "black" }) {
     const router = useRouter();
     const { restaurantId } = useLocalSearchParams<{ restaurantId: string }>();
     const [messages, setMessages] = useState<Message[]>([]);
@@ -74,7 +74,9 @@ export default function Chat() {
         <View className="flex-1 bg-white">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <View className='flex flex-row items-center py-4'>
-                <BackArrow />
+                <TouchableOpacity onPress={() => router.push('/chatList')}>
+                    <AntDesign name="arrowleft" size={24} color={color} className="p-4" />
+                </TouchableOpacity>
                 <View className="flex flex-row items-center gap-2 p-4">
                     {restaurant?.logo && (
                         <Image
