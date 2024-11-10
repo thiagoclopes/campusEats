@@ -76,9 +76,12 @@ export default function ChatList() {
 
   return (
     <View className='w-full h-full'>
-      <BackArrow />
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <Text style={{ fontWeight: 'bold', fontSize: 20, padding: 10 }}>LISTA DE CHATS</Text>
+      <View className="flex-row items-center justify-center px-4 py-4 ">
+          <View className="absolute left-1">
+            <BackArrow />
+          </View>
+          <Text className="text-2xl font-medium">Lista de Chats</Text>
+        </View>
       <FlatList
         data={chatList}
         keyExtractor={(item) => item.id.toString()}

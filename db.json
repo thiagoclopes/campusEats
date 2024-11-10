@@ -15,6 +15,18 @@
       "category": "Variada"
     }
   ],
+  "notifications": [
+    {
+      "restaurantId": "2",
+      "message": "Seu pedido saiu para entrega!",
+      "timestamp": "2024-11-08T12:00:10Z"
+    },
+    {
+      "restaurantId": "1",
+      "message": "Seu pedido saiu para entrega!",
+      "timestamp": "2024-11-07T10:21:09Z"
+    }
+  ],
   "products": [
     {
       "id": "1",
@@ -181,6 +193,68 @@
       ],
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "status": "Pendente"
+    },
+    {
+      "id": "815a",
+      "items": [
+        {
+          "id": "c37e",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente"
+    },
+    {
+      "id": "25d2",
+      "items": [
+        {
+          "id": "c37e",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente"
+    },
+    {
+      "id": "013e",
+      "items": [
+        {
+          "id": "5529",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente",
+      "courierId": "321"
+    },
+    {
+      "id": "66f2",
+      "items": [
+        {
+          "id": "5e79",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente",
+      "courierId": "123"
     }
   ]
 }

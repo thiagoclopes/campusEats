@@ -54,32 +54,36 @@ export default function Notifications() {
   }, []);
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
       <View className="flex-1">
-        <BackArrow />
-        <Text className="text-2xl font-medium mx-4 my-2">Notificações</Text>
+        <View className="flex-row items-center justify-center px-4 py-4">
+          <View className="absolute left-1">
+            <BackArrow />
+          </View>
+          <Text className="text-2xl font-medium">Notificações</Text>
+        </View>
 
-        <View className="bg-white w-[90%] mx-auto rounded-xl p-4 shadow-sm">
-          <FlatList
-            data={notifications}
-            keyExtractor={(item) => item.restaurantId}
-            renderItem={({ item }) => (
-              <View className="flex-row items-center my-2 p-2 relative">
+        <FlatList
+          data={notifications}
+          keyExtractor={(item) => item.restaurantId}
+          renderItem={({ item }) => (
+            <View className="bg-white-80 rounded-xl p-6 shadow-sm mt-4 w-[90%] mx-auto">
+              <View className="flex-row items-center">
                 <Image
                   source={{ uri: item.restaurantImage }}
                   style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
                 />
                 <View>
-                  <Text className="text-black font-medium text-2xl ml-4">{item.restaurantName}</Text>
-                  <Text className="text-black-gray font-regular text-xl ml-4">{item.message}</Text>
+                  <Text className="text-black font-medium text-lg ml-4">{item.restaurantName}</Text>
+                  <Text className="text-black-gray font-regular text-md ml-4">{item.message}</Text>
                 </View>
-                <Text className="text-black-gray text-sm absolute top-0 right-0">
-                  {new Date(item.timestamp).toLocaleString()}
-                </Text>
               </View>
-            )}
-          />
-        </View>
+              <Text className="text-black-gray text-xs absolute top-4 right-4">
+                {new Date(item.timestamp).toLocaleString()}
+              </Text>
+            </View>
+          )}
+        />
       </View>
       <Footer />
     </View>
