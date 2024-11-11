@@ -121,7 +121,7 @@ export function Products() {
                     {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
                         <TouchableOpacity
                             key={category}
-                            className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-slate-100'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
+                            className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-off-white'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
                             onPress={() => handleCategorySelect(category)}
                         >
                             <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
