@@ -19,12 +19,14 @@
     {
       "restaurantId": "2",
       "message": "Seu pedido saiu para entrega!",
-      "timestamp": "2024-11-08T12:00:10Z"
+      "timestamp": "2024-11-08T12:00:10Z",
+      "id": "acd8"
     },
     {
       "restaurantId": "1",
       "message": "Seu pedido saiu para entrega!",
-      "timestamp": "2024-11-07T10:21:09Z"
+      "timestamp": "2024-11-07T10:21:09Z",
+      "id": "a119"
     }
   ],
   "products": [
@@ -179,7 +181,14 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "e1ba",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 2
+    }
+  ],
   "orders": [
     {
       "id": "5cb1",

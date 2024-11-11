@@ -24,7 +24,7 @@ export default function CartStatusBar({imageUrl, firstItemName, itemCount, subTo
             <View className="w-px h-10 bg-black" />
             <View className="flex-col gap-0 m-2.5">
                 <Text className="font-normal text-xs">{firstItemName},</Text>
-                <Text className="font-semibold text-sm -mt-1.5">+{itemCount} itens</Text>
+                <Text className="font-semibold text-sm -mt-1.5">+{itemCount-1} itens</Text>
             </View>
             <TouchableOpacity
                 className="px-8 py-2 ml-1 bg-red-main rounded-xl"
