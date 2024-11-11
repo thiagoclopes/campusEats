@@ -171,7 +171,7 @@ export default function OrderProgress() {
                             latitude: order.latitude,
                             longitude: order.longitude,
                         }} 
-                        apikey=""
+                        apikey="AIzaSyBMj0JfoC2r9JnxFcq_1n6wXusosepUZRc"
                         strokeWidth={3}
                         strokeColor="blue"
                     />
@@ -202,26 +202,24 @@ export default function OrderProgress() {
                             />
                         </View>
                         <View className='flex flex-row items-center justify-center gap-2'>
-                            <Text className='font-bold'>{courier?.name} </Text>
+                            <Text className='font-bold text-xl'>{courier?.name} </Text>
                             <View className='flex-row items-center justify-center'>
                                 <Entypo name="star" size={24} color="#FF9633" />
-                                <Text className='font-medium'>{courier?.rating}</Text>
+                                <Text className='font-medium text-lg'>{courier?.rating}</Text>
                             </View>
                         </View>
-                        <Text className='text-xs text-center font-medium'>{courier?.vehicle} | {courier?.vehiclePlate}</Text>
-                        <View className='h-full w-full flex flex-col gap-3 items-center mt-4 p-2'
+                        <Text className='text-sm text-black-gray text-center font-medium'>{courier?.vehicle} | {courier?.vehiclePlate}</Text>
+                        <View className='h-full w-full flex flex-col gap-3 items-center mt-4 p-2 shadow-xl'
                             style={{
                                 backgroundColor: 'white',
                                 shadowColor: '#000',
                                 shadowOffset: { width: 0, height: -3 },
-                                shadowOpacity: 0.3,
+                                shadowOpacity: 0.1,
                                 shadowRadius: 4, 
                                 elevation: 10, 
                             }}
                         >
                             <View className='flex-row gap-1'>
-                                <Feather name="check-circle" size={24} color="#EF2A39" />
-                                <Text className='font-bold text-red-main'>.....</Text>
                                 <MaterialCommunityIcons name="chef-hat" size={24} color="#EF2A39" />
                                 <Text className='font-bold text-red-main'>.....</Text>
                                 <FontAwesome6 name="box" size={24} color="#EF2A39" />
@@ -231,7 +229,7 @@ export default function OrderProgress() {
                                 <FontAwesome5 name="hands-helping" size={24} color="#EF2A39" style={{ opacity: 0.3 }} />
                             </View>
                             <View className='flex-col items-center'>
-                                <Text className='font-medium'>O entregador está a caminho...</Text>
+                                <Text className='font-medium text-lg'>O entregador está a caminho...</Text>
                                 <Text className='font-medium'>Tempo estimado: 2min</Text>
                             </View>
                             

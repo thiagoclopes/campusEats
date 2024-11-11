@@ -2,8 +2,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
 
-
-export default function Search() {
+export default function Favorites() {
   return (
   <View className='flex-1'>
     <View className='flex-1'>
@@ -11,7 +10,7 @@ export default function Search() {
           <View className="absolute left-1">
             <BackArrow />
           </View>
-          <Text className="text-2xl font-medium">Pesquisar</Text>
+          <Text className="text-2xl font-medium">Favoritos</Text>
         </View>
     </View>
     <Footer/>
