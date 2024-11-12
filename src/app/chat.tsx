@@ -73,7 +73,7 @@ export default function Chat({ color = "black" }) {
     return (
         <View className="flex-1 bg-white">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
-            <View className='flex flex-row items-center py-4'>
+            <View className='flex flex-row items-center py-4 px-4'>
                 <TouchableOpacity onPress={() => router.push('/chatList')}>
                     <AntDesign name="arrowleft" size={24} color={color} className="p-4" />
                 </TouchableOpacity>
@@ -104,7 +104,7 @@ export default function Chat({ color = "black" }) {
                         )}
                         <View
                             style={{
-                                padding: 8,
+                                padding: 12,
                                 borderRadius: 15,
                                 backgroundColor: message.sender === 'user' ? '#EF2A39' : '#F1F5F9',
                                 maxWidth: '80%',

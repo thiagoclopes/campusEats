@@ -1,5 +1,4 @@
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-import BackArrow from '../components/backArrow';
 import { router, useLocalSearchParams } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';

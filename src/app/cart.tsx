@@ -234,9 +234,7 @@ const Cart = () => {
     return (
 		<View className='w-full flex flex-col bg-red-main flex-1'>
 			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-			<View className='w-full flex flex-row items-center justify-between'>
-				<BackArrow color='white'/>
-			</View>
+			<BackArrow color='white' route='/'/>
 			<View className="flex flex-row items-center justify-start gap-8 mt-8 p-8">
 				<Image
 					source={{ uri: restaurant?.logo }} 
