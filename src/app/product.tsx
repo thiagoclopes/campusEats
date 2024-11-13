@@ -121,7 +121,7 @@ export default function Product() {
     return (
         <View className="flex flex-1">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
-            <BackArrow />
+            <BackArrow color='black' route='/'/>
             <ScrollView 
                 style={{ flex: 1 }}
                 className="bg-white"

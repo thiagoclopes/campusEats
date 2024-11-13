@@ -6,10 +6,6 @@ import { useEffect } from "react";
 
 const statusBarHeight = Constants.statusBarHeight
 export default function RootLayout() {
-  useEffect(() => {
-    StatusBar.setBarStyle('dark-content');
-    StatusBar.setBackgroundColor('white');
-  }, []);
   
   return (
     <View className="flex flex-1 h-full" style={{marginTop: statusBarHeight}}>
