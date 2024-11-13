@@ -7,12 +7,7 @@ export default function Orders() {
   return (
     <View className='flex-1'>
 		<View className='flex-1'>
-			<View className="flex-row items-center justify-center px-4 py-4">
-				<View className="absolute left-1">
-				<BackArrow />
-				</View>
-				<Text className="text-2xl font-medium">Meus pedidos</Text>
-			</View>
+			<BackArrow color='black' title='Meus pedidos' route='/'/>
 			<View className='flex-1 mx-8 mt-4'>
 				<View className='flex-row gap-4 items-center mb-6'>
 					<FontAwesome5 name="history" size={20} color="black" />

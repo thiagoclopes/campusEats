@@ -18,10 +18,22 @@ const sections = [
         route: '/favorites',
     },
     {
+        title: 'Endereços',
+        description: 'Meus locais',
+        icon: 'map-marker',
+        route: '/adress',
+    },
+    {
         title: 'Ajuda e suporte',
         description: 'Perguntas frequentes',
         icon: 'question-circle',
         route: '/help',
+    },
+    {
+        title: 'Termos e políticas',
+        description: 'Nossas regras',
+        icon: 'book',
+        route: '/privacyPolicy',
     }
 ];
 
@@ -56,13 +68,17 @@ export default function Profile() {
                     <View className="border-t border-gray-line mt-4" />
 
                     {sections.map((section, index) => (
-                        <View key={index} className="mt-4 w-full">
+                        <View
+                            key={index}
+                            className={`mt-4 w-full ${index === sections.length - 1 ? 'mb-6' : ''}`}>
                             <Pressable
                                 className="flex-row items-center ml-4"
                                 onPress={() => router.push(section.route)}
                             >
-                                <FontAwesome name={section.icon} size={20} color="black" />
-                                <View className="ml-4">
+                                <View style={{ width: 30, alignItems: 'center' }}>
+                                    <FontAwesome name={section.icon} size={20} color="black" />
+                                </View>
+                                <View className="ml-4 flex-1">
                                     <Text className="font-semibold text-lg">{section.title}</Text>
                                     <Text className="text-sm text-black-gray">{section.description}</Text>
                                 </View>
