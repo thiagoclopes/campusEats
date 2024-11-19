@@ -1,4 +1,4 @@
-import { Image, StatusBar, Text, TouchableOpacity, View, Pressable } from 'react-native';
+import { Image, StatusBar, Text, TouchableOpacity, View, Pressable, ScrollView } from 'react-native';
 import BackArrow from '../components/backArrow';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router'; 
@@ -18,10 +18,22 @@ const sections = [
         route: '/favorites',
     },
     {
+        title: 'Endereços',
+        description: 'Meus locais',
+        icon: 'map-marker',
+        route: '/adress',
+    },
+    {
         title: 'Ajuda e suporte',
         description: 'Perguntas frequentes',
         icon: 'question-circle',
         route: '/help',
+    },
+    {
+        title: 'Termos e políticas',
+        description: 'Nossas regras',
+        icon: 'book',
+        route: '/privacyPolicy',
     }
 ];
 
@@ -30,15 +42,12 @@ export default function Profile() {
 
     return (
         <View className="flex-1 bg-red-main">
-            <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
+            <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
 
-            <View className="flex-1 items-center w-full">
-                <View className="w-full flex flex-row items-center justify-between p-4">
-                    <BackArrow color="white" />
-                    <FontAwesome name="gear" size={24} color="white" />
-                </View>
+            <ScrollView className="flex-1 w-full">
+            <BackArrow color='white' title='Perfil' route='/'/>
 
-                <View className="mt-6 w-40 h-40 rounded-2xl bg-slate-500 overflow-hidden z-10">
+                <View className="mt-6 w-40 h-40 rounded-2xl bg-slate-500 overflow-hidden z-10 mx-auto">
                     <Image
                         source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
                         style={{ width: '100%', height: '100%' }}
@@ -59,13 +68,17 @@ export default function Profile() {
                     <View className="border-t border-gray-line mt-4" />
 
                     {sections.map((section, index) => (
-                        <View key={index} className="mt-4 w-full">
+                        <View
+                            key={index}
+                            className={`mt-4 w-full ${index === sections.length - 1 ? 'mb-6' : ''}`}>
                             <Pressable
                                 className="flex-row items-center ml-4"
                                 onPress={() => router.push(section.route)}
                             >
-                                <FontAwesome name={section.icon} size={20} color="black" />
-                                <View className="ml-4">
+                                <View style={{ width: 30, alignItems: 'center' }}>
+                                    <FontAwesome name={section.icon} size={20} color="black" />
+                                </View>
+                                <View className="ml-4 flex-1">
                                     <Text className="font-semibold text-lg">{section.title}</Text>
                                     <Text className="text-sm text-black-gray">{section.description}</Text>
                                 </View>
@@ -75,7 +88,7 @@ export default function Profile() {
                         </View>
                     ))}
                 </View>
-            </View>
+            </ScrollView>
 
             <Footer />
         </View>

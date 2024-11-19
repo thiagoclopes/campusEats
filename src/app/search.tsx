@@ -7,12 +7,7 @@ export default function Search() {
   return (
   <View className='flex-1'>
     <View className='flex-1'>
-      <View className="flex-row items-center justify-center px-4 py-4">
-          <View className="absolute left-1">
-            <BackArrow />
-          </View>
-          <Text className="text-2xl font-medium">Pesquisar</Text>
-        </View>
+      <BackArrow color='black' title='Pesquisar' route='/'/>
     </View>
     <Footer/>
   </View>);
