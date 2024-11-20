@@ -105,6 +105,18 @@
       "id": "e6f3"
     }
   ],
+  "addresses":[
+    {
+      "id": "1",
+      "setor": "Meu setor",
+      "subtitle": "Setor 5 - UFRN"
+    },
+    {
+      "id": "2",
+      "setor": "Trabalho",
+      "subtitle": "Instituto Metrópole Digital (IMD)"
+    }
+  ],
   "messages": [
     {
       "id": "1",

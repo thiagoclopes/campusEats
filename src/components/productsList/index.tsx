@@ -23,10 +23,8 @@ interface Restaurant {
 }
 
 const fetchItems = async () => {
-    console.log(LOCAL_IP);
     try {
         const response = await axios.get(`${LOCAL_IP}/products`);
-        console.log('Fetched data:', response.data);
         return response.data;
     } catch (error) {
         console.error('Erro ao buscar itens:', error);
@@ -47,7 +45,6 @@ const fetchRestaurant = async (id: string) => {
 const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     try {
         const response = await axios.patch(`${LOCAL_IP}/products/${id}`, { isFavorite });
-        console.log('Status de favorito atualizado:', response.data);
     } catch (error) {
         console.error('Erro ao atualizar favorito:', error);
     }

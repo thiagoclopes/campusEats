@@ -61,7 +61,6 @@ const createOrder = async (cartItems: CartItem[], address: string, latitude: num
 
     try {
         const response = await axios.post(`${LOCAL_IP}/orders`, orderData);
-        console.log("Pedido criado com sucesso:", response.data);
         cartItems.forEach(async item => await removeCartItem(item.id));
         return response.data.id;
     } catch (error) {
@@ -92,7 +91,6 @@ const fetchFoodItem = async (foodId: string) => {
 const removeCartItem = async (id: string) => {
     try {
         await axios.delete(`${LOCAL_IP}/cart/${id}`);
-        console.log(`Produto com id ${id} removido do carrinho.`);
     } catch (error) {
         console.error('Erro ao remover item do carrinho:', error);
     }
@@ -101,7 +99,6 @@ const removeCartItem = async (id: string) => {
 const updateCartItemQuantity = async (id: string, quantity: number) => {
     try {
         await axios.patch(`${LOCAL_IP}/cart/${id}`, { quantity });
-        console.log(`Quantidade do item com id ${id} atualizada para ${quantity}.`);
     } catch (error) {
         console.error('Erro ao atualizar quantidade do item no carrinho:', error);
     }
@@ -122,8 +119,6 @@ const Cart = () => {
 
 
     useEffect(() => {
-        console.log('latitudeParam:', latitudeParam);
-        console.log('longitudeParam:', longitudeParam);
 
         if (pointName) {
             setSelectedAddress(Array.isArray(pointName) ? pointName[0] : pointName);
@@ -144,7 +139,6 @@ const Cart = () => {
             if (items.length > 0 && items[0].restaurantId) {
                 const fetchedRestaurant = await fetchRestaurant(items[0].restaurantId);
                 setRestaurant(fetchedRestaurant);
-                console.log('Restaurante buscado:', fetchedRestaurant);
             } else {
                 console.log('Nenhum restaurantId encontrado.');
             }

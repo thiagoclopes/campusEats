@@ -58,7 +58,7 @@ const referencePoints: ReferencePoint[] = [
     },
 ];
 
-export default function SelectAdress() {
+export default function SelectAddress() {
     const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredPoints, setFilteredPoints] = useState(referencePoints);
@@ -67,7 +67,6 @@ export default function SelectAdress() {
     const requestLocationPermission = async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
-            console.log('You can use the Location');
             getCurrentLocation();
         } else {
             console.log('Location permission denied');
@@ -79,7 +78,6 @@ export default function SelectAdress() {
             const location = await Location.getCurrentPositionAsync({});
             const { latitude, longitude } = location.coords;
             setCurrentLocation({ latitude, longitude });
-            console.log(latitude, longitude);
         } catch (error) {
             alert(error);
         }
@@ -115,7 +113,6 @@ export default function SelectAdress() {
     ];
 
     const handleSelectPoint = (point: ReferencePoint) => {
-        console.log('Selected Point:', point);
         router.push({
             pathname: '/cart',
             params: { 

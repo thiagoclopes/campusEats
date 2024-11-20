@@ -46,7 +46,6 @@ export default function OrderProgress() {
     const requestLocationPermission = async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
-            console.log('You can use the Location');
             getuserLocation();
         } else {
             console.log('Location permission denied');
@@ -58,7 +57,6 @@ export default function OrderProgress() {
             const location = await Location.getCurrentPositionAsync({});
             const { latitude, longitude } = location.coords;
             setUserLocation({ latitude, longitude });
-            console.log(latitude, longitude);
         } catch (error) {
             alert(error);
         }

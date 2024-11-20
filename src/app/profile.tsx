@@ -21,7 +21,7 @@ const sections = [
         title: 'Endereços',
         description: 'Meus locais',
         icon: 'map-marker',
-        route: '/adress',
+        route: '/address',
     },
     {
         title: 'Ajuda e suporte',

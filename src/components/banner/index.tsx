@@ -8,7 +8,6 @@ export function Banner(){
                 <Pressable 
                     className="w-full h-36 rounded-2xl" 
                     key={1}
-                    onPress={() => console.log("banner 1")}    
                 >
                     <Image
                         source={require("../../assets/banner2.png")}
@@ -18,7 +17,6 @@ export function Banner(){
                 <Pressable 
                     className="w-full h-36 rounded-2xl" 
                     key={2}
-                    onPress={() => console.log("banner 2")}    
                 >
                     <Image
                         source={require("../../assets/banner1.png")}

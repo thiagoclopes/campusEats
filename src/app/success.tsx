@@ -33,7 +33,6 @@ export default function Success() {
         await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {
           courierId: courierId,
       });
-        console.log('ID do entregador atribuído com sucesso!');
 		router.push(`/orderProgress?orderId=${orderId}`);
       } else {
         console.error('Não foi possível atribuir um entregador.');

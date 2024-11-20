@@ -34,7 +34,6 @@ const fetchProduct = async (id: string) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched product data:', data);
         return data;
     } catch (error) {
         console.error('Erro ao buscar produto:', error);
@@ -49,7 +48,6 @@ const fetchRestaurant = async (id: string) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched restaurant data:', data);
         return data;
     } catch (error) {
         console.error('Erro ao buscar restaurante:', error);
