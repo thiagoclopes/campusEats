@@ -2,17 +2,24 @@ import { AntDesign } from "@expo/vector-icons";
 import { Href, router } from "expo-router";
 import { TouchableOpacity, View, Text } from "react-native";
 
+
+
 interface BackArrowProps {
     color: string;
     title?: string;
     route: Href;
+    onClick?: (route: Href) => void;
 }
 
-export default function BackArrow({ color, title, route }: BackArrowProps) {
+export default function BackArrow({ color, title, route, onClick }: BackArrowProps) {
     return (
         <View className="flex-row items-center justify-center px-4 py-4">
             <View className="absolute left-1">
-                <TouchableOpacity onPress={() => router.push(route)}>
+                <TouchableOpacity
+                    onPress={() => {
+                        onClick ? onClick(route) : router.push(route);
+                    }}
+                >
                     <AntDesign name="arrowleft" size={24} color={color} className="p-4" />
                 </TouchableOpacity>
             </View>

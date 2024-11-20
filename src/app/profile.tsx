@@ -45,7 +45,7 @@ export default function Profile() {
             <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
 
             <ScrollView className="flex-1 w-full">
-            <BackArrow color='white' title='Perfil' route='/'/>
+                <BackArrow color='white' title='Perfil' route='/'/>
 
                 <View className="mt-6 w-40 h-40 rounded-2xl bg-slate-500 overflow-hidden z-10 mx-auto">
                     <Image
