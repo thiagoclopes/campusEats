@@ -17,7 +17,7 @@ export default function Orders() {
 					<View className='flex-row items-center justify-between'>
 						<View className='flex-row items-center gap-1'>
 							<Image
-								source={{ uri: 'https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/347767811_626861479483283_5985919623548770224_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=ItgJaXzCNlUQ7kNvgEv9nQU&_nc_gid=93d5f89aa208485686c599e8da591707&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYCs8WpgXBSobmFqs82qb2HzRgvY7kGfBuRXPcjVgwKnNQ&oe=6729B6DF&_nc_sid=7a9f4b' }}
+								source={{ uri: 'https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/347767811_626861479483283_5985919623548770224_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=rnSE3XwWN1AQ7kNvgFXXm_6&_nc_gid=4ec0c8c1eeb44fd0bd2f34c9bff15f25&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYBmYVQ7LAkkQ5LidS1aRowYjZI8FV8IWYYq071Y2Dx_xg&oe=6741E25F&_nc_sid=7a9f4b' }}
 								style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
 							/>
 							<Text className='font-semibold'>A marmitaria • Nº 2029</Text>

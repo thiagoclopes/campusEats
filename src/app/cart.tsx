@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator, Image, StatusBar } from "react-native";
-import { router, useLocalSearchParams, useRouter } from "expo-router";
+import { Href, router, useLocalSearchParams, useRouter } from "expo-router";
 import axios from 'axios';
 import LOCAL_IP from '../../config';
 import BackArrow from "../components/backArrow";
@@ -185,40 +185,37 @@ const Cart = () => {
 		}
     };
 
-    const updateCartItemQuantityDebounced = useCallback(
-        debounce(async (id: string, quantity: number) => {
-            await updateCartItemQuantity(id, quantity);
-        }, 1000),
-        []
-    );
 
-    const increaseQuantity = async (id: string) => {
-        setCartItems((prevCartItems) => {
-            const updatedCartItems = prevCartItems.map(item => {
-                if (item.id === id) {
-                    return { ...item, quantity: item.quantity + 1 };
-                }
-                return item;
-            });
-            const newQuantity = updatedCartItems.find(item => item.id === id)!.quantity;
-            updateCartItemQuantityDebounced(id, newQuantity);
-            return updatedCartItems;
-        });
+    const increaseQuantity = (id: string) => {
+        setCartItems((prevCartItems) =>
+            prevCartItems.map((item) =>
+                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            )
+        );
     };
 
-	const decreaseQuantity = async (id: string) => {
-        setCartItems((prevCartItems) => {
-            const updatedCartItems = prevCartItems.map(item => {
-                if (item.id === id && item.quantity > 1) {
-                    return { ...item, quantity: item.quantity - 1 };
-                }
-                return item;
-            });
-            const newQuantity = updatedCartItems.find(item => item.id === id)!.quantity;
-            updateCartItemQuantityDebounced(id, newQuantity);
-            return updatedCartItems;
-        });
+	const decreaseQuantity = (id: string) => {
+        setCartItems((prevCartItems) =>
+            prevCartItems.map((item) =>
+                item.id === id && item.quantity > 1
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+            )
+        );
     };
+    
+    const handleSaveAndNavigate = async (route: Href) => {
+        try {
+            for (const item of cartItems) {
+                await updateCartItemQuantity(item.id, item.quantity);
+            }
+            router.push(route);
+        } catch (error) {
+            console.error("Erro ao salvar os itens do carrinho:", error);
+            alert("Ocorreu um erro ao salvar o carrinho. Tente novamente.");
+        }
+    };
+
 
 	const totalAmount = cartItems.reduce((acc, item) => {
         const foodItem = foodItems.find(food => food.id === item.foodId);
@@ -234,7 +231,7 @@ const Cart = () => {
     return (
 		<View className='w-full flex flex-col bg-red-main flex-1'>
 			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-			<BackArrow color='white' route='/'/>
+			<BackArrow color='white' route='/'  onClick={handleSaveAndNavigate}/>
 			<View className="flex flex-row items-center justify-start gap-8 mt-8 p-8">
 				<Image
 					source={{ uri: restaurant?.logo }} 
@@ -242,7 +239,7 @@ const Cart = () => {
 				/>
 				<View className="flex flex-col gap-1 pb-2">
 					<Text className="text-2xl font-semibold text-white">{restaurant ? `${restaurant.name}` : 'Nenhum restaurante selecionado.'}</Text>
-					<TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => router.push('/')}>
+					<TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => handleSaveAndNavigate('/')}>
 						<Text className="font-medium text-black text-center p-2">Adicionar mais itens +</Text>
 					</TouchableOpacity>
 				</View>
@@ -292,7 +289,7 @@ const Cart = () => {
 					<View className="w-96 mt-5">
                         <TouchableOpacity
                             className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
-                            onPress={() => router.push('/selectAddress')}>
+                            onPress={() => handleSaveAndNavigate('/selectAddress')}>
                             <Feather name="map-pin" size={14} color="#7D7D7D" />
                             {selectedAddress ? (
                                 <Text className="text-black-gray-500">{selectedAddress}</Text>
