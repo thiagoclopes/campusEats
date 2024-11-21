@@ -6,10 +6,10 @@ import { Footer } from '../components/footer';
 
 const sections = [
     {
-        title: 'Pagamento',
+        title: 'Meus cartões',
         description: 'Adicione um novo método de pagamento',
         icon: 'credit-card',
-        route: '/payment', 
+        route: '/cards', 
     },
     {
         title: 'Favoritos',

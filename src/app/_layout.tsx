@@ -8,7 +8,7 @@ const statusBarHeight = Constants.statusBarHeight
 export default function RootLayout() {
   
   return (
-    <View className="flex flex-1 h-full">
+    <View className="flex flex-1 h-full" style={{marginTop: statusBarHeight}}>
       <Slot/>
     </View>
   )

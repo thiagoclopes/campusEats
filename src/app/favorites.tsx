@@ -6,7 +6,7 @@ export default function Favorites() {
   return (
   <View className='flex-1'>
     <View className='flex-1'>
-      <BackArrow color='black' title='Favorites' route='/profile'/>
+      <BackArrow color='black' title='Favoritos' route='/profile'/>
     </View>
     <Footer/>
   </View>);
