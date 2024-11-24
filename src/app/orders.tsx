@@ -1,62 +1,196 @@
-import { Text, TouchableOpacity, View, StyleSheet, Image  } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { 
+  Text, 
+  TouchableOpacity, 
+  View, 
+  StyleSheet, 
+  Image, 
+  FlatList, 
+  ActivityIndicator 
+} from 'react-native';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
 import { Entypo, FontAwesome5 } from '@expo/vector-icons';
+import axios from 'axios';
+import LOCAL_IP from '@/config';
+
+interface CartItem {
+  id: string;
+  foodId: string;
+  restaurantId: string;
+  quantity: number;
+  price: number;
+}
+
+interface Order {
+  id: string;
+  items: CartItem[];
+  address: string;
+  latitude: number;
+  longitude: number;
+  status: 'Pendente' | 'Entregue';
+  courierId: string;
+}
+
+interface Restaurant {
+    id: string;
+    name: string;
+    logo: string;
+}
 
 export default function Orders() {
+  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
+  const [deliveredOrders, setDeliveredOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [restaurants, setRestaurants] = useState<Map<string, Restaurant>>(new Map());
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const response = await axios.get<Order[]>(`${LOCAL_IP}/orders`);
+        const allOrders = response.data;
+
+        setPendingOrders(allOrders.filter((order) => order.status === 'Pendente'));
+        setDeliveredOrders(allOrders.filter((order) => order.status === 'Entregue'));
+
+        // Buscar restaurantes
+        const restaurantIds = new Set(allOrders.flatMap((order) => order.items.map((item) => item.restaurantId)));
+        const restaurantRequests = Array.from(restaurantIds).map((restaurantId) =>
+          axios.get<Restaurant>(`${LOCAL_IP}/restaurants/${restaurantId}`)
+        );
+
+        const restaurantResponses = await Promise.all(restaurantRequests);
+        const restaurantMap = new Map<string, Restaurant>();
+        restaurantResponses.forEach((response) => {
+          const restaurant = response.data;
+          restaurantMap.set(restaurant.id, restaurant);
+        });
+
+        setRestaurants(restaurantMap);
+      } catch (error) {
+        console.error('Erro ao buscar pedidos:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#000" />
+        <Text>Carregando pedidos...</Text>
+      </View>
+    );
+  }
+
   return (
-    <View className='flex-1'>
-		<View className='flex-1'>
-			<BackArrow color='black' title='Meus pedidos' route='/'/>
-			<View className='flex-1 mx-8 mt-4'>
-				<View className='flex-row gap-4 items-center mb-6'>
-					<FontAwesome5 name="history" size={20} color="black" />
-					<Text className='text-lg font-semibold'>Histórico de Pedidos</Text>
-				</View>
-				<View className='bg-white px-2 py-6' style={styles.shadowContainer}>
-					<View className='flex-row items-center justify-between'>
-						<View className='flex-row items-center gap-1'>
-							<Image
-								source={{ uri: 'https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/347767811_626861479483283_5985919623548770224_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=rnSE3XwWN1AQ7kNvgFXXm_6&_nc_gid=4ec0c8c1eeb44fd0bd2f34c9bff15f25&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYBmYVQ7LAkkQ5LidS1aRowYjZI8FV8IWYYq071Y2Dx_xg&oe=6741E25F&_nc_sid=7a9f4b' }}
-								style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
-							/>
-							<Text className='font-semibold'>A marmitaria • Nº 2029</Text>
-						</View>
-						<Entypo name="chevron-right" size={24} color="black" className='mr-4'/>
-					</View>
-					<View className="w-full h-[1px] mt-4 mb-6 bg-gray-line" />
-					<View className='flex-row px-6 justify-between'>
-						<View className='flex-col'>
-							<View className='flex-row gap-2'>
-								<Text className='bg-slate-100 px-1 rounded-sm'>1</Text>
-								<Text>Hambúrguer</Text>
-							</View>
-							<Text>+1 item</Text>
-						</View>
-						<View className='flex items-center justify-center bg-red-main rounded-xl px-4'>
-							<Text className='text-white'>Pedir novamente</Text>
-						</View>
-					</View>
-				
-				</View>
-				
+    <View style={styles.container}>
+      <BackArrow color="black" title="Meus pedidos" route="/" />
+      <View style={styles.content}>
+        {pendingOrders.length > 0 && (
+          <View>
+			<View className="-mb-8 w-36 h-36 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
+				<Image
+					source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
+					style={{ width: '100%', height: '100%' }}
+				/>
 			</View>
-		</View>
-		<Footer/>
+			<View className='pt-10' style={styles.card}>
+				<View className='flex-row items-center justify-center'>
+					<Entypo name="dot-single" size={24} color="red" />
+					<Text className='font-semibold text-lg'>Pedido em preparação</Text>
+				</View>
+				<FlatList
+				data={pendingOrders}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => (
+					<View >
+					<Text>Pedido ID: {item.id}</Text>
+					<FlatList
+						data={item.items}
+						keyExtractor={(cartItem) => cartItem.id}
+						renderItem={({ item: cartItem }) => (
+						<Text>
+							{cartItem.quantity}x Produto: {cartItem.foodId}
+						</Text>
+						)}
+					/>
+					</View>
+				)}
+				ListEmptyComponent={
+					<Text>Nenhum pedido pendente encontrado.</Text>
+				}
+				/>
+			</View>
+          </View>
+        )}
+
+        <Text style={{ marginTop: 20 }}>Histórico de Pedidos</Text>
+        <FlatList
+          data={deliveredOrders}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View className="bg-white px-2 py-6" style={styles.card}>
+              {item.items.map((cartItem) => {
+                const restaurant = restaurants.get(cartItem.restaurantId);
+                return (
+                  <View key={cartItem.id} className='flex-row items-center justify-between'>
+                    <View className='flex-row items-center gap-1'>
+                      {restaurant && (
+                        <Image
+                          source={{ uri: restaurant.logo }}
+                          style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
+                        />
+                      )}
+                      <Text className='font-semibold'>{restaurant?.name} • Nº {item.id}</Text>
+                    </View>
+                    <Entypo name="chevron-right" size={24} color="black" className='mr-4'/>
+                  </View>
+                );
+              })}
+              <View className="w-full h-[1px] mt-4 mb-6 bg-gray-line" />
+              <View className='flex-row px-6 justify-between'>
+                <View className='flex-col'>
+                  <View className='flex-row gap-2'>
+                    <Text className='bg-slate-100 px-1 rounded-sm'>1</Text>
+                    <Text>Hambúrguer</Text>
+                  </View>
+                  <Text>+1 item</Text>
+                </View>
+                <View className='flex items-center justify-center bg-red-main rounded-xl px-4'>
+                  <Text className='text-white'>Pedir novamente</Text>
+                </View>
+              </View>
+            </View>
+          )}
+          ListEmptyComponent={
+            <Text>Nenhum pedido entregue encontrado.</Text>
+          }
+        />
+      </View>
+      <Footer />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-	shadowContainer: {
-	  
-	  // Sombra para Android
-	  elevation: 5,
-  
-	  // Sombra para iOS
-	  shadowColor: '#000',
-	  shadowOffset: { width: 0, height: 2 },
-	  shadowOpacity: 0.25,
-	  shadowRadius: 4,
-	},
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  card: {
+    backgroundColor: '#f9f9f9',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 8,
+    elevation: 2,
+  },
+});

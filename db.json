@@ -117,7 +117,7 @@
       "subtitle": "Instituto Metrópole Digital (IMD)"
     }
   ],
-  "cards":[
+  "cards": [
     {
       "id": "1",
       "method": "Crédito",
@@ -210,5 +210,38 @@
     }
   ],
   "cart": [],
-  "orders": []
+  "orders": [
+    {
+      "id": "574e",
+      "items": [
+        {
+          "id": "7fe7",
+          "foodId": "2",
+          "restaurantId": "2",
+          "quantity": 3
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Pendente",
+      "courierId": "321"
+    },
+    {
+      "id": "574e",
+      "items": [
+        {
+          "id": "7hes",
+          "foodId": "2",
+          "restaurantId": "2",
+          "quantity": 3
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Entregue",
+      "courierId": "321"
+    }
+  ]
 }
