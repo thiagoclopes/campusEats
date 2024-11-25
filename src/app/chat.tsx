@@ -85,7 +85,9 @@ export default function Chat({ color = "black" }) {
                         />
                     )}
                     <View>
-                        <Text className="font-semibold text-black">{restaurant?.name || "Carregando..."}</Text>
+                        <TouchableOpacity onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}>
+                            <Text className="font-semibold text-black">{restaurant?.name || "Carregando..."}</Text>
+                        </TouchableOpacity>
                         <Text className="text-sm font-semibold text-gray">Loja</Text>
                     </View>
                 </View>

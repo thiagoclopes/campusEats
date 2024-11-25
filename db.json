@@ -117,7 +117,7 @@
       "subtitle": "Instituto Metrópole Digital (IMD)"
     }
   ],
-  "cards":[
+  "cards": [
     {
       "id": "1",
       "method": "Crédito",
@@ -189,6 +189,13 @@
       "text": "Teste",
       "timestamp": "2024-11-02T15:40:53.056Z",
       "restaurantId": "2"
+    },
+    {
+      "id": "6",
+      "sender": "user",
+      "text": "Opa\n",
+      "timestamp": "2024-11-23T12:07:22.004Z",
+      "restaurantId": "1"
     }
   ],
   "delivery_persons": [
@@ -209,6 +216,30 @@
       "availability": true
     }
   ],
-  "cart": [],
-  "orders": []
+  "cart": [
+    {
+      "id": "bfa8",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": "9a7a",
+      "items": [
+        {
+          "id": "bfa8",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente",
+      "courierId": "123"
+    }
+  ]
 }
