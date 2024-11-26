@@ -219,86 +219,33 @@
   "cart": [],
   "orders": [
     {
-      "id": "2741",
+      "id": "574e",
       "items": [
         {
-          "id": "8b0e",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 2
+          "id": "7fe7",
+          "foodId": "2",
+          "restaurantId": "2",
+          "quantity": 3
         }
       ],
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
-      "status": "Pendente"
+      "status": "Pendente",
+      "courierId": "321"
     },
     {
-      "id": "19fb",
+      "id": "c7b9",
       "items": [
         {
-          "id": "765f",
+          "id": "2734",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Pendente"
-    },
-    {
-      "id": "1fe7",
-      "items": [
+        },
         {
-          "id": "9773",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Pendente"
-    },
-    {
-      "id": "4fb4",
-      "items": [
-        {
-          "id": "9773",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Pendente"
-    },
-    {
-      "id": "9a7a",
-      "items": [
-        {
-          "id": "bfa8",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Pendente"
-    },
-    {
-      "id": "0b6a",
-      "items": [
-        {
-          "id": "7510",
-          "foodId": "1",
+          "id": "2f82",
+          "foodId": "5",
           "restaurantId": "1",
           "quantity": 2
         }
@@ -306,97 +253,8 @@
       "address": "Setor II",
       "latitude": -5.840452832201686,
       "longitude": -35.19724725069943,
-      "status": "Pendente"
-    },
-    {
-      "id": "e857",
-      "items": [
-        {
-          "id": "7510",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 2
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Pendente"
-    },
-    {
-      "id": "1721",
-      "items": [
-        {
-          "id": "7510",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 2
-        }
-      ],
-      "address": "Setor II",
-      "latitude": -5.840452832201686,
-      "longitude": -35.19724725069943,
-      "status": "Pendente"
-    },
-    {
-      "id": "131c",
-      "items": [
-        {
-          "id": "95bc",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor II",
-      "latitude": -5.840452832201686,
-      "longitude": -35.19724725069943,
-      "status": "Pendente"
-    },
-    {
-      "id": "2a40",
-      "items": [
-        {
-          "id": "4438",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Escola de Ciência e Tecnologia (ECT)",
-      "latitude": -5.843395493045956,
-      "longitude": -35.199395317946305,
-      "status": "Pendente"
-    },
-    {
-      "id": "0a9e",
-      "items": [
-        {
-          "id": "2c87",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Escola de Ciência e Tecnologia (ECT)",
-      "latitude": -5.843395493045956,
-      "longitude": -35.199395317946305,
-      "status": "Pendente"
-    },
-    {
-      "id": "bb0e",
-      "items": [
-        {
-          "id": "8d8d",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor I",
-      "latitude": -5.8374872488393645,
-      "longitude": -35.199658102831926,
-      "status": "Pendente"
+      "status": "Entregue",
+      "courierId": "321"
     }
   ]
 }

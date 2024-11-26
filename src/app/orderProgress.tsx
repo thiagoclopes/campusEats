@@ -137,7 +137,7 @@ export default function OrderProgress() {
                 className='absolute z-10 px-5 py-2 ml-2 mt-4 bg-red-main rounded-2xl'
                 onPress={() => {
                     if (order) {
-                        handleOrderReceived(order.id);
+                        //handleOrderReceived(order.id);
                     }
                 }}
             >
