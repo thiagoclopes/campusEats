@@ -1,6 +1,6 @@
 import BackArrow from '../components/backArrow';
 import { useEffect, useState } from 'react';
-import { FlatList, Text, View, Image } from 'react-native';
+import { FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
@@ -69,7 +69,9 @@ export default function Notifications() {
                   style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
                 />
                 <View>
-                  <Text className="text-black font-medium text-lg ml-4">{item.restaurantName}</Text>
+                  <TouchableOpacity onPress={() => router.push(`/restaurant_profile?id=${item.restaurantId}`)}>
+                    <Text className="text-black font-medium text-lg ml-4">{item.restaurantName}</Text>
+                  </TouchableOpacity>
                   <Text className="text-black-gray font-regular text-md ml-4">{item.message}</Text>
                 </View>
               </View>

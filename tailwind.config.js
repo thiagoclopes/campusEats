@@ -17,6 +17,7 @@ module.exports = {
           'white-85': 'rgba(245, 245, 245, 0.8)',
           'off-white': '#FAF9F6',
           'button-press': '#3C2F2F'
+          'gray-300': '#6A6A6A'
         },
         padding: {
           '2.5': '0.625rem',

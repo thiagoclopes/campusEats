@@ -50,7 +50,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products() {
+export function Products({ restaurantId }: { restaurantId?: string }) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -64,10 +64,15 @@ export function Products() {
             setError(null);
             try {
                 const fetchedItems = await fetchItems();
-                setItems(fetchedItems);
+                // Filtrar produtos pelo restaurantId, caso a prop seja fornecida
+                const filteredItems = restaurantId
+                    ? fetchedItems.filter((item: FoodItem) => item.restaurantId === restaurantId)
+                    : fetchedItems;
+
+                setItems(filteredItems);
 
                 const names: { [key: string]: string } = {};
-                for (const item of fetchedItems) {
+                for (const item of filteredItems) {
                     if (!names[item.restaurantId]) {
                         const name = await fetchRestaurant(item.restaurantId);
                         names[item.restaurantId] = name || "Restaurante Desconhecido";
@@ -81,7 +86,7 @@ export function Products() {
             }
         };
         getData();
-    }, []);
+    }, [restaurantId]);
 
     const handleCategorySelect = (category: string) => {
         setSelectedCategory(category);

@@ -26,6 +26,8 @@
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
       ],
       "package": "com.thiagolopes.campusEatsapp"
@@ -49,6 +51,13 @@
       "eas": {
         "projectId": "feeec7ae-5bd1-4eb8-bb9a-b109fbfde70d"
       }
+    },
+    "owner": "thiagolopes",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/feeec7ae-5bd1-4eb8-bb9a-b109fbfde70d"
     }
   }
 }
