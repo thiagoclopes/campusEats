@@ -6,6 +6,7 @@ import BackArrow from "../components/backArrow";
 import { useRouter } from "expo-router";
 import LOCAL_IP from '../../config';
 import axios from "axios";
+import RestaurantProfile from "./restaurant_profile";
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -133,7 +134,11 @@ export default function Product() {
                     />
                     <View className='flex w-full p-4 flex-row justify-between mb-3'>
                         <View>
-                            <Text className='text-xl text-gray font-semibold'>{restaurant?.name}</Text>
+                        <TouchableOpacity
+                            onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}
+                        >
+                            <Text className="text-xl text-gray font-semibold underline">{restaurant?.name}</Text>
+                        </TouchableOpacity>
                             <Text className='text-3xl font-semibold'>{product.name}</Text>
                             <Text className='text-lg mt-1 text-black-gray'>* 4.9 | 26 mins</Text>
                         </View>

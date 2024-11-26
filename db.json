@@ -189,6 +189,13 @@
       "text": "Teste",
       "timestamp": "2024-11-02T15:40:53.056Z",
       "restaurantId": "2"
+    },
+    {
+      "id": "6",
+      "sender": "user",
+      "text": "Opa\n",
+      "timestamp": "2024-11-23T12:07:22.004Z",
+      "restaurantId": "1"
     }
   ],
   "delivery_persons": [
