@@ -382,8 +382,21 @@
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
       "status": "Pendente"
-      "status": "Pendente",
-      "courierId": "123"
+    },
+    {
+      "id": "bb0e",
+      "items": [
+        {
+          "id": "8d8d",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor I",
+      "latitude": -5.8374872488393645,
+      "longitude": -35.199658102831926,
+      "status": "Pendente"
     }
   ]
 }
