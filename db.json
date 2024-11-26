@@ -216,14 +216,7 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "bfa8",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
       "id": "9a7a",
