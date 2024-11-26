@@ -7,6 +7,7 @@ import BackArrow from "../components/backArrow";
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { debounce } from 'lodash';
+import PaymentDetails from "../components/paymentDetails";
 
 interface CartItem {
     id: string;
@@ -159,7 +160,19 @@ const Cart = () => {
             const orderId = await createOrder(cartItems, selectedAddress, latitude, longitude);
             
             if (orderId) {
-                router.push(`/orderConfirmation?orderId=${orderId}`);
+                const subtotal = totalAmount; // Total calculado no carrinho
+                const deliveryFee = 3.75; // Valor fixo da entrega
+                const deliveryTime = "15 - 30mins";
+
+                router.push({
+                    pathname: `/orderConfirmation`,
+                    params: {
+                        orderId,
+                        subtotal,
+                        deliveryFee,
+                        deliveryTime,
+                    },
+                });
             } else {
                 console.log("Erro ao criar pedido");
             }
@@ -294,24 +307,11 @@ const Cart = () => {
                             )}
                         </TouchableOpacity>
                         <Text className="font-semibold mb-5 text-xl">Valores</Text>
-                        <View className="flex flex-col gap-3 w-full px-4">
-                            <View className="flex flex-row justify-between ">
-                                <Text>Subtotal</Text>
-                                <Text>R$ {totalAmount.toFixed(2).replace('.', ',')}</Text>
-                            </View>
-                            <View className="flex flex-row justify-between ">
-                                <Text>Taxa de entrega</Text>
-                                <Text>R$ 3,75</Text>
-                            </View>
-                            <View className="flex flex-row justify-between mt-5">
-                                <Text className="font-bold">Total</Text>
-                                <Text className="font-bold">R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
-                            </View>
-                            <View className="flex flex-row justify-between mt-5">
-                                <Text className="font-bold">Tempo de entrega: </Text>
-                                <Text className="font-bold text-sm">15 - 30mins</Text>
-                            </View>
-                        </View>
+                        <PaymentDetails 
+    subtotal={totalAmount} 
+    deliveryFee={3.75} 
+    deliveryTime="15 - 30mins" 
+/>
                     </View>
 				</ScrollView>
 			</View>
