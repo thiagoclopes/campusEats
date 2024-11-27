@@ -1,7 +1,8 @@
-import { Text, View, ScrollView, Image, ActivityIndicator, TouchableOpacity, TextInput, StatusBar } from "react-native";
+import { Text, View, ScrollView, Image, ActivityIndicator, TouchableOpacity, TextInput, StatusBar, Platform, KeyboardAvoidingView } from "react-native";
 import Constants from 'expo-constants'
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import {  Entypo } from '@expo/vector-icons'
 import BackArrow from "../components/backArrow";
 import { useRouter } from "expo-router";
 import LOCAL_IP from '../../config';
@@ -119,6 +120,10 @@ export default function Product() {
 
     return (
         <View className="flex flex-1">
+            <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1"
+    >
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <BackArrow color='black' route='/'/>
             <ScrollView 
@@ -126,47 +131,54 @@ export default function Product() {
                 className="bg-white"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
             >
                 <View className="w-full">
                     <Image
                         source={{ uri: product.url }} 
                         style={{ width: '100%', height: 280, resizeMode: 'cover'}}
                     />
-                    <View className='flex w-full p-4 flex-row justify-between mb-3'>
-                        <View>
-                        <TouchableOpacity
-                            onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}
-                        >
-                            <Text className="text-xl text-gray font-semibold underline">{restaurant?.name}</Text>
-                        </TouchableOpacity>
-                            <Text className='text-3xl font-semibold'>{product.name}</Text>
-                            <Text className='text-lg mt-1 text-black-gray'>* 4.9 | 26 mins</Text>
-                        </View>
-    
-                        <View className='flex flex-row h-24 items-center'>
-                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center' onPress={decrementQuantity}>
-                                <Text className='text-white text-2xl font-semibold'>-</Text>
+
+                    <View className="h-full mt-6 rounded-t-3xl px-4 bg-white shadow-lg py-4">
+                        <View className='flex w-full p-4 flex-row justify-between'>
+                            <View>
+                            <TouchableOpacity
+                                onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}
+                            >
+                                <Text className="text-lg text-gray font-semibold">{restaurant?.name}</Text>
                             </TouchableOpacity>
-                            <Text className='mx-5 text-2xl'>{quantity}</Text>
-                            <TouchableOpacity className='w-12 h-12 rounded-xl bg-red-main flex items-center justify-center' onPress={incrementQuantity}>
-                                <Text className='text-white text-2xl font-semibold'>+</Text>
-                            </TouchableOpacity>
+                                <Text className='text-2xl font-semibold'>{product.name}</Text>
+                                <Text className='text-md mt-1 text-black-gray'>
+                                    <Entypo name="star" size={16} color="#FFD700" className="mr-1" />
+                                    4.9 | 26 mins
+                                </Text>
+                            </View>
+        
+                            <View className='flex flex-row h-24 items-center'>
+                                <TouchableOpacity className='w-8 h-8 rounded-xl bg-red-main flex items-center justify-center' onPress={decrementQuantity}>
+                                    <Text className='text-white text-xl font-semibold'>-</Text>
+                                </TouchableOpacity>
+                                <Text className='mx-5 text-xl'>{quantity}</Text>
+                                <TouchableOpacity className='w-8 h-8 rounded-xl bg-red-main flex items-center justify-center' onPress={incrementQuantity}>
+                                    <Text className='text-white text-xl font-semibold'>+</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-    
-                    <View className='px-4'>
-                        <View className='mx-auto flex items-center'>
-                            <Text className='text-black-gray text-lg'>
-                                O {product.name} é uma deliciosa combinação de ingredientes frescos e saborosos, proporcionando uma experiência irresistível a cada mordida.
-                            </Text>
-                        </View>
-    
-                        <View className='mt-2'>
-                            <Text className='text-xl font-semibold'>Adicionar observação</Text>
-                            <TextInput
-                                className='border border-black-400 rounded-lg p-2 mb-2'
-                                placeholder="Ex: Tirar a cebola"
-                            />
+        
+                        <View className='px-4'>
+                            <View className='mx-auto flex items-center'>
+                                <Text className='text-black-gray text-lg'>
+                                    O {product.name} é uma deliciosa combinação de ingredientes frescos e saborosos, proporcionando uma experiência irresistível a cada mordida.
+                                </Text>
+                            </View>
+        
+                            <View className='mt-6'>
+                                <Text className='text-lg font-semibold mb-2'>Adicionar observação:</Text>
+                                <TextInput
+                                    className='border border-gray-300 rounded-lg p-4 mb-2'
+                                    placeholder="Ex: Tirar a cebola"
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -190,6 +202,7 @@ export default function Product() {
                     <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
                 </TouchableOpacity>
             </View>
+            </KeyboardAvoidingView>
         </View>
     );
 }
