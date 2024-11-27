@@ -3,22 +3,14 @@
     {
       "id": "1",
       "name": "Nordestino",
-<<<<<<< HEAD
-      "logo": "https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/74892118_745468709301582_6308768175651553280_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=l5ML4gGypYAQ7kNvgHKFLGF&_nc_gid=27bc1dcdd51644eb912663d0b23951d1&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYCP9oD4_jradTpF9bryfkP2ULpZnWXEJMuJtSrnV0H8tg&oe=674C2573&_nc_sid=7a9f4b",
-=======
       "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmXP9E5TmDbc2QCLXxGZWTKtXPMaihhQt16PhTmPMRK6wk",
->>>>>>> e688789c14580d8ce2c14eecd95ea607b00bae02
       "rating": "4.8",
       "category": "Brasileira"
     },
     {
       "id": "2",
       "name": "A marmitaria",
-<<<<<<< HEAD
-      "logo": "https://instagram.fnat16-1.fna.fbcdn.net/v/t51.2885-19/347767811_626861479483283_5985919623548770224_n.jpg?_nc_ht=instagram.fnat16-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=6IVSscsv9SMQ7kNvgGImk03&_nc_gid=32f71c2f84bb4e8da97fd9fe4eefb8e2&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AYDeNPSnkPy8-3SyIdtDu9CmVnYSLMb346D7rDN_u7XWEA&oe=674C361F&_nc_sid=7a9f4b",
-=======
       "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmTUfV4m3UbFyfuwXHsd2ez6hAaLYfHzDhfXmSaw8Ckokz",
->>>>>>> e688789c14580d8ce2c14eecd95ea607b00bae02
       "rating": "4.9",
       "category": "Variada"
     }
