@@ -32,7 +32,7 @@
   "products": [
     {
       "id": "1",
-      "name": "Combo 1",
+      "name": "Duplo Burguer",
       "restaurantId": "1",
       "rating": "4.9",
       "isFavorite": true,
@@ -42,7 +42,7 @@
     },
     {
       "id": "2",
-      "name": "Combo 2",
+      "name": "Cheddar McMelt",
       "restaurantId": "2",
       "rating": "5.0",
       "isFavorite": true,
