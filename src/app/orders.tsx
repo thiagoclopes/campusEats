@@ -6,7 +6,9 @@ import {
   StyleSheet, 
   Image, 
   FlatList, 
-  ActivityIndicator 
+  ActivityIndicator, 
+  ScrollView,
+  Pressable
 } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
@@ -108,112 +110,174 @@ export default function Orders() {
       </View>
     );
   }
-
   return (
     <View style={styles.container}>
       	<BackArrow color="black" title="Meus pedidos" route="/" />
-      	<View style={styles.content}>
-	    <FlatList
-			data={pendingOrders}
-			keyExtractor={(item) => item.id.toString()}
-			renderItem={({ item }) => (
-				<View className='bg-slate-300'>
-					<View className="-mb-8 w-36 h-36 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
-						<Image
-							source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
-							style={{ width: '100%', height: '100%' }}
-						/>
-					</View>
-					<Text className='pt-8'>Pedido ID: {item.id}</Text>
-					<FlatList
-						data={item.items}
-						keyExtractor={(orderItem) => orderItem.id.toString()}
-						renderItem={({ item: orderItem }) => {
-							// Obtenha o restaurante usando o restaurantId
-							const restaurant = restaurants.get(orderItem.restaurantId);
-							return (
-								<Text>
-								{orderItem.quantity}x Produto: {orderItem.foodId}
-								{restaurant && (
-									<Text> - Restaurante: {restaurant.name}</Text> // Exibe o nome do restaurante
-								)}
-								</Text>
-							);
-						}}
-					/>
-				</View>
-			)}
-			ListEmptyComponent={
-				<Text>Nenhum pedido pendente encontrado.</Text>
-			}
-	 	/>
-        <Text style={{ marginTop: 20 }}>Histórico de Pedidos</Text>
-        <FlatList
-			data={deliveredOrders}
-			keyExtractor={(item) => item.id.toString()}
-			renderItem={({ item }) => {
+      	<ScrollView className='flex-1 mt-4'>
+		  	<FlatList
+				data={pendingOrders}
+				keyExtractor={(item) => item.id.toString()}
+				scrollEnabled={false}
+				renderItem={({ item }) => {
 
-				const total = item.items.reduce((sum, orderItem) => {
-				const foodItem = foodItems.get(orderItem.foodId);
-				if (foodItem) {
-					return sum + (foodItem.price * orderItem.quantity);
-				}
-				return sum;
-				}, 0);
+					const total = item.items.reduce((sum, orderItem) => {
+					const foodItem = foodItems.get(orderItem.foodId);
+					if (foodItem) {
+						return sum + (foodItem.price * orderItem.quantity);
+					}
+					return sum;
+					}, 0);
 
-				return (
-					<View className="bg-white px-4 py-6 mb-4 rounded-lg shadow-md">
-						{item.items.length > 0 && (
-							<View className="flex-row items-center justify-between mb-4">
-								<View className="flex-row items-center gap-2">
-								{restaurants.get(item.items[0].restaurantId) && (
+					return (
+						<View className='w-fit px-4 mb-4'>
+							{restaurants.get(item.items[0].restaurantId) && (
+								<View className="-mb-14 w-28 h-28 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
 									<Image
-									source={{
-										uri: restaurants.get(item.items[0].restaurantId)?.logo,
-									}}
-									style={{ width: 50, height: 50, borderRadius: 25 }}
+										source={{
+											uri: restaurants.get(item.items[0].restaurantId)?.logo,
+										}}
+										style={{ width: '100%', height: '100%' }}
 									/>
+								</View>
+							)}
+							<View
+								className="bg-white rounded-xl p-3"
+								style={{
+									shadowColor: '#000',
+									shadowOffset: { width: 0, height: 2 },
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+								}}
+                            >
+								{item.items.length > 0 && (
+									<View className='mt-16'>
+										<View className='flex-row justify-center items-center w-fit mx-auto'>
+											<Entypo name="dot-single" size={24} color="red" />
+											<Text className='font-semibold text-base'>Pedido em preparação • Nº {item.id}</Text>
+										</View>
+									</View>
 								)}
-								<Text className="font-semibold text-lg">
-									{restaurants.get(item.items[0].restaurantId)?.name} • Pedido Nº {item.id}
-								</Text>
+
+
+								<View className="flex flex-row justify-between border-b-2 mt-4 mb-2">
+									<Text className="font-bold text-sm w-1/5 text-left">ITEM</Text>
+									<Text className="font-bold text-sm w-3/5 text-left">DESCRIÇÃO</Text>
+									<Text className="font-bold text-sm w-1/5 text-right">VALOR</Text>
 								</View>
-								<Entypo name="chevron-right" size={24} color="black" />
+								<View className="w-full h-[1px] bg-gray-line mb-4" />
+								{item.items.map((orderItem) => {
+									const foodItem = foodItems.get(orderItem.foodId);
+									return (
+									<View key={orderItem.id} className="flex flex-row justify-between items-center py-2">
+										<View className="flex-row items-center w-1/5">
+											<Text className="text-sm">{orderItem.quantity}x</Text>
+										</View>
+										<View className="w-3/5 pl-4">
+											{foodItem && <Text className="text-sm">{foodItem.name}</Text>}
+										</View>
+										<Text className="text-sm w-1/5 text-right">
+											R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
+										</Text>
+									</View>
+									);
+								})}
+								<View className="w-full h-[1px] bg-gray-line mb-4" />
+								<View className="flex-row justify-between items-center my-6">
+									<Text className="font-semibold text-base">
+										Total: R$ {total.toFixed(2)}
+									</Text>
+									
+								</View>
+								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl">
+									<Text className="text-white text-center">Acompanhar pedido</Text>
+								</TouchableOpacity>
 							</View>
-						)}
+						</View>
+					);
+				}}
+			/>
+			<View className='flex-row items-center px-4 py-4 gap-2'>
+				<FontAwesome5 name="history" size={24} color="black"/>
+				<Text className='text-lg font-semibold'>Histórico de Pedidos</Text>
+			</View>
+			<FlatList
+				data={deliveredOrders}
+				keyExtractor={(item) => item.id.toString()}
+				scrollEnabled={false}
+				renderItem={({ item }) => {
 
-						<View className="w-full h-[1px] bg-gray-line mb-4" />
+					const total = item.items.reduce((sum, orderItem) => {
+					const foodItem = foodItems.get(orderItem.foodId);
+					if (foodItem) {
+						return sum + (foodItem.price * orderItem.quantity);
+					}
+					return sum;
+					}, 0);
 
-						{item.items.map((orderItem) => {
-							const foodItem = foodItems.get(orderItem.foodId);
-							return (
-								<View key={orderItem.id} className="flex-row justify-between items-center mb-2">
-								<View className="flex-row gap-2">
-									<Text className="bg-gray-200 px-2 py-1 rounded text-sm">{orderItem.quantity}x</Text>
-									{foodItem && <Text className="text-gray-700">{foodItem.name}</Text>}
-								</View>
-								<Text className="text-gray-500">
-									R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
+					return (
+						<View className='w-full px-4'>
+							<View className="bg-white px-4 py-6 mb-4 rounded-xl shadow-md"
+								style={{
+									shadowColor: '#000',
+									shadowOffset: { width: 0, height: 2 },
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+								}}
+							>
+								{item.items.length > 0 && (
+									<View className="flex-row items-center justify-between mb-4">
+										<View className="flex-row items-center gap-2">
+											{restaurants.get(item.items[0].restaurantId) && (
+												<Image
+												source={{
+													uri: restaurants.get(item.items[0].restaurantId)?.logo,
+												}}
+												style={{ width: 50, height: 50, borderRadius: 25 }}
+												/>
+											)}
+											<Text className="font-semibold text-lg">
+												{restaurants.get(item.items[0].restaurantId)?.name} • Pedido Nº {item.id}
+											</Text>
+										</View>
+										<Entypo name="chevron-right" size={24} color="black" />
+									</View>
+								)}
+
+								<View className="w-full h-[1px] bg-gray-line mb-4" />
+
+								{item.items.map((orderItem) => {
+									const foodItem = foodItems.get(orderItem.foodId);
+									return (
+										<View key={orderItem.id} className="flex-row justify-between items-center mb-2">
+										<View className="flex-row gap-2 items-center justify-center">
+											<Text className="bg-gray-200 px-2 py-1 rounded text-sm">{orderItem.quantity}x</Text>
+											{foodItem && <Text className="text-gray-700">{foodItem.name}</Text>}
+										</View>
+										<Text className="text-gray-500">
+											R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
+										</Text>
+										</View>
+									);
+								})}
+
+								<View className="flex-row justify-between items-center mt-6">
+								<Text className="font-semibold text-lg">
+									Total: R$ {total.toFixed(2)}
 								</Text>
+								<TouchableOpacity className="bg-red-main px-4 py-2 rounded-xl">
+									<Text className="text-white">Pedir novamente</Text>
+								</TouchableOpacity>
 								</View>
-							);
-						})}
-
-						<View className="flex-row justify-between items-center mt-6">
-						<Text className="font-semibold text-lg">
-							Total: R$ {total.toFixed(2)}
-						</Text>
-						<View className="bg-red-main px-4 py-2 rounded-xl">
-							<Text className="text-white">Pedir novamente</Text>
+							</View>
 						</View>
-						</View>
-					</View>
-				);
-			}}
-			ListEmptyComponent={<Text>Nenhum pedido entregue encontrado.</Text>}
-		/>
+					);
+				}}
+				ListEmptyComponent={<Text>Nenhum pedido entregue encontrado.</Text>}
+			/>
 
-      </View>
+      	</ScrollView>
       <Footer />
     </View>
   );
@@ -223,17 +287,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-    marginTop: 16,
-  },
-  card: {
-    backgroundColor: '#f9f9f9',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-    elevation: 2,
   },
 });
