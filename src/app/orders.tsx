@@ -15,6 +15,7 @@ import { Footer } from '../components/footer';
 import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
 import LOCAL_IP from '@/config';
+import { router } from 'expo-router';
 
 interface CartItem {
   id: string;
@@ -102,6 +103,22 @@ export default function Orders() {
     fetchOrders();
   }, []);
 
+  const addToCart = async (cartItems: CartItem[]) => {
+	try{
+		for(const item of cartItems){
+			const cartItem = {
+                foodId: item.foodId,
+                restaurantId: item.restaurantId,
+                quantity: item.quantity,
+            };
+			await axios.post(`${LOCAL_IP}/cart`, cartItem);
+		}
+		router.push(`/cart`)
+	} catch (error) {
+        console.error('Erro ao adicionar itens ao carrinho:', error);
+    }
+};
+
   if (loading) {
     return (
       <View>
@@ -141,7 +158,7 @@ export default function Orders() {
 								</View>
 							)}
 							<View
-								className="bg-white rounded-xl p-3"
+								className="bg-white rounded-xl p-6"
 								style={{
 									shadowColor: '#000',
 									shadowOffset: { width: 0, height: 2 },
@@ -151,7 +168,7 @@ export default function Orders() {
 								}}
                             >
 								{item.items.length > 0 && (
-									<View className='mt-16'>
+									<View className='mt-12'>
 										<View className='flex-row justify-center items-center w-fit mx-auto'>
 											<Entypo name="dot-single" size={24} color="red" />
 											<Text className='font-semibold text-base'>Pedido em preparação • Nº {item.id}</Text>
@@ -160,7 +177,7 @@ export default function Orders() {
 								)}
 
 
-								<View className="flex flex-row justify-between border-b-2 mt-4 mb-2">
+								<View className="flex flex-row justify-between mt-6 mb-2">
 									<Text className="font-bold text-sm w-1/5 text-left">ITEM</Text>
 									<Text className="font-bold text-sm w-3/5 text-left">DESCRIÇÃO</Text>
 									<Text className="font-bold text-sm w-1/5 text-right">VALOR</Text>
@@ -173,7 +190,7 @@ export default function Orders() {
 										<View className="flex-row items-center w-1/5">
 											<Text className="text-sm">{orderItem.quantity}x</Text>
 										</View>
-										<View className="w-3/5 pl-4">
+										<View className="w-3/5">
 											{foodItem && <Text className="text-sm">{foodItem.name}</Text>}
 										</View>
 										<Text className="text-sm w-1/5 text-right">
@@ -182,14 +199,14 @@ export default function Orders() {
 									</View>
 									);
 								})}
-								<View className="w-full h-[1px] bg-gray-line mb-4" />
-								<View className="flex-row justify-between items-center my-6">
+								<View className="w-full h-[1px] bg-gray-line my-4" />
+								<View className="flex-row justify-between items-center mb-4">
 									<Text className="font-semibold text-base">
 										Total: R$ {total.toFixed(2)}
 									</Text>
 									
 								</View>
-								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl">
+								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl" onPress={() => router.push(`/orderProgress?orderId=${item.id}`)}>
 									<Text className="text-white text-center">Acompanhar pedido</Text>
 								</TouchableOpacity>
 							</View>
@@ -266,7 +283,11 @@ export default function Orders() {
 								<Text className="font-semibold text-lg">
 									Total: R$ {total.toFixed(2)}
 								</Text>
-								<TouchableOpacity className="bg-red-main px-4 py-2 rounded-xl">
+								<TouchableOpacity className="bg-red-main px-4 py-2 rounded-xl"
+									onPress={() => {
+										addToCart(item.items)
+									}}
+								>
 									<Text className="text-white">Pedir novamente</Text>
 								</TouchableOpacity>
 								</View>

@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, StyleSheet, StatusBar, Image, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, StatusBar, Image, ActivityIndicator, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -100,20 +100,21 @@ export default function OrderProgress() {
 
     async function handleOrderReceived(orderId: string) {
         try {
-            await axios.delete(`${LOCAL_IP}/orders/${orderId}`);
+            await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {status: "Entregue"})
             
             setOrder(prevOrder => {
                 if (prevOrder && prevOrder.id === orderId) {
-                    return null;
+                    return { ...prevOrder, status: "Entregue" };
                 }
                 return prevOrder;
             });
     
             router.push('/');
         } catch (error) {
-            console.error('Erro ao deletar o pedido:', error);
+            console.error('Erro ao atualizar o pedido:', error);
         }
     }
+
 
     const customMapStyle = [
         { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#e0e0e0" }] },
@@ -132,18 +133,13 @@ export default function OrderProgress() {
     return (
         <View style={styles.container}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-    
             <TouchableOpacity
                 className='absolute z-10 px-5 py-2 ml-2 mt-4 bg-red-main rounded-2xl'
-                onPress={() => {
-                    if (order) {
-                        //handleOrderReceived(order.id);
-                    }
-                }}
+                onPress={() => {router.push(`/orders`)}}
             >
                 <Text className='text-white'>Voltar</Text>
             </TouchableOpacity>
-    
+            
             <MapView
                 mapType="standard"
                 showsCompass={false}
@@ -152,6 +148,7 @@ export default function OrderProgress() {
                 showsUserLocation={true}
                 customMapStyle={customMapStyle}
             >
+                
                 {order && (
                     <Marker
                         key={order.id}
@@ -230,12 +227,24 @@ export default function OrderProgress() {
                                 <Text className='font-medium text-lg'>O entregador está a caminho...</Text>
                                 <Text className='font-medium'>Tempo estimado: 2min</Text>
                             </View>
+                            <View className='flex flex-row items-center justify-center mt-4'>
+                                <TouchableOpacity
+                                    className="flex items-center justify-center h-10 px-5 ml-2 bg-red-main rounded-xl"
+                                >
+                                    <MaterialCommunityIcons name="chat-plus" size={24} color="white" />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    className="flex items-center justify-center h-10 px-5 ml-2 bg-red-main rounded-xl"
+                                    onPress={() => {
+                                        if (order) {
+                                            handleOrderReceived(order.id);
+                                        }
+                                    }}
+                                >
+                                    <Text className='text-white'>Recebido</Text>
+                                </TouchableOpacity>
+                            </View>
                             
-                            <TouchableOpacity
-                                className="px-5 py-2 ml-2 mt-4 bg-red-main rounded-xl"
-                            >
-                                <MaterialCommunityIcons name="chat-plus" size={24} color="white" />
-                            </TouchableOpacity>
                         </View>
                     </>
                 )}
@@ -250,6 +259,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#e0e0e0',
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     map: {
         flex: 1,
