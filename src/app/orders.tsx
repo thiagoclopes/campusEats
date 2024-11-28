@@ -58,6 +58,11 @@ export default function Orders() {
   const [loading, setLoading] = useState<boolean>(true);
   const [restaurants, setRestaurants] = useState<Map<string, Restaurant>>(new Map());
   const [foodItems, setFoodItems] = useState<Map<string, FoodItem>>(new Map());
+  const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
+
+  const toggleExpand = (id: string) => {
+    setExpandedItemId((prevId) => (prevId === id ? null : id));
+  };
 
   useEffect(() => {
     async function fetchOrders() {
@@ -127,6 +132,8 @@ export default function Orders() {
       </View>
     );
   }
+
+
   return (
     <View style={styles.container}>
       	<BackArrow color="black" title="Meus pedidos" route="/" />
@@ -191,7 +198,7 @@ export default function Orders() {
 											<Text className="text-sm">{orderItem.quantity}x</Text>
 										</View>
 										<View className="w-3/5">
-											{foodItem && <Text className="text-sm">{foodItem.name}</Text>}
+											{foodItem && <Text className="text-gray-700 text-sm">{foodItem.name}</Text>}
 										</View>
 										<Text className="text-sm w-1/5 text-right">
 											R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
@@ -223,7 +230,6 @@ export default function Orders() {
 				keyExtractor={(item) => item.id.toString()}
 				scrollEnabled={false}
 				renderItem={({ item }) => {
-
 					const total = item.items.reduce((sum, orderItem) => {
 					const foodItem = foodItems.get(orderItem.foodId);
 					if (foodItem) {
@@ -244,53 +250,63 @@ export default function Orders() {
 								}}
 							>
 								{item.items.length > 0 && (
-									<View className="flex-row items-center justify-between mb-4">
+									<TouchableOpacity className="flex-row items-center justify-between" onPress={() => toggleExpand(item.id)}>
 										<View className="flex-row items-center gap-2">
 											{restaurants.get(item.items[0].restaurantId) && (
 												<Image
 												source={{
 													uri: restaurants.get(item.items[0].restaurantId)?.logo,
 												}}
-												style={{ width: 50, height: 50, borderRadius: 25 }}
+												style={{ width: 40, height: 40, borderRadius: 25 }}
 												/>
 											)}
-											<Text className="font-semibold text-lg">
+											<Text className="font-semibold text-base">
 												{restaurants.get(item.items[0].restaurantId)?.name} • Pedido Nº {item.id}
 											</Text>
 										</View>
-										<Entypo name="chevron-right" size={24} color="black" />
-									</View>
+										<Entypo
+											name={expandedItemId === item.id ? "chevron-down" : "chevron-right"}
+											size={24}
+											color="black"
+										/>
+									</TouchableOpacity>
+								)}
+								{expandedItemId === item.id && (
+									<>
+										<View className="w-full h-[1px] bg-gray-line my-4" />
+
+										{item.items.map((orderItem) => {
+											const foodItem = foodItems.get(orderItem.foodId);
+											return (
+												<View key={orderItem.id} className="flex-row justify-between items-center mb-2">
+												<View className="flex-row gap-2 items-center justify-center">
+													<Text className="bg-gray-200 px-2 py-1 rounded text-sm">{orderItem.quantity}x</Text>
+													{foodItem && <Text className="text-gray-700 text-sm">{foodItem.name}</Text>}
+												</View>
+												<Text className="text-gray-500">
+													R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
+												</Text>
+												</View>
+											);
+										})}
+										<View className="w-full h-[1px] bg-gray-line my-4" />
+										<View className="flex-row justify-between items-center">
+											<Text className="font-semibold text-base">
+												Total: R$ {total.toFixed(2)}
+											</Text>
+											<TouchableOpacity className="bg-red-main px-6 py-2 rounded-xl"
+												onPress={() => {
+													addToCart(item.items)
+												}}
+											>
+												<Text className="text-white">Pedir novamente</Text>
+											</TouchableOpacity>
+										</View>
+									</>
 								)}
 
-								<View className="w-full h-[1px] bg-gray-line mb-4" />
 
-								{item.items.map((orderItem) => {
-									const foodItem = foodItems.get(orderItem.foodId);
-									return (
-										<View key={orderItem.id} className="flex-row justify-between items-center mb-2">
-										<View className="flex-row gap-2 items-center justify-center">
-											<Text className="bg-gray-200 px-2 py-1 rounded text-sm">{orderItem.quantity}x</Text>
-											{foodItem && <Text className="text-gray-700">{foodItem.name}</Text>}
-										</View>
-										<Text className="text-gray-500">
-											R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
-										</Text>
-										</View>
-									);
-								})}
-
-								<View className="flex-row justify-between items-center mt-6">
-								<Text className="font-semibold text-lg">
-									Total: R$ {total.toFixed(2)}
-								</Text>
-								<TouchableOpacity className="bg-red-main px-4 py-2 rounded-xl"
-									onPress={() => {
-										addToCart(item.items)
-									}}
-								>
-									<Text className="text-white">Pedir novamente</Text>
-								</TouchableOpacity>
-								</View>
+								
 							</View>
 						</View>
 					);

@@ -3,14 +3,14 @@
     {
       "id": "1",
       "name": "Nordestino",
-      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/restaurants/a_marmitaria.jpg",
+      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/restaurants/nordestino.jpg",
       "rating": "4.8",
       "category": "Brasileira"
     },
     {
       "id": "2",
       "name": "A marmitaria",
-      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/restaurants/nordestino.jpg",
+      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/restaurants/a_marmitaria.jpg",
       "rating": "4.9",
       "category": "Variada"
     }
@@ -198,7 +198,7 @@
       "restaurantId": "1"
     }
   ],
-  "delivery_persons": [
+  "couriers": [
     {
       "id": "123",
       "name": "Gilberto Lima",
@@ -253,7 +253,7 @@
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
-      "status": "Pendente",
+      "status": "Entregue",
       "courierId": "123"
     }
   ]
