@@ -1,5 +1,5 @@
 import { View, Pressable } from "react-native";
-import { Feather, FontAwesome5, Entypo, AntDesign } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, Entypo, AntDesign } from '@expo/vector-icons';
 import { useRouter, usePathname, Href } from 'expo-router';
 import { useState, useEffect } from 'react';
 
@@ -7,7 +7,7 @@ type Route = "/" | "/search" | "/orders" | "/chatList" | "/profile";
 
 interface IconWithDotProps {
     route: Route;
-    IconComponent: typeof Feather | typeof FontAwesome5 | typeof Entypo | typeof AntDesign;
+    IconComponent: typeof FontAwesome5 | typeof Entypo | typeof AntDesign;
     iconName: string;
 }
 
@@ -46,8 +46,8 @@ export function Footer() {
             backgroundColor: '#EF2A39',
             elevation: 5,
         }}>
-            <IconWithDot route="/" IconComponent={Feather} iconName="home" />
-            <IconWithDot route="/search" IconComponent={Feather} iconName="search" />
+            <IconWithDot route="/" IconComponent={AntDesign} iconName="home" />
+            <IconWithDot route="/search" IconComponent={AntDesign} iconName="search1" />
             <IconWithDot route="/orders" IconComponent={FontAwesome5} iconName="list-alt" />
             <IconWithDot route="/chatList" IconComponent={Entypo} iconName="chat" />
             <IconWithDot route="/profile" IconComponent={AntDesign} iconName="user" />
