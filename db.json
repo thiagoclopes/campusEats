@@ -5,14 +5,22 @@
       "name": "Nordestino",
       "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmXP9E5TmDbc2QCLXxGZWTKtXPMaihhQt16PhTmPMRK6wk",
       "rating": "4.8",
-      "category": "Brasileira"
+      "category": "Brasileira",
+      "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
+      "whatsapp": "84986338368",
+      "instagram": "thiago.viniciusc",
+      "localization": "https://maps.app.goo.gl/c8ZqyHy5PToD8tiN9"
     },
     {
       "id": "2",
       "name": "A marmitaria",
       "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmTUfV4m3UbFyfuwXHsd2ez6hAaLYfHzDhfXmSaw8Ckokz",
       "rating": "4.9",
-      "category": "Variada"
+      "category": "Variada",
+      "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
+      "whatsapp": "84988776655",
+      "instagram": "amarmitaria",
+      "localization": ""
     }
   ],
   "notifications": [
@@ -202,17 +210,19 @@
     {
       "id": "123",
       "name": "Gilberto Lima",
-      "vehicle": "BIKE",
-      "vehiclePlate": "SEM PLACA",
+      "vehicle": "Moto",
+      "vehicleName": "CG 150",
+      "vehiclePlate": "HTX-5738",
       "photo": "",
       "rating": "4.8",
-      "delivers": "3",
+      "delivers": "321",
       "availability": true
     },
     {
       "id": "321",
       "name": "Natan Bastos",
-      "vehicle": "Fox",
+      "vehicle": "Carro",
+      "vehicleName": "Fox",
       "vehiclePlate": "HTX-5738",
       "photo": "",
       "rating": "4.8",
@@ -220,7 +230,26 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "d0e7",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    },
+    {
+      "id": "a920",
+      "foodId": "5",
+      "restaurantId": "1",
+      "quantity": 2
+    },
+    {
+      "id": "fdf1",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    }
+  ],
   "orders": [
     {
       "id": "c7b9",
