@@ -289,7 +289,7 @@ export default function Orders() {
 												</View>
 											);
 										})}
-										<View className="w-full h-[1px] bg-gray-line my-4" />
+										<View className="w-full h-[1px] bg-gray-line mt-2 mb-4" />
 										<View className="flex-row justify-between items-center">
 											<Text className="font-semibold text-base">
 												Total: R$ {total.toFixed(2)}
