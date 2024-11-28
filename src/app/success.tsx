@@ -9,7 +9,7 @@ export default function Success() {
 
 	const fetchAvailableCouriers = async () => {
 		try {
-		  const response = await axios.get(`${LOCAL_IP}/delivery_persons`);
+		  const response = await axios.get(`${LOCAL_IP}/couriers`);
 		  const couriers = response.data;
 	
 		  const availableCouriers = couriers.filter((courier: { availability: boolean }) => courier.availability === true);

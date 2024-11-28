@@ -85,7 +85,7 @@ export default function OrderProgress() {
             
             async function fetchCourierData() {
                 try {
-                    const response = await axios.get(`${LOCAL_IP}/delivery_persons/${courierId}`);
+                    const response = await axios.get(`${LOCAL_IP}/couriers/${courierId}`);
                     setCourier(response.data)
                     setLoadingCourier(false);
                 } catch (error) {
@@ -197,7 +197,9 @@ export default function OrderProgress() {
                             />
                         </View>
                         <View className='flex flex-row items-center justify-center gap-2'>
-                            <Text className='font-bold text-xl'>{courier?.name} </Text>
+                            <TouchableOpacity onPress={() => router.push(`/courierProfile?id=${courier?.id}`)}>
+                                <Text className='font-bold text-xl'>{courier?.name} </Text>
+                            </TouchableOpacity>
                             <View className='flex-row items-center justify-center'>
                                 <Entypo name="star" size={24} color="#FF9633" />
                                 <Text className='font-medium text-lg'>{courier?.rating}</Text>

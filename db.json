@@ -198,13 +198,15 @@
       "restaurantId": "1"
     }
   ],
-  "delivery_persons": [
+  "couriers": [
     {
       "id": "123",
       "name": "Gilberto Lima",
       "vehicle": "BIKE",
       "vehiclePlate": "SEM PLACA",
+      "photo": "",
       "rating": "4.8",
+      "delivers": "3",
       "availability": true
     },
     {
@@ -212,7 +214,9 @@
       "name": "Natan Bastos",
       "vehicle": "Fox",
       "vehiclePlate": "HTX-5738",
+      "photo": "",
       "rating": "4.8",
+      "delivers": "3",
       "availability": true
     }
   ],
@@ -241,34 +245,6 @@
       "courierId": "321"
     },
     {
-      "id": "6431",
-      "items": [
-        {
-          "id": "e3ed",
-          "foodId": "2",
-          "restaurantId": "2",
-          "quantity": 1
-        },
-        {
-          "id": "bbb2",
-          "foodId": "3",
-          "restaurantId": "2",
-          "quantity": 1
-        },
-        {
-          "id": "1c8d",
-          "foodId": "4",
-          "restaurantId": "2",
-          "quantity": 1
-        }
-      ],
-      "address": "Escola de Ciência e Tecnologia (ECT)",
-      "latitude": -5.843395493045956,
-      "longitude": -35.199395317946305,
-      "status": "Pendente",
-      "courierId": "123"
-    },
-    {
       "id": "5829",
       "items": [
         {
@@ -282,6 +258,60 @@
       "latitude": -5.840452832201686,
       "longitude": -35.19724725069943,
       "status": "Entregue",
+      "courierId": "123"
+    },
+    {
+      "id": "a7d4",
+      "items": [
+        {
+          "id": "ce40",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Entregue",
+      "courierId": "123"
+    },
+    {
+      "id": "79e7",
+      "items": [
+        {
+          "id": "0791",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Entregue",
+      "courierId": "123"
+    },
+    {
+      "id": "f56b",
+      "items": [
+        {
+          "id": "b8b8",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        },
+        {
+          "id": "5f47",
+          "foodId": "5",
+          "restaurantId": "1",
+          "quantity": 2
+        }
+      ],
+      "address": "Setor III",
+      "latitude": -5.840709167986833,
+      "longitude": -35.20058612478776,
+      "status": "Pendente",
       "courierId": "123"
     }
   ]
