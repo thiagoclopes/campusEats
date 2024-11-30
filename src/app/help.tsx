@@ -63,7 +63,13 @@ export default function Help() {
 
   const Card: React.FC<CardProps> = ({ icon, title, content }) => {
     return (
-      <View className="bg-white p-6 rounded-2xl shadow mt-6">
+      <View className="bg-white p-6 rounded-2xl shadow mt-6" style={{
+									shadowColor: '#000',
+									shadowOffset: { width: 0, height: 2 },
+									shadowOpacity: 0.25,
+									shadowRadius: 3.84,
+									elevation: 5,
+								}}>
         <View className="flex-row items-center mb-2">
           {icon}
           <Text className="ml-4 text-xl font-medium">{title}</Text>
@@ -136,36 +142,49 @@ export default function Help() {
         )}
 
 
-        {activeTab === 'faq' && (
-          <View className="px-4 py-6 mt-4">
-            <Text className="text-2xl text-center font-semibold">Perguntas Frequentes</Text>
+{activeTab === 'faq' && (
+  <View className="px-4 mt-4">
 
-            {questions.map((item, index) => (
-              <View key={index} className="mt-4">
-                <TouchableOpacity
-                  onPress={() => toggleAccordion(index)}
-                  className="flex-row items-center justify-between w-full"
-                >
-                  <View className='w-[70%] ml-4'>
-                    <Text className="text-lg font-medium flex-1">{item.question}</Text>
-                  </View>
-                  <AntDesign
-                    name={expanded === index ? "up" : "down"}
-                    size={16}
-                    color="black"
-                    className='mr-4'
-                  />
-                </TouchableOpacity>
-                {expanded === index && (
-                  <Text className="mt-2 text-base text-medium text-black-gray">
-                    {item.answer}
-                  </Text>
-                )}
-                <View className="border-t border-gray-line mt-4" />
-              </View>
-            ))}
+    <View className="space-y-4">
+      {questions.map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => toggleAccordion(index)}
+          activeOpacity={0.8}
+        >
+          <View
+            className="bg-white p-6 rounded-2xl shadow mt-6"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }}
+          >
+            <View className="flex-row justify-between items-center">
+              <Text className="text-lg font-medium flex-1">{item.question}</Text>
+              <AntDesign
+                name={expanded === index ? "up" : "down"}
+                size={16}
+                color="black"
+              />
+            </View>
+            {expanded === index && (
+              <>
+                <View className="border-t border-gray-line my-2" />
+                <Text className="mt-2 text-base  text-black-gray">
+                  {item.answer}
+                </Text>
+              </>
+            )}
           </View>
-        )}
+        </TouchableOpacity>
+      ))}
+    </View>
+  </View>
+)}
+
       </ScrollView>
 
       <Footer />
