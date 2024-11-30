@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
 
+interface CardProps {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+}
+
 export default function Help() {
-  const [expanded, setExpanded] = useState(null); 
+  const [expanded, setExpanded] = useState(null);
+  const [activeTab, setActiveTab] = useState('contact'); // Estado para alternar entre abas
 
   const questions = [
     {
@@ -54,56 +61,113 @@ export default function Help() {
     setExpanded(expanded === index ? null : index);
   };
 
+  const Card: React.FC<CardProps> = ({ icon, title, content }) => {
+    return (
+      <View className="bg-white p-6 rounded-2xl shadow mt-6">
+        <View className="flex-row items-center mb-2">
+          {icon}
+          <Text className="ml-4 text-xl font-medium">{title}</Text>
+        </View>
+        <View className="border-t border-gray-line my-2" />
+        <Text className="text-base text-black-gray font-medium mt-2">{content}</Text>
+      </View>
+    );
+  }
+
   return (
     <View className='flex-1'>
-      <ScrollView className='flex-1'>
+      <ScrollView className='flex-1h'>
         <BackArrow color='black' title='Ajuda e suporte' route='/profile' />
 
-        <View className='px-4 py-6 mt-4'>
-          <Text className="text-2xl text-center font-semibold">Contato</Text>
-
-          <View className='flex-row mt-2'>
-            <Text className="text-lg font-medium">Email:</Text>
-            <Text className="ml-2 text-lg font-medium text-black-gray">campuseats@suporte.com</Text>
-          </View>
-
-          <View className='flex-row'>
-            <Text className="text-lg font-medium">Whatsapp:</Text>
-            <Text className="ml-2 text-lg font-medium text-black-gray">(84) 98877-6655</Text>
-          </View>
+        <View className="flex-row justify-center mt-4">
+          <TouchableOpacity
+            onPress={() => setActiveTab('contact')}
+            className={`w-1/2 py-2 border-b-2 ${
+              activeTab === 'contact' ? 'border-red-main' : 'border-gray-line'
+            }`}
+          >
+            <Text className={`text-lg mx-auto font-medium ${activeTab === 'contact' ? 'text-red-main' : 'text-black'}`}>
+              Contato
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setActiveTab('faq')}
+            className={`w-1/2 py-2 border-b-2 ${
+              activeTab === 'faq' ? 'border-red-main' : 'border-gray-line'
+            }`}
+          >
+            <Text className={`text-lg mx-auto font-medium ${activeTab === 'faq' ? 'text-red-main' : 'text-black'}`}>
+              Perguntas Frequentes
+            </Text>
+          </TouchableOpacity>
         </View>
-        
-        <View className="px-4 py-6 mt-10">
-          <Text className="text-2xl text-center font-semibold">Perguntas Frequentes</Text>
 
-          {questions.map((item, index) => (
-            <View key={index} className="mt-4">
-              <TouchableOpacity
-                onPress={() => toggleAccordion(index)} 
-                className="flex-row items-center justify-between w-full"
-              >
-                <View className='w-[70%] ml-4'>
-                  <Text className="text-lg font-medium flex-1">{item.question}</Text>
-                </View>
-                <AntDesign 
-                  name={expanded === index ? "up" : "down"}
-                  size={16} 
-                  color="black"
-                  className='mr-4'
-                />
-              </TouchableOpacity>
-              {expanded === index && (
-                <Text className="mt-2 text-base text-medium text-black-gray">
-                  {item.answer}
-                </Text>
-              )}
-              <View className="border-t border-gray-line mt-4" />
+        {activeTab === 'contact' && (
+          <View className='px-4 mt-4'>
+
+            <View className="space-y-4">
+              <Card 
+                icon={<MaterialIcons name="language" size={28} color="#EF2A39" />}
+                title="Site"
+                content="www.campuseats.com.br"
+              />
+              <Card 
+                icon={<AntDesign name="phone" size={26} color="#EF2A39" />}
+                title="Suporte"
+                content="campuseats@suporte.com"
+              />
+              <Card 
+                icon={<FontAwesome name="whatsapp" size={24} color="#EF2A39" />}
+                title="WhatsApp"
+                content=" (84) 98877-6655"
+              />
+              <Card 
+                icon={<AntDesign name="instagram" size={24} color="#EF2A39" />}
+                title="Instagram"
+                content="@campuseats"
+              />
+              <Card 
+                icon={<MaterialIcons name="business" size={28} color="#EF2A39" />}
+                title="Comercial"
+                content="comercial@campuseats.com.br"
+              />
             </View>
-          ))}
-          
-        </View>
+          </View>
+        )}
+
+
+        {activeTab === 'faq' && (
+          <View className="px-4 py-6 mt-4">
+            <Text className="text-2xl text-center font-semibold">Perguntas Frequentes</Text>
+
+            {questions.map((item, index) => (
+              <View key={index} className="mt-4">
+                <TouchableOpacity
+                  onPress={() => toggleAccordion(index)}
+                  className="flex-row items-center justify-between w-full"
+                >
+                  <View className='w-[70%] ml-4'>
+                    <Text className="text-lg font-medium flex-1">{item.question}</Text>
+                  </View>
+                  <AntDesign
+                    name={expanded === index ? "up" : "down"}
+                    size={16}
+                    color="black"
+                    className='mr-4'
+                  />
+                </TouchableOpacity>
+                {expanded === index && (
+                  <Text className="mt-2 text-base text-medium text-black-gray">
+                    {item.answer}
+                  </Text>
+                )}
+                <View className="border-t border-gray-line mt-4" />
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
-      
+
       <Footer />
     </View>
   );
