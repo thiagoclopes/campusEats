@@ -245,12 +245,20 @@ const Cart = () => {
 					style={{ width: 64, height: 64, resizeMode: 'cover' }}
 				/>
 				<View className="flex flex-col gap-1 pb-2">
-                    <TouchableOpacity onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}>
-                        <Text className="text-2xl font-semibold text-white">{restaurant ? `${restaurant.name}` : 'Nenhum restaurante selecionado.'}</Text>
-                    </TouchableOpacity>
-					<TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => handleSaveAndNavigate('/')}>
-						<Text className="font-medium text-black text-center p-2">Adicionar mais itens +</Text>
-					</TouchableOpacity>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : (
+                    <>
+                        <TouchableOpacity onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}>
+                            <Text className="text-2xl font-semibold text-white">
+                                {restaurant ? `${restaurant.name}` : 'Nenhum restaurante selecionado.'}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => handleSaveAndNavigate('/')}>
+                            <Text className="font-medium text-black text-center p-2">Adicionar mais itens +</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
 				</View>
 			</View>
 			

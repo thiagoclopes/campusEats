@@ -11,9 +11,9 @@
       "instagram": "thiago.viniciusc",
       "localization": "https://maps.app.goo.gl/c8ZqyHy5PToD8tiN9",
       "locationType": "fixed",
-      "coords": { 
-        "latitude": -5.84409, 
-        "longitude": -35.19985 
+      "coords": {
+        "latitude": -5.84409,
+        "longitude": -35.19985
       }
     },
     {
@@ -40,9 +40,9 @@
       "instagram": "",
       "localization": "",
       "locationType": "fixed",
-      "coords": { 
-        "latitude": -5.839732, 
-        "longitude": -35.19570
+      "coords": {
+        "latitude": -5.839732,
+        "longitude": -35.1957
       }
     }
   ],

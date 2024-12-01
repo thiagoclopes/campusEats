@@ -8,6 +8,8 @@ import { useRouter } from "expo-router";
 import LOCAL_IP from '../../config';
 import axios from "axios";
 import RestaurantProfile from "./restaurant_profile";
+import { validateCart } from "../utils/cartMiddleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -92,6 +94,14 @@ export default function Product() {
 
     const addToCart = async (product: FoodItem, quantity: number) => {
         try {
+            const canAddToCart = await validateCart(product.restaurantId)
+
+            if(!canAddToCart){
+                console.log("nao pode")
+                alert('Você só pode adicionar produtos de um único restaurante ao carrinho!');
+                return;
+            }
+
             const cartItem = {
                 foodId: product.id,
                 restaurantId: product.restaurantId,
@@ -99,9 +109,13 @@ export default function Product() {
             };
             const response = await axios.post(`${LOCAL_IP}/cart`, cartItem);
             console.log('Produto adicionado ao carrinho:', response.data);
+            router.push('/cart');
         } catch (error) {
             console.error('Erro ao adicionar produto ao carrinho:', error);
         }
+
+
+
     };
     
     if (loading) {
@@ -197,7 +211,6 @@ export default function Product() {
                 </View>
                 <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'} onPress={() => {
                     addToCart(product, quantity);
-                    router.push('/cart');
                 }}>
                     <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
                 </TouchableOpacity>
