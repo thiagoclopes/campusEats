@@ -9,7 +9,12 @@
       "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
       "whatsapp": "84986338368",
       "instagram": "thiago.viniciusc",
-      "localization": "https://maps.app.goo.gl/c8ZqyHy5PToD8tiN9"
+      "localization": "https://maps.app.goo.gl/c8ZqyHy5PToD8tiN9",
+      "locationType": "fixed",
+      "coords": { 
+        "latitude": -5.84409, 
+        "longitude": -35.19985 
+      }
     },
     {
       "id": "2",
@@ -20,7 +25,25 @@
       "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
       "whatsapp": "84988776655",
       "instagram": "amarmitaria",
-      "localization": ""
+      "localization": "",
+      "locationType": "mobile",
+      "coords": {}
+    },
+    {
+      "id": "3",
+      "name": "Açaí do Renatão",
+      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/Qmei6EJXUK5tY9EDzJnrdBfbvCAAR9y4zavumQwFQwHBZK",
+      "rating": "4.2",
+      "category": "Acaí e Cremes",
+      "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
+      "whatsapp": "",
+      "instagram": "",
+      "localization": "",
+      "locationType": "fixed",
+      "coords": { 
+        "latitude": -5.839732, 
+        "longitude": -35.19570
+      }
     }
   ],
   "notifications": [
@@ -431,7 +454,7 @@
       "address": "Setor IV",
       "latitude": -5.842412943228999,
       "longitude": -35.19972013385473,
-      "status": "Pendente"
+      "status": "Entregue"
     },
     {
       "id": "46a7",
@@ -446,7 +469,7 @@
       "address": "Setor III",
       "latitude": -5.840709167986833,
       "longitude": -35.20058612478776,
-      "status": "Pendente"
+      "status": "Entregue"
     }
   ]
 }

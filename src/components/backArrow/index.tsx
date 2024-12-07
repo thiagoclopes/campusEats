@@ -7,18 +7,27 @@ import { TouchableOpacity, View, Text } from "react-native";
 interface BackArrowProps {
     color: string;
     title?: string;
-    route: Href;
+    route?: Href;
     onClick?: (route: Href) => void;
 }
 
 export default function BackArrow({ color, title, route, onClick }: BackArrowProps) {
+
+    const handleBackPress = async () => {
+        if (route) {
+            router.push(route);
+        }
+        else {
+            console.log('router back')
+            router.back();
+        }
+    };
+
     return (
         <View className="flex-row items-center justify-center px-4 py-4">
             <View className="absolute left-1">
                 <TouchableOpacity
-                    onPress={() => {
-                        onClick ? onClick(route) : router.push(route);
-                    }}
+                    onPress={handleBackPress}
                 >
                     <AntDesign name="arrowleft" size={24} color={color} className="p-4" />
                 </TouchableOpacity>
