@@ -100,25 +100,26 @@ export default function Index() {
 
 	const firstItemName = foodItems.length > 0 ? foodItems[0].name : '';
 
-const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+	const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-const subTotal = cartItems.reduce((acc, item) => {
-    const foodItem = foodItems.find(food => food.id === item.foodId);
-    const price = foodItem ? foodItem.price : 0;
+	const subTotal = cartItems.reduce((acc, item) => {
+		const foodItem = foodItems.find(food => food.id === item.foodId);
+		const price = foodItem ? foodItem.price : 0;
 
-    return acc + (price * item.quantity);
-}, 0);
-
-const imageUrl = restaurant ? restaurant.logo : 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=';
+		return acc + (price * item.quantity);
+	}, 0);
 	
-  	return (
-		<View className="flex flex-1">
-			<StatusBar backgroundColor="white" barStyle="dark-content" />
-			<ScrollView 
-				style={{ flex: 1}}
-				className="bg-white"
-				showsVerticalScrollIndicator={false}
-				contentContainerStyle={{ flexGrow: 1 }}
+	const imageUrl = restaurant ? restaurant.logo : 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=';
+	const restaurantId = restaurant ? restaurant.id : null;
+		
+		return (
+			<View className="flex flex-1">
+				<StatusBar backgroundColor="white" barStyle="dark-content" />
+				<ScrollView 
+					style={{ flex: 1}}
+					className="bg-white"
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{ flexGrow: 1 }}
 			>
 				<View className="w-full">
 				<Header/>
