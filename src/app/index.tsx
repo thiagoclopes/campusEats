@@ -112,14 +112,14 @@ export default function Index() {
 	const imageUrl = restaurant ? restaurant.logo : 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=';
 	const restaurantId = restaurant ? restaurant.id : null;
 		
-		return (
-			<View className="flex flex-1">
-				<StatusBar backgroundColor="white" barStyle="dark-content" />
-				<ScrollView 
-					style={{ flex: 1}}
-					className="bg-white"
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{ flexGrow: 1 }}
+	return (
+		<View className="flex flex-1">
+			<StatusBar backgroundColor="white" barStyle="dark-content" />
+			<ScrollView 
+				style={{ flex: 1}}
+				className="bg-white"
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{ flexGrow: 1 }}
 			>
 				<View className="w-full">
 				<Header/>
@@ -137,5 +137,5 @@ export default function Index() {
 			)}
 			<Footer/>
 		</View>
-  	);
+	);
 }
