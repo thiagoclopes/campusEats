@@ -78,7 +78,7 @@ export default function RestaurantProfile() {
         <View className="flex-1 bg-red-main">
             <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
             <ScrollView className="flex-1 w-full">
-                <BackArrow color="white" route="/" />
+                <BackArrow color="white"/>
                 <View className="mt-6 w-40 h-40 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
                     <Image source={{ uri: restaurant.logo }} style={{ width: '100%', height: '100%' }} />
                 </View>

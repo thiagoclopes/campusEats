@@ -3,20 +3,21 @@ import { Ionicons, Feather, Fontisto, AntDesign } from '@expo/vector-icons'
 import { router } from "expo-router";
 export function Header() {
     return (
-        <View className=" w-full flex flex-row items-center justify-between px-4">
-            <View className="w-[30%] h-16">
+        <View className=" w-full flex flex-row items-center justify-between px-4 pt-4">
+            <View className="w-[40%] h-20">
                 <Image
-                    source={require("../../assets/Logo (1).png")}
+                    source={require("../../assets/app_logo.png")}
                     className="w-full h-full"
+                    resizeMode="contain"
                 />
             </View>
 
             <View className="w-[30%] flex flex-row items-center justify-center gap-8">
-                <Pressable className="bg-off-white h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/notifications')}>
-                    <Feather name="bell" size={20} color="black"/>
+                <Pressable className="bg-red-main h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/notifications')}>
+                    <Feather name="bell" size={20} color="white"/>
                 </Pressable>
-                <Pressable className="bg-off-white h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/mapscreen')}>
-                    <Fontisto name="map" size={20} color="black"/>
+                <Pressable className="bg-red-main h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/mapscreen')}>
+                    <Fontisto name="map" size={20} color="white"/>
                 </Pressable>
             </View>
             
