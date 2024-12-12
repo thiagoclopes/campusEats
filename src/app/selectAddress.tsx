@@ -125,46 +125,12 @@ export default function SelectAddress() {
 
     return (
         <View className='w-full flex flex-col bg-red-main flex-1'>
-            <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-            <View className='w-full flex flex-row items-center justify-between'>
-                <BackArrow color='white' route='/'/>
-            </View>
-            <View className="flex flex-row items-center justify-start gap-8 mt-8 p-8">
-                <View className="flex flex-col gap-1 pb-2">
-                    <Text className="text-2xl text-white text-center p-2">Endereço de entrega</Text>
-                </View>
-            </View>
+            <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
+            <BackArrow color='white' route='/cart' title='Selecionar endereço'/>
             
             <View className='w-full flex-1 rounded-t-3xl bg-white'>
                 <View style={styles.container}>
-                    <StatusBar backgroundColor="white" barStyle="dark-content" />
-                    <TouchableOpacity onPress={() => router.push('/')} className="absolute p-3 z-10 bg-white/50 rounded-sm m-3">
-                        <AntDesign name="arrowleft" size={20} color='black' style={{ opacity: 0.6 }} />
-                    </TouchableOpacity>
                     
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Pesquisar setor..."
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />
-
-                    {searchQuery.length > 0 && (
-                        <ScrollView
-                            style={styles.suggestionList}
-                            showsVerticalScrollIndicator={true}
-                        >
-                            {filteredPoints.map((item) => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    style={styles.suggestionItem}
-                                    onPress={() => handleSelectPoint(item)}
-                                >
-                                    <Text style={styles.suggestionText}>{item.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    )}
                     
                     <MapView
                         mapType="standard"
@@ -190,6 +156,38 @@ export default function SelectAddress() {
                                 </View>
                             </Marker>
                         ))}
+
+                        <View className='bg-white shadow-xl justify-center absolute bottom-0 h-60 w-full rounded-3xl'>
+                            <Text className='mx-auto font-semibold text-2xl mb-2'>Localização</Text>
+                            <TextInput
+                                className="flex-row gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
+                                
+                                placeholder="Pesquisar setor..."
+                                value={searchQuery}
+                                onChangeText={setSearchQuery}
+                            />
+
+                            {searchQuery.length > 0 && (
+                                <ScrollView
+                                    style={styles.suggestionList}
+                                    showsVerticalScrollIndicator={true}
+                                >
+                                    {filteredPoints.map((item) => (
+                                        <TouchableOpacity
+                                            key={item.id}
+                                            style={styles.suggestionItem}
+                                            onPress={() => handleSelectPoint(item)}
+                                        >
+                                            <Text style={styles.suggestionText}>{item.name}</Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            )}
+
+                    <TouchableOpacity className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center">
+                      <Text className="text-xl text-white">Continuar</Text>
+                    </TouchableOpacity>
+                        </View>
                     </MapView>
                 </View>
             </View>

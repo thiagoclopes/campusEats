@@ -228,7 +228,26 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "17ff",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    },
+    {
+      "id": "d62a",
+      "foodId": "2",
+      "restaurantId": "2",
+      "quantity": 1
+    },
+    {
+      "id": "41e6",
+      "foodId": "4",
+      "restaurantId": "2",
+      "quantity": 1
+    }
+  ],
   "orders": [
     {
       "id": "c7b9",
