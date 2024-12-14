@@ -18,7 +18,6 @@ export default function BackArrow({ color, title, route, onClick }: BackArrowPro
             router.push(route);
         }
         else {
-            console.log('router back')
             router.back();
         }
     };

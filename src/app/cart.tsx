@@ -279,12 +279,15 @@ const Cart = () => {
 							const foodItem = foodItems.find(food => food.id === item.foodId);
 							const price = foodItem ? foodItem.price : 0;
 							return (
-								<View key={item.id} className="flex flex-row items-center border-b border-gray-400 border-dashed py-2">
-									<View className="flex flex-row gap-8 items-center justify-center">
-										<Image
-											source={{ uri: foodItem?.url }} 
-											style={{ width: 64, height: 64, resizeMode: 'cover' }}
-										/>
+								<View key={item.id} className="flex flex-row mx-auto items-center border-b border-gray-400 border-dashed py-2">
+									<View className="flex flex-row gap-0 items-center justify-center">
+                                        <View className="px-4">
+                                            <Image
+                                                className="mx-auto"
+                                                source={{ uri: foodItem?.url }} 
+                                                style={{ width: 64, height: 64, resizeMode: 'cover' }}
+                                            />
+                                        </View>
 										<View className="flex flex-col w-72 px-4 pt-8">
 											<View className="flex flex-row justify-between">
 												<Text className="text-lg font-semibold">{foodItem ? foodItem.name : 'Item não encontrado'}</Text>
@@ -311,7 +314,7 @@ const Cart = () => {
 						})
 					)}
 					
-					<View className="w-96 mt-5">
+					<View className="w-96 mt-5 mx-auto">
                         <TouchableOpacity
                             className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
                             onPress={() => handleSaveAndNavigate('/selectAddress')}>

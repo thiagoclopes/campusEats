@@ -82,7 +82,7 @@ export default function Help() {
 
   return (
     <View className='flex-1'>
-      <ScrollView className='flex-1h'>
+      <ScrollView className='flex-1'>
         <BackArrow color='black' title='Ajuda e suporte' route='/profile' />
 
         <View className="flex-row justify-center mt-4">
