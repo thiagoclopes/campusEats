@@ -251,7 +251,14 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "3c93",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    }
+  ],
   "orders": [
     {
       "id": "c7b9",
@@ -336,33 +343,6 @@
       "latitude": -5.840709167986833,
       "longitude": -35.20058612478776,
       "status": "Entregue"
-    },
-    {
-      "id": "7b83",
-      "items": [
-        {
-          "id": "17ff",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        },
-        {
-          "id": "d62a",
-          "foodId": "2",
-          "restaurantId": "2",
-          "quantity": 1
-        },
-        {
-          "id": "41e6",
-          "foodId": "4",
-          "restaurantId": "2",
-          "quantity": 1
-        }
-      ],
-      "address": "Escola de Ciência e Tecnologia (ECT)",
-      "latitude": -5.843395493045956,
-      "longitude": -35.199395317946305,
-      "status": "Pendente"
     }
   ]
 }

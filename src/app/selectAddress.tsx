@@ -125,12 +125,44 @@ export default function SelectAddress() {
 
     return (
         <View className='w-full flex flex-col bg-red-main flex-1'>
-            <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
-            <BackArrow color='white' route='/cart' title='Selecionar endereço'/>
+            <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
+            <BackArrow color='white' title='Selecionar endereço'/>
+
+
             
             <View className='w-full flex-1 rounded-t-3xl bg-white'>
                 <View style={styles.container}>
-                    
+                    {searchQuery.length > 0 && (
+                        <ScrollView
+                            style={styles.suggestionList}
+                            showsVerticalScrollIndicator={true}
+                        >
+                            {filteredPoints.map((item) => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    style={styles.suggestionItem}
+                                    onPress={() => handleSelectPoint(item)}
+                                >
+                                    <Text style={styles.suggestionText}>{item.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    )}
+                    <View className='shadow-xl' style={styles.searchContainer} >
+                        <Text className='text-center font-semibold text-2xl'>Localização</Text>
+                        <TextInput
+                            className=" bg-white-gray w-[90%] mx-auto mt-6 mb-6 p-4 rounded-lg border border-gray-300"
+                            placeholder="Pesquisar setor..."
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                        />
+
+                        
+
+                        <TouchableOpacity className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center">
+                            <Text className="text-xl text-white">Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
                     
                     <MapView
                         mapType="standard"
@@ -156,38 +188,7 @@ export default function SelectAddress() {
                                 </View>
                             </Marker>
                         ))}
-
-                        <View className='bg-white shadow-xl justify-center absolute bottom-0 h-60 w-full rounded-3xl'>
-                            <Text className='mx-auto font-semibold text-2xl mb-2'>Localização</Text>
-                            <TextInput
-                                className="flex-row gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
-                                
-                                placeholder="Pesquisar setor..."
-                                value={searchQuery}
-                                onChangeText={setSearchQuery}
-                            />
-
-                            {searchQuery.length > 0 && (
-                                <ScrollView
-                                    style={styles.suggestionList}
-                                    showsVerticalScrollIndicator={true}
-                                >
-                                    {filteredPoints.map((item) => (
-                                        <TouchableOpacity
-                                            key={item.id}
-                                            style={styles.suggestionItem}
-                                            onPress={() => handleSelectPoint(item)}
-                                        >
-                                            <Text style={styles.suggestionText}>{item.name}</Text>
-                                        </TouchableOpacity>
-                                    ))}
-                                </ScrollView>
-                            )}
-
-                    <TouchableOpacity className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center">
-                      <Text className="text-xl text-white">Continuar</Text>
-                    </TouchableOpacity>
-                        </View>
+                        
                     </MapView>
                 </View>
             </View>
@@ -202,31 +203,28 @@ const styles = StyleSheet.create({
     map: {
         flex: 1,
     },
-    searchInput: {
+    searchContainer: {
         position: 'absolute',
-        top: 10,
-        left: 50,
-        right: 50,
+        justifyContent: 'center',
+        width: '100%',
+        bottom: 0,
         zIndex: 10,
         backgroundColor: 'white',
-        padding: 6,
-        borderRadius: 8,
+        paddingHorizontal: 6,
+        paddingVertical: 32,
+        borderRadius: 14,
         elevation: 3,
-        marginLeft: 10,
-        marginRight: 10,
     },
     suggestionList: {
         position: 'absolute',
-        top: 55,
-        left: 50,
-        right: 50,
+        top: 0,
+        width: '60%',
+        left: '20%',
         zIndex: 10,
         backgroundColor: 'white',
         borderRadius: 8,
         elevation: 3,
         maxHeight: 150,
-        marginLeft: 10,
-        marginRight: 10,
     },
     suggestionItem: {
         padding: 10,
