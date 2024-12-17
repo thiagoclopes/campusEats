@@ -9,6 +9,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { debounce } from 'lodash';
 import PaymentDetails from "../components/paymentDetails";
 import { validateOrder } from "../utils/orderMiddleware";
+import ChameleonWarning from "../components/chameleonWarning";
 
 interface CartItem {
     id: string;
@@ -168,8 +169,8 @@ const Cart = () => {
             const orderId = await createOrder(cartItems, selectedAddress, latitude, longitude);
             
             if (orderId) {
-                const subtotal = totalAmount; // Total calculado no carrinho
-                const deliveryFee = 3.75; // Valor fixo da entrega
+                const subtotal = totalAmount;
+                const deliveryFee = 3.75;
                 const deliveryTime = "15 - 30mins";
 
                 router.push({
@@ -247,23 +248,23 @@ const Cart = () => {
 		<View className='w-full flex flex-col bg-red-main flex-1'>
 			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
 			<BackArrow color='white' route='/'  onClick={handleSaveAndNavigate}/>
-			<View className="flex flex-row items-center justify-start gap-8 mt-8 p-8">
-				<Image
-					source={{ uri: restaurant?.logo }} 
+			<View className="flex flex-row items-center justify-start gap-8 p-8">
+				<Image className="rounded-full border-white border-2"
+					source={restaurant?.logo ? { uri: restaurant?.logo } : require('@/assets/images/icon.png')} 
 					style={{ width: 64, height: 64, resizeMode: 'cover' }}
 				/>
-				<View className="flex flex-col gap-1 pb-2">
+				<View className="flex flex-col gap-1 pb-2 ">
                 {loading ? (
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     <>
-                        <TouchableOpacity onPress={() => router.push(`/restaurant_profile?id=${restaurant?.id}`)}>
+                        <TouchableOpacity onPress={() => router.push(restaurant ? `/restaurant_profile?id=${restaurant?.id}` : '/')}>
                             <Text className="text-2xl font-semibold text-white">
                                 {restaurant ? `${restaurant.name}` : 'Nenhum restaurante selecionado.'}
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => handleSaveAndNavigate('/')}>
-                            <Text className="font-medium text-black text-center p-2">Adicionar mais itens +</Text>
+                        <TouchableOpacity className="bg-slate-200 rounded-2xl" onPress={() => router.push(restaurant ? `/restaurant_profile?id=${restaurant?.id}` : '/')}>
+                            <Text className="font-medium text-black text-center p-2 px-4">Adicionar mais itens +</Text>
                         </TouchableOpacity>
                     </>
                 )}
@@ -273,7 +274,13 @@ const Cart = () => {
 			<View className='w-full flex-1 rounded-t-3xl px-4 bg-white'>
 				<ScrollView style={{ width: '100%'}} showsVerticalScrollIndicator={false}>
 					{cartItems.length === 0 ? (
-						<Text className="text-center mt-10">Seu carrinho está vazio.</Text>
+                        <View className="mt-[20%] flex-1">
+                            <ChameleonWarning message='Seu carrinho está vazio'/>
+
+                            <TouchableOpacity className={'w-[80%] mx-auto rounded-2xl bg-red-main py-5'} onPress={() => router.push('/')}>
+                                <Text className='text-center text-white font-semibold px-6'>Voltar para a tela inicial</Text>
+                            </TouchableOpacity>
+                        </View>
 					) : (
 						cartItems.map(item => {
 							const foodItem = foodItems.find(food => food.id === item.foodId);
@@ -314,6 +321,7 @@ const Cart = () => {
 						})
 					)}
 					
+                    {cartItems.length > 0 && (
 					<View className="w-96 mt-5 mx-auto">
                         <TouchableOpacity
                             className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
@@ -332,6 +340,7 @@ const Cart = () => {
     deliveryTime="15 - 30mins" 
 />
                     </View>
+                        )}
 				</ScrollView>
 			</View>
 			

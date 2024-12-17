@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import LOCAL_IP from '../../../config';
 import axios from 'axios';
 import ContentLoader, { Rect } from 'react-content-loader/native'
+import ChameleonWarning from "../chameleonWarning";
 
 interface FoodItem {
     id: string;
@@ -166,7 +167,7 @@ export function Products({ restaurantId }: { restaurantId?: string }) {
 
                     <View className="flex flex-row flex-wrap p-1">
                         {filteredItems.length === 0 ? (
-                            <Text className="text-center">Nenhum item disponível</Text>
+                            <ChameleonWarning message='Nenhum item disponível'/>
                         ) : (
                             filteredItems.map(item => (
                                 <View key={item.id} className="w-1/2 p-2">
