@@ -4,6 +4,7 @@ import { FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
+import ChameleonWarning from '../components/chameleonWarning';
 
 interface Restaurant {
   id: string;
@@ -34,7 +35,6 @@ export default function Notifications() {
         const notificationsData: Notification[] = await notificationsResponse.json();
         const restaurants: Restaurant[] = await restaurantsResponse.json();
 
-        // Mapeando as notificações com os dados dos restaurantes
         const mappedNotifications = notificationsData.map((notification) => {
           const restaurant = restaurants.find(r => r.id === notification.restaurantId);
           return {
@@ -80,6 +80,11 @@ export default function Notifications() {
               </Text>
             </View>
           )}
+          ListEmptyComponent={
+            <View className='flex-1 justify-center items-center mt-[45%]'>
+              <ChameleonWarning message="Nenhuma notificação ainda!"/>
+            </View>
+          }
         />
       </View>
       <Footer />

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 import LOCAL_IP from '@/config';
+import ChameleonWarning from '../components/chameleonWarning';
 
 interface Cards {
   id: string;
@@ -93,6 +94,11 @@ export default function Cards() {
               </TouchableOpacity>
             );
           }}
+          ListEmptyComponent={
+            <View className='flex-1 justify-center items-center mt-[45%]'>
+              <ChameleonWarning message="Nenhum cartão cadastrado!"/>
+            </View>
+          }
         />
 
         <View className="mb-4 w-[90%] mx-auto">
