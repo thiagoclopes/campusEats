@@ -10,6 +10,8 @@ import axios from "axios";
 import RestaurantProfile from "./restaurant_profile";
 import { validateCart } from "../utils/cartMiddleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomModal from "../app/customModal";
+
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -66,6 +68,10 @@ export default function Product() {
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
     const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalSubtitle, setModalSubtitle] = useState("");
+
 
     useEffect(() => {
         const getProductData = async () => {
@@ -97,8 +103,9 @@ export default function Product() {
             const canAddToCart = await validateCart(product.restaurantId)
 
             if(!canAddToCart){
-                console.log("nao pode")
-                alert('Você só pode adicionar produtos de um único restaurante ao carrinho!');
+                setModalTitle('Você só pode adicionar produtos de um único restaurante ao carrinho!');
+                setModalSubtitle('Deseja limpar o carrinho?');
+                setIsModalVisible(true);
                 return;
             }
 
@@ -132,6 +139,12 @@ export default function Product() {
         <View className="flex flex-1">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <BackArrow color='black' route='/'/>
+            <CustomModal
+            visible={isModalVisible}
+            title={modalTitle}
+            subtitle={modalSubtitle}
+            onClose={() => setIsModalVisible(false)}/>
+
             
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}

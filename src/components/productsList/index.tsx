@@ -52,7 +52,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products({ restaurantId }: { restaurantId?: string }) {
+export function Products({ restaurantId, showFavorites }: { restaurantId?: string; showFavorites?: boolean }) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -67,9 +67,13 @@ export function Products({ restaurantId }: { restaurantId?: string }) {
             setError(null);
             try {
                 const fetchedItems = await fetchItems();
-                const filteredItems = restaurantId
+                let filteredItems = restaurantId
                     ? fetchedItems.filter((item: FoodItem) => item.restaurantId === restaurantId)
                     : fetchedItems;
+
+                if(showFavorites){
+                    filteredItems = filteredItems.filter((item: FoodItem) => item.isFavorite);
+                }
 
                 setItems(filteredItems);
 
