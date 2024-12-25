@@ -10,8 +10,8 @@ import axios from "axios";
 import RestaurantProfile from "./restaurant_profile";
 import { validateCart } from "../utils/cartMiddleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomModal from "../app/customModal";
-
+import VendorConflictModal from "../components/cartModals/VendorConflictModal";
+import PendingOrderModal from "../components/cartModals/PendingOrderModal";
 
 const statusBarHeight = Constants.statusBarHeight
 
@@ -69,9 +69,8 @@ export default function Product() {
     const [quantity, setQuantity] = useState(1);
     const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalSubtitle, setModalSubtitle] = useState("");
-
+    const [modalType, setModalType] = useState<'orders' | 'cart' | null>(null);
+    
 
     useEffect(() => {
         const getProductData = async () => {
@@ -100,11 +99,10 @@ export default function Product() {
 
     const addToCart = async (product: FoodItem, quantity: number) => {
         try {
-            const canAddToCart = await validateCart(product.restaurantId)
+            const validationResult = await validateCart(product.restaurantId)
 
-            if(!canAddToCart){
-                setModalTitle('Você só pode adicionar produtos de um único restaurante ao carrinho!');
-                setModalSubtitle('Deseja limpar o carrinho?');
+            if(!validationResult.isValid && validationResult.errorType){
+                setModalType(validationResult.errorType)
                 setIsModalVisible(true);
                 return;
             }
@@ -120,9 +118,58 @@ export default function Product() {
         } catch (error) {
             console.error('Erro ao adicionar produto ao carrinho:', error);
         }
+    };
+
+    const clearAndAddToCart = async (product: FoodItem, quantity: number) => {
+        try {
+
+            const response = await axios.get(`${LOCAL_IP}/cart`);
+            const cartItems = response.data;
+
+            for (const item of cartItems) {
+                await axios.delete(`${LOCAL_IP}/cart/${item.id}`);
+                console.log(`Item com ID ${item.id} deletado`);
+            }
+            
+            const newCartItem = {
+                foodId: product.id,
+                restaurantId: product.restaurantId,
+                quantity,
+            };
 
 
+            const addResponse = await axios.post(`${LOCAL_IP}/cart`, newCartItem);
+            console.log('Carrinho substituído com sucesso:', addResponse.data);
+            router.push('/cart');
+        } catch (error) {
+            console.error('Erro ao limpar e adicionar item ao carrinho:', error);
+            throw error;
+        }
+    };
 
+    const renderModal = () => {
+        if (!isModalVisible) return null;
+        if (product === null) return null;
+    
+        switch (modalType) {
+            case 'cart':
+                return (
+                    <VendorConflictModal
+                        visible={isModalVisible}
+                        onClose={() => {setIsModalVisible(false); router.push('/');}}
+                        onConfirm={() => clearAndAddToCart(product, quantity)}
+                    />
+                );
+            case 'orders':
+                return (
+                    <PendingOrderModal
+                        visible={isModalVisible}
+                        onConfirm={() => {router.push('/orders')}}
+                    />
+                );
+            default:
+                return null;
+        }
     };
 
     if (!product) {
@@ -139,13 +186,9 @@ export default function Product() {
         <View className="flex flex-1">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <BackArrow color='black' route='/'/>
-            <CustomModal
-            visible={isModalVisible}
-            title={modalTitle}
-            subtitle={modalSubtitle}
-            onClose={() => setIsModalVisible(false)}/>
+                
+            {renderModal()}
 
-            
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 className="flex-1"

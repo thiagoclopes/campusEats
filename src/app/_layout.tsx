@@ -2,10 +2,14 @@ import Constants from "expo-constants";
 import "../styles/global.css";
 import { Slot } from "expo-router";
 import { StatusBar, View, Platform } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StripeProvider } from '@stripe/stripe-react-native';
+import axios from "axios";
+import LOCAL_IP from "@/config";
 
 const statusBarHeight = Constants.statusBarHeight
+
+
 export default function RootLayout() {
   
   return (

@@ -261,14 +261,7 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "af22",
-      "foodId": "3",
-      "restaurantId": "2",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
       "id": "c7b9",
@@ -355,20 +348,20 @@
       "status": "Entregue"
     },
     {
-      "id": "056c",
+      "id": "cabb",
       "items": [
         {
-          "id": "a2a7",
-          "foodId": "1",
-          "restaurantId": "1",
+          "id": "0a9c",
+          "foodId": "2",
+          "restaurantId": "2",
           "quantity": 1
         }
       ],
-      "address": "Setor II",
-      "latitude": -5.840452832201686,
-      "longitude": -35.19724725069943,
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
       "status": "Pendente",
-      "courierId": "123"
+      "courierId": "321"
     }
   ]
 }
