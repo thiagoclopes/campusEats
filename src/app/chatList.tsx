@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
 import BackArrow from '../components/backArrow';
+import ChameleonWarning from '../components/chameleonWarning';
 
 interface Restaurant {
   id: string;
@@ -96,6 +97,11 @@ export default function ChatList() {
             </View>
           </Pressable>
         )}
+        ListEmptyComponent={
+          <View className='flex-1 justify-center items-center mt-[45%]'>
+            <ChameleonWarning message="Você não tem nenhuma conversa ainda!"/>
+          </View>
+        }
       />
       <Footer/>
     </View>

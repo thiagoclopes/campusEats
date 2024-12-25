@@ -76,7 +76,7 @@
       "name": "Cheddar McMelt",
       "restaurantId": "2",
       "rating": "5.0",
-      "isFavorite": true,
+      "isFavorite": false,
       "category": "Combos",
       "url": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/products/cheddar_mcmelt.png",
       "price": 34.9
@@ -96,7 +96,7 @@
       "name": "Pizza Margherita",
       "restaurantId": "2",
       "rating": "4.8",
-      "isFavorite": true,
+      "isFavorite": false,
       "category": "Pizza",
       "url": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/products/pizza_margherita.jpg",
       "price": 39.9
@@ -120,6 +120,16 @@
       "category": "Almoço",
       "url": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/products/feijoada.jpg",
       "price": 32.5
+    },
+    {
+      "id": "7",
+      "name": "Feijoada 2",
+      "restaurantId": "1",
+      "rating": "4.9",
+      "isFavorite": true,
+      "category": "Almoço",
+      "url": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/products/feijoada.jpg",
+      "price": 35
     }
   ],
   "chatList": [

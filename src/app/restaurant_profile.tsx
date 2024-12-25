@@ -18,7 +18,7 @@ interface Restaurant {
   whatsapp: string;
   instagram: string;
   localization: string;
-  sales: number; // Número de vendas
+  sales: number;
 }
 
 import { Products } from '../components/productsList';

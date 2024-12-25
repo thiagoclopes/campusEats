@@ -16,6 +16,7 @@ import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
 import LOCAL_IP from '@/config';
 import { router } from 'expo-router';
+import ChameleonWarning from '../components/chameleonWarning';
 
 interface CartItem {
   id: string;
@@ -221,10 +222,12 @@ export default function Orders() {
 					);
 				}}
 			/>
-			<View className='flex-row items-center px-4 py-4 gap-2'>
-				<FontAwesome5 name="history" size={24} color="black"/>
-				<Text className='text-lg font-semibold'>Histórico de Pedidos</Text>
-			</View>
+			{pendingOrders.length != 0 && deliveredOrders.length != 0 && (
+				<View className="flex-row items-center px-4 py-4 gap-2">
+					<FontAwesome5 name="history" size={24} color="black" />
+					<Text className="text-lg font-semibold">Histórico de Pedidos</Text>
+				</View>
+				)}
 			<FlatList
 				data={deliveredOrders}
 				keyExtractor={(item) => item.id.toString()}
@@ -311,7 +314,11 @@ export default function Orders() {
 						</View>
 					);
 				}}
-				ListEmptyComponent={<Text>Nenhum pedido entregue encontrado.</Text>}
+				ListEmptyComponent={
+					<View className='flex-1 justify-center items-center mt-[45%]'>
+						<ChameleonWarning message="Nenhum pedido anterior"/>
+					</View>
+				}
 			/>
 
       	</ScrollView>
