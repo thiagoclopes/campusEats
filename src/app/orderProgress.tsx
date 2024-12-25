@@ -7,6 +7,7 @@ import LOCAL_IP from '@/config';
 import { Entypo, Feather, FontAwesome5, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
+import React from 'react';
 
 interface CartItem {
     id: string;

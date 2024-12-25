@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
 import ContentLoader, { Rect } from 'react-content-loader/native';
+import CartStatusBar from '../components/cartStatusBar';
 
 
 export default function Search() {

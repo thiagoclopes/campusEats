@@ -5,16 +5,17 @@ import { Banner } from "../components/banner";
 import { Footer } from "../components/footer";
 import { Products } from "../components/productsList";
 import CartStatusBar from "../components/cartStatusBar";
+import OrderStatusBar from "../components/orderStatusBar";
 import axios from "axios";
 import LOCAL_IP from "@/config";
 import { useEffect, useState } from "react";
 
 interface CartItem {
-  id: string;
-  foodId: string;
-  restaurantId: string;
-  quantity: number;
-  price: number;
+	id: string;
+	foodId: string;
+	restaurantId: string;
+	quantity: number;
+	price: number;
 }
 
 interface Restaurant {
@@ -34,21 +35,24 @@ interface FoodItem {
     price: number;
 }
 
-interface CartStatusBarProps {
-    imageUrl: string;
-    firstItemName: string;
-    itemCount: number;
-    subTotal: number;
-}
+interface Order {
+	id: string;
+	items: CartItem[];
+	address: string;
+	latitude: number;
+	longitude: number;
+	status: 'Pendente' | 'Entregue';
+	courierId: string;
+  }
 
 const fetchCartItems = async (): Promise<CartItem[]> => {
-  try {
-      const response = await axios.get(`${LOCAL_IP}/cart`);
-      return response.data;
-  } catch (error) {
-      console.error('Erro ao buscar itens do carrinho:', error);
-      return [];
-  }
+	try {
+			const response = await axios.get(`${LOCAL_IP}/cart`);
+			return response.data;
+	} catch (error) {
+			console.error('Erro ao buscar itens do carrinho:', error);
+			return [];
+	}
 };
 
 const fetchRestaurant = async (restaurantId: string) => {
@@ -71,15 +75,30 @@ const fetchFoodItem = async (foodId: string) => {
     }
 };
 
+const fetchPendingOrder = async () => {
+	try {
+		const response = await axios.get(`${LOCAL_IP}/orders`, {
+			params: { status: "Pendente" },
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Erro ao buscar itens do carrinho:", error);
+		return [];
+	}
+};
+
 
 export default function Index() {
 	const [cartItems, setCartItems] = useState<CartItem[]>([]);
 	const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+	const [pendingOrder, setPendingOrder] = useState<Order | null>(null);
 	const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 	useEffect(() => {
 	const getCartItems = async () => {
 		const items = await fetchCartItems();
+		const pendingOrders = await fetchPendingOrder();
 		setCartItems(items);
+		setPendingOrder(pendingOrders)
 
 		if (items.length > 0 && items[0].restaurantId) {
 			const fetchedRestaurant = await fetchRestaurant(items[0].restaurantId);
@@ -127,8 +146,13 @@ export default function Index() {
 				<Products/>
 				</View>
 			</ScrollView>
+			{/*{pendingOrder &&(
+				<OrderStatusBar
+					imageUrl={}
+				/>
+			)}*/}
 			{cartItems.length > 0 && (
-				<CartStatusBar 
+				<CartStatusBar
 					imageUrl={imageUrl}
 					firstItemName={firstItemName}
 					itemCount={itemCount}

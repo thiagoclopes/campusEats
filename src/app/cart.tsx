@@ -8,7 +8,6 @@ import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { debounce } from 'lodash';
 import PaymentDetails from "../components/paymentDetails";
-import { validateOrder } from "../utils/orderMiddleware";
 
 interface CartItem {
     id: string;
@@ -157,14 +156,8 @@ const Cart = () => {
     }, []);
 
     const handleOrderCreation = async () => {
-        const canCreateOrder = await validateOrder()
-        
-        if(!canCreateOrder){
-            console.log("nao pode")
-            alert('Já existe um pedido pendente!');
-            return;
-        }
-        else if (cartItems.length > 0 && selectedAddress) {
+
+        if (cartItems.length > 0 && selectedAddress) {
             const orderId = await createOrder(cartItems, selectedAddress, latitude, longitude);
             
             if (orderId) {

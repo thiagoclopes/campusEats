@@ -1,21 +1,34 @@
+import axios from 'axios';
 import LOCAL_IP from '@/config';
 
-export const validateCart = async (newProductRestaurantId: string): Promise<boolean> => {
-    try {
-        const response = await fetch(`${LOCAL_IP}/cart`);
+interface ValidationResult {
+    isValid: boolean;
+    errorType?: 'orders' | 'cart' | null;
+}
 
-        const currentCart = await response.json();
+export const validateCart = async (newProductRestaurantId: string): Promise<ValidationResult> => {
+    try {
+        const { data: currentCart } = await axios.get(`${LOCAL_IP}/cart`);
 
         if (currentCart.length > 0) {
             const firstRestaurantId = currentCart[0].restaurantId;
 
             if (newProductRestaurantId !== firstRestaurantId) {
-                return false;
+                console.warn("O produto pertence a um restaurante diferente.");
+                return { isValid: false, errorType: 'cart' };
             }
         }
-        return true;
+
+        const { data: orders } = await axios.get(`${LOCAL_IP}/orders`);
+        const hasPendingOrders = orders.some((order: { status: string }) => order.status === "Pendente");
+
+        if (hasPendingOrders) {
+            return { isValid: false, errorType: 'orders' };
+        }
+
+        return { isValid: true };
     } catch (error) {
-        console.error('Erro ao validar o carrinho:', error);
-        return false;
+        console.error('Erro ao validar o carrinho ou pedido:', error);
+        return { isValid: false };
     }
 };
