@@ -2,14 +2,14 @@ import React from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 
 interface PendingOrderModalProps {
-  visible: boolean;
-  onConfirm: () => void;
+	visible: boolean;
+	onConfirm: () => void;
 }
 
 const PendingOrderModal = ({visible, onConfirm}: PendingOrderModalProps) => {
   return (
     <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={visible}
     >

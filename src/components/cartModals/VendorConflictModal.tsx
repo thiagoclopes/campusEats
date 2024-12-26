@@ -10,7 +10,7 @@ interface VendorConflictModalProps {
 const VendorConflictModal = ({visible, onClose, onConfirm}: VendorConflictModalProps) => {
   return (
     <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={visible}
     >
