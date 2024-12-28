@@ -4,6 +4,7 @@ import axios from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import BackArrow from "../components/backArrow";
 
 interface Order {
     id: string;
@@ -44,14 +45,18 @@ export default function OrderDetails(){
     const [loading, setLoading] = useState<boolean>(true);
     const [isPreparing, setIsPreparing] = useState(false);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [orderStatus, setOrderStatus] = useState<string>("Preparing");
 
     const simulateOrderPreparation = () => {
         setIsPreparing(true);
         setIsButtonDisabled(true);
     
         setTimeout(() => {
-          setIsButtonDisabled(false);
+            setOrderStatus("Out for Delivery");
+            setIsButtonDisabled(false);
         }, 5000);
+
+        return true;
     };
     
 
@@ -79,18 +84,30 @@ export default function OrderDetails(){
         const fetchOrder = async () => {
           try {
             const response = await axios.get(`${LOCAL_IP}/orders`);
-            const OrderFetched = response.data.find((order: Order) => order.status === "Preparing") as Order | undefined;;
+            const OrderFetched = response.data.find((order: Order) => order.status === "Preparing" || order.status === "Out for Delivery") as Order | undefined;
             
             if (OrderFetched) {
-              setOrder(OrderFetched);
-              const OrderFetchedRestaurant = await fetchRestaurant(OrderFetched.items[0].restaurantId);
-              setOrderRestaurant(OrderFetchedRestaurant);
+                setOrder(OrderFetched);
+                const OrderFetchedRestaurant = await fetchRestaurant(OrderFetched.items[0].restaurantId);
+                setOrderRestaurant(OrderFetchedRestaurant);
 
-              const fetchedFoodItems = await Promise.all(
+                const fetchedFoodItems = await Promise.all(
                 OrderFetched.items.map(item => fetchFoodItem(item.foodId))
-              );
+                );
 
-              setFoodItems(fetchedFoodItems.filter((foodItem): foodItem is FoodItem => foodItem !== null));
+                setFoodItems(fetchedFoodItems.filter((foodItem): foodItem is FoodItem => foodItem !== null));
+                simulateOrderPreparation();
+
+                if(OrderFetched.status == "Preparing"){
+                    if (isPreparing) {
+                        const updatedOrder = { ...OrderFetched, status: "Out for Delivery" };
+                        setOrder(updatedOrder);
+                        await axios.put(`${LOCAL_IP}/orders/${OrderFetched.id}`, updatedOrder);
+                    }   
+                } else if(OrderFetched.status == "Out for Delivery"){
+                    setOrderStatus("Out for Delivery");
+                    setIsButtonDisabled(false);
+                }
 
             } else {
             }
@@ -102,7 +119,7 @@ export default function OrderDetails(){
         };
     
         fetchOrder();
-        simulateOrderPreparation();
+
     }, []);
 
     const totalOrder = order?.items.reduce((total, orderItem) => {
@@ -122,8 +139,18 @@ export default function OrderDetails(){
     }
 
     return (
-        <View className="w-fit px-6 mb-4">
-            <View className="mt-24 -mb-14 w-28 h-28 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
+        <View className="flex-col flex-1 w-fit h-full bg-slate-600">
+            <BackArrow color='black' title='Detalhes do pedido' route='/'/>
+            <View className="w-full h-16 flex items-center justify-center bg-red-main">
+                {
+                    orderStatus == "Preparing" ? (
+                        <Text className="text-white text-semibold text-center">Disponível para entrega em 20 minutos</Text>
+                    ) : (
+                        <Text className="text-white text-semibold text-center">Previsão de entrega: 18:30 - 19:00</Text>
+                    )
+                }
+            </View>
+            <View className="mt-16 -mb-14 w-28 h-28 rounded-full overflow-hidden z-10 mx-auto">
                 <Image
                     source={{
                         uri: orderRestaurant?.logo
@@ -131,11 +158,17 @@ export default function OrderDetails(){
                     style={{ width: '100%', height: '100%' }}
                 />
             </View>
-            <View className="flex flex-col p-4 bg-white elevation-lg shadow-lg">
+            <View className="flex flex-col p-4 mx-6 bg-white elevation-lg shadow-lg">
                 <View className='mt-12'>
                     <View className='flex-row justify-center items-center w-fit mx-auto'>
                         <Entypo name="dot-single" size={24} color="red" />
-                        <Text className='font-semibold text-base'>Pedido em preparação • Nº {order.id}</Text>
+                        {
+                            order.status == 'Preparing' ? (
+                                <Text className='font-semibold text-base'>Pedido em preparação • Nº {order.id}</Text>
+                            ) : (
+                                <Text className='font-semibold text-base'>Saiu para entrega • Nº {order.id}</Text>
+                            )
+                        }
                     </View>
                     <View className="flex flex-row justify-between mt-6 mb-2">
                         <Text className="font-bold text-sm w-1/5 text-left">ITEM</Text>

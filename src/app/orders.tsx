@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
+import { Entypo, FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons';
 import axios from 'axios';
 import LOCAL_IP from '@/config';
 import { router } from 'expo-router';
@@ -32,7 +32,7 @@ interface Order {
   address: string;
   latitude: number;
   longitude: number;
-  status: 'Preparing' | 'Delivered';
+  status: 'Preparing' | 'Delivered'| 'Out for Delivery';
   courierId: string;
 }
 
@@ -54,7 +54,7 @@ interface FoodItem {
 }
 
 export default function Orders() {
-  const [pendingOrders, setPendingOrders] = useState<Order[]>([]);
+  const [pendingOrder, setPendingOrder] = useState<Order | null>(null);
   const [deliveredOrders, setDeliveredOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [restaurants, setRestaurants] = useState<Map<string, Restaurant>>(new Map());
@@ -70,8 +70,9 @@ export default function Orders() {
       try {
         const response = await axios.get<Order[]>(`${LOCAL_IP}/orders`);
         const allOrders = response.data;
+		const PendingOrderFetched = response.data.find((order: Order) => order.status === "Preparing" || order.status === "Out for Delivery") as Order | null;
 
-        setPendingOrders(allOrders.filter((order) => order.status === 'Preparing'));
+        setPendingOrder(PendingOrderFetched);
         setDeliveredOrders(allOrders.filter((order) => order.status === 'Delivered'));
 
         const restaurantIds = new Set(allOrders.flatMap((order) => order.items.map((item) => item.restaurantId)));
@@ -133,100 +134,62 @@ export default function Orders() {
 		)
 	}
 
+	if (pendingOrder === null) {
+        return <Text>No pending order available</Text>;
+    }
 
   return (
     <View style={styles.container}>
       	<BackArrow color="black" title="Meus pedidos" route="/" />
       	<ScrollView className='flex-1 mt-4'>
-		  	<FlatList
-				data={pendingOrders}
-				keyExtractor={(item) => item.id.toString()}
-				scrollEnabled={false}
-				renderItem={({ item }) => {
-
-					const total = item.items.reduce((sum, orderItem) => {
-					const foodItem = foodItems.get(orderItem.foodId);
-					if (foodItem) {
-						return sum + (foodItem.price * orderItem.quantity);
-					}
-					return sum;
-					}, 0);
-
-					return (
-						<View className='w-fit px-4 mb-4'>
-							{restaurants.get(item.items[0].restaurantId) && (
-								<View className="-mb-14 w-28 h-28 rounded-full bg-slate-500 overflow-hidden z-10 mx-auto">
-									<Image
-										source={{
-											uri: restaurants.get(item.items[0].restaurantId)?.logo,
-										}}
-										style={{ width: '100%', height: '100%' }}
-									/>
-								</View>
-							)}
-							<View
-								className="bg-white rounded-xl p-6"
-								style={{
-									shadowColor: '#000',
-									shadowOffset: { width: 0, height: 2 },
-									shadowOpacity: 0.25,
-									shadowRadius: 3.84,
-									elevation: 5,
+			{pendingOrder && (
+				<>
+					<View className="flex-row items-center px-4 py-4 gap-2">
+						<Octicons name="hourglass" size={24} color="black" />
+						<Text className="text-lg font-semibold">Pedidos ativos</Text>
+					</View>
+					
+					<View className="mt-2 flex flex-col items-center bg-white m-4 px-4 py-6 mb-4 rounded-xl shadow-md"
+						style={{
+							shadowColor: '#000',
+							shadowOffset: { width: 0, height: 2 },
+							shadowOpacity: 0.25,
+							shadowRadius: 3.84,
+							elevation: 5,
+						}}
+					>
+						<View className='flex flex-row w-full items-center'>
+							<Image
+								source={{
+									uri: restaurants.get(pendingOrder.items[0].restaurantId)?.logo
 								}}
-                            >
-								{item.items.length > 0 && (
-									<View className='mt-12'>
-										<View className='flex-row justify-center items-center w-fit mx-auto'>
-											<Entypo name="dot-single" size={24} color="red" />
-											<Text className='font-semibold text-base'>Pedido em preparação • Nº {item.id}</Text>
-										</View>
-									</View>
-								)}
-
-
-								<View className="flex flex-row justify-between mt-6 mb-2">
-									<Text className="font-bold text-sm w-1/5 text-left">ITEM</Text>
-									<Text className="font-bold text-sm w-3/5 text-left">DESCRIÇÃO</Text>
-									<Text className="font-bold text-sm w-1/5 text-right">VALOR</Text>
-								</View>
-								<View className="w-full h-[1px] bg-gray-line mb-4" />
-								{item.items.map((orderItem) => {
-									const foodItem = foodItems.get(orderItem.foodId);
-									return (
-									<View key={orderItem.id} className="flex flex-row justify-between items-center py-2">
-										<View className="flex-row items-center w-1/5">
-											<Text className="text-sm">{orderItem.quantity}x</Text>
-										</View>
-										<View className="w-3/5">
-											{foodItem && <Text className="text-gray-700 text-sm">{foodItem.name}</Text>}
-										</View>
-										<Text className="text-sm w-1/5 text-right">
-											R$ {(orderItem.quantity * (foodItem?.price || 0)).toFixed(2)}
-										</Text>
-									</View>
-									);
-								})}
-								<View className="w-full h-[1px] bg-gray-line my-4" />
-								<View className="flex-row justify-between items-center mb-4">
-									<Text className="font-semibold text-base">
-										Total: R$ {total.toFixed(2)}
-									</Text>
-									
-								</View>
-								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl" onPress={() => router.push(`/orderDetails`)}>
-									<Text className="text-white text-center">Acompanhar pedido</Text>
-								</TouchableOpacity>
+								style={{ width: 40, height: 40, borderRadius: 25 }}
+							/>
+							<View className="flex-row items-center">
+								<Entypo name="dot-single" size={24} color="red" />
+								{
+									pendingOrder.status == 'Preparing' ? (
+										<Text className="font-semibold text-base text-center">Em preparação • Pedido Nº {pendingOrder.id}</Text>
+									) : (
+										<Text className='font-semibold text-base text-center'>Saiu para entrega • Pedido Nº {pendingOrder.id}</Text>
+									)
+								}
 							</View>
 						</View>
-					);
-				}}
-			/>
-			{pendingOrders.length != 0 && deliveredOrders.length != 0 && (
-				<View className="flex-row items-center px-4 py-4 gap-2">
-					<FontAwesome5 name="history" size={24} color="black" />
-					<Text className="text-lg font-semibold">Histórico de Pedidos</Text>
-				</View>
-				)}
+						<TouchableOpacity
+							className="flex w-full px-2 py-2 mt-6 bg-red-main rounded-xl"
+							onPress={() => router.push(`/orderDetails`)}
+						>
+							<Text className="text-off-white text-center">Detalhes do pedido</Text>
+						</TouchableOpacity>
+					
+					</View>
+				</>
+			)}
+			<View className="flex-row items-center px-4 py-4 gap-2">
+				<FontAwesome5 name="history" size={24} color="black" />
+				<Text className="text-lg font-semibold">Histórico de Pedidos</Text>
+			</View>
 			<FlatList
 				data={deliveredOrders}
 				keyExtractor={(item) => item.id.toString()}
@@ -313,8 +276,13 @@ export default function Orders() {
 						</View>
 					);
 				}}
+
 				ListEmptyComponent={
-					<View className='flex-1 justify-center items-center mt-[45%]'>
+					<View 
+						className={`flex-1 justify-center items-center bg-slate-400 ${
+							pendingOrder ? 'mt-0' : 'mt-[20%]'
+						}`}
+					>
 						<ChameleonWarning message="Nenhum pedido anterior"/>
 					</View>
 				}
