@@ -1,12 +1,13 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, ScrollView, useWindowDimensions } from "react-native";
+import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, ScrollView, useWindowDimensions, TextInput } from "react-native";
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants';
 import LOCAL_IP from '../../../config';
 import axios from 'axios';
 import ContentLoader, { Rect } from 'react-content-loader/native'
 import ChameleonWarning from "../chameleonWarning";
+import React from "react";
 
 interface FoodItem {
     id: string;
@@ -52,7 +53,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products({ restaurantId, showFavorites }: { restaurantId?: string; showFavorites?: boolean }) {
+export function Products({ restaurantId, showFavorites, showFilters, searchQuery}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string;}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -70,15 +71,16 @@ export function Products({ restaurantId, showFavorites }: { restaurantId?: strin
                 let filteredItems = restaurantId
                     ? fetchedItems.filter((item: FoodItem) => item.restaurantId === restaurantId)
                     : fetchedItems;
+                let searchFilteredItems = searchQuery ? filteredItems.filter((item: FoodItem) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) : filteredItems;
 
                 if(showFavorites){
-                    filteredItems = filteredItems.filter((item: FoodItem) => item.isFavorite);
+                    searchFilteredItems = searchFilteredItems.filter((item: FoodItem) => item.isFavorite);
                 }
 
-                setItems(filteredItems);
+                setItems(searchFilteredItems);
 
                 const names: { [key: string]: string } = {};
-                for (const item of filteredItems) {
+                for (const item of searchFilteredItems) {
                     if (!names[item.restaurantId]) {
                         const name = await fetchRestaurant(item.restaurantId);
                         names[item.restaurantId] = name || "Restaurante Desconhecido";
@@ -92,13 +94,13 @@ export function Products({ restaurantId, showFavorites }: { restaurantId?: strin
             }
         };
         getData();
-    }, [restaurantId]);
+    }, [restaurantId, searchQuery]);
 
     const handleCategorySelect = (category: string) => {
         setSelectedCategory(category);
     };
 
-    const filteredItems = items.filter(item => 
+    const searchFilteredItems = items.filter(item => 
         selectedCategory === 'Todos' || item.category === selectedCategory
     );
 
@@ -149,12 +151,15 @@ export function Products({ restaurantId, showFavorites }: { restaurantId?: strin
                 </ContentLoader>
             ):(
                 <>
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
+                    <View
                         className="pl-4"
                     >
                         <View className="flex flex-row gap-2">
+                            {showFilters && (
+                                <TouchableOpacity className="w-24 py-4 rounded-xl bg-off-white">
+                                    <Text className="font-bold text-center text-black-gray">Filtros</Text>
+                                </TouchableOpacity>
+                            )}
                             {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
                                 <TouchableOpacity
                                     key={category}
@@ -167,13 +172,13 @@ export function Products({ restaurantId, showFavorites }: { restaurantId?: strin
                                 </TouchableOpacity>
                             ))}
                         </View>
-                    </ScrollView>
+                    </View>
 
                     <View className="flex flex-row flex-wrap p-1">
-                        {filteredItems.length === 0 ? (
+                        {searchFilteredItems.length === 0 ? (
                             <ChameleonWarning message='Nenhum item disponível'/>
                         ) : (
-                            filteredItems.map(item => (
+                            searchFilteredItems.map(item => (
                                 <View key={item.id} className="w-1/2 p-2">
                                     <Pressable
                                         className="bg-white rounded-xl p-3"
