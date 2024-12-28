@@ -267,6 +267,7 @@ export default function Product() {
                         </View>
                     </View>
                 </ScrollView>
+                </KeyboardAvoidingView>
 
                 <View style={{
                     height: 100,
@@ -285,7 +286,7 @@ export default function Product() {
                         <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
                     </TouchableOpacity>
                 </View>
-            </KeyboardAvoidingView>
+            
         </View>
     );
 }

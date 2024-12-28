@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Text, TouchableOpacity, View, ScrollView, TextInput, Image, Pressable, StatusBar, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView, TextInput, Image, Pressable, StatusBar, ActivityIndicator, Platform, KeyboardAvoidingView } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -82,6 +82,11 @@ export default function Chat({ color = "black" }) {
     }
 
     return (
+        <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                className="flex-1"
+                keyboardVerticalOffset={40}
+            >
         <View className="flex-1 bg-white">
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <View className='flex flex-row items-center py-4 px-4'>
@@ -170,5 +175,6 @@ export default function Chat({ color = "black" }) {
                 </Pressable>
             </View>
         </View>
+        </KeyboardAvoidingView>
     );
 }
