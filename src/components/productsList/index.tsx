@@ -8,6 +8,7 @@ import axios from 'axios';
 import ContentLoader, { Rect } from 'react-content-loader/native'
 import ChameleonWarning from "../chameleonWarning";
 import React from "react";
+import { Footer } from "../footer";
 
 interface FoodItem {
     id: string;
@@ -128,7 +129,7 @@ export function Products({ restaurantId, showFavorites, showFilters, searchQuery
 
 
     return (
-        <View>
+        <View className="flex-1 bg-white">
             {loading && loadingImages ? (
                 <ContentLoader 
                     style={{
@@ -150,84 +151,90 @@ export function Products({ restaurantId, showFavorites, showFilters, searchQuery
                     <Rect x="190" y="330" rx="4" ry="4" width="150" height="230" />
                 </ContentLoader>
             ):(
-                <>
-                    <View
-                        className="pl-4"
+                <View className="h-full w-full">
+                    <ScrollView
+                        className="bg-white"
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ flexGrow: 1 }}
                     >
-                        <View className="flex flex-row gap-2">
-                            {showFilters && (
-                                <TouchableOpacity className="w-24 py-4 rounded-xl bg-off-white">
-                                    <Text className="font-bold text-center text-black-gray">Filtros</Text>
-                                </TouchableOpacity>
-                            )}
-                            {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
-                                <TouchableOpacity
-                                    key={category}
-                                    className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-off-white'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
-                                    onPress={() => handleCategorySelect(category)}
-                                >
-                                    <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
-                                        {category}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </View>
-
-                    <View className="flex flex-row flex-wrap p-1">
-                        {searchFilteredItems.length === 0 ? (
-                            <ChameleonWarning message='Nenhum item disponível'/>
-                        ) : (
-                            searchFilteredItems.map(item => (
-                                <View key={item.id} className="w-1/2 p-2">
-                                    <Pressable
-                                        className="bg-white rounded-xl p-3"
-                                        onPress={() => router.push(`/product?id=${item.id}`)}
-                                        style={{
-                                            shadowColor: '#000',
-                                            shadowOffset: { width: 0, height: 2 },
-                                            shadowOpacity: 0.25,
-                                            shadowRadius: 3.84,
-                                            elevation: 5,
-                                        }}
+                        <View
+                            className="pl-4"
+                        >
+                            <View className="flex flex-row gap-2">
+                                {showFilters && (
+                                    <TouchableOpacity className="w-24 py-4 rounded-xl bg-off-white">
+                                        <Text className="font-bold text-center text-black-gray">Filtros</Text>
+                                    </TouchableOpacity>
+                                )}
+                                {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
+                                    <TouchableOpacity
+                                        key={category}
+                                        className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-off-white'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
+                                        onPress={() => handleCategorySelect(category)}
                                     >
-                                        <View className="flex flex-row items-center absolute left-3 top-3 z-10">
-                                            <Pressable onPress={() => toggleFavorite(item.id, item.isFavorite)}>
-                                                {item.isFavorite ? (
-                                                    <AntDesign name="heart" size={20} color="red" /> 
-                                                ) : (
-                                                    <AntDesign name="hearto" size={20} color="black" /> 
-                                                )}
-                                            </Pressable>
-                                        </View>
-                                        <Image
-                                            source={{ uri: item.url }}
-                                            className="w-full mx-auto h-40"
-                                            style={{ resizeMode: 'cover' }}
-                                            onLoadStart={() => handleImageStartLoading(item.id)}
-                                            onLoad={() => handleImageLoad(item.id)}
-                                        />
-                                        <Text className="text-dark-brown font-regular text-left mt-2 px-1">
-                                            {restaurantNames[item.restaurantId] || "Carregando..."}
+                                        <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
+                                            {category}
                                         </Text>
-                                        <View className="flex flex-row justify-between items-center px-1">
-                                            <Text className="text-dark-brown text-lg font-semibold text-center">{item.name}</Text>
-                                        </View>
-                                        <View className="flex flex-row justify-between mt-2 px-1 items-center">
-                                            <View className="flex flex-row items-center">
-                                                <Entypo name="star" size={16} color="#FFD700" className="mr-1" />
-                                                <Text className="text-dark-brown font-bold text-center py-2">{item.rating}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </View>
+
+                        <View className="flex flex-row flex-wrap p-1">
+                            {searchFilteredItems.length === 0 ? (
+                                <ChameleonWarning message='Nenhum item disponível'/>
+                            ) : (
+                                searchFilteredItems.map(item => (
+                                    <View key={item.id} className="w-1/2 p-2">
+                                        <Pressable
+                                            className="bg-white rounded-xl p-3"
+                                            onPress={() => router.push(`/product?id=${item.id}`)}
+                                            style={{
+                                                shadowColor: '#000',
+                                                shadowOffset: { width: 0, height: 2 },
+                                                shadowOpacity: 0.25,
+                                                shadowRadius: 3.84,
+                                                elevation: 5,
+                                            }}
+                                        >
+                                            <View className="flex flex-row items-center absolute left-3 top-3 z-10">
+                                                <Pressable onPress={() => toggleFavorite(item.id, item.isFavorite)}>
+                                                    {item.isFavorite ? (
+                                                        <AntDesign name="heart" size={20} color="red" /> 
+                                                    ) : (
+                                                        <AntDesign name="hearto" size={20} color="black" /> 
+                                                    )}
+                                                </Pressable>
                                             </View>
-                                            <Text className="text-dark-brown text-lg font-semibold text-center">
-                                                R$ {item.price.toFixed(2).replace('.', ',')}
+                                            <Image
+                                                source={{ uri: item.url }}
+                                                className="w-full mx-auto h-40"
+                                                style={{ resizeMode: 'cover' }}
+                                                onLoadStart={() => handleImageStartLoading(item.id)}
+                                                onLoad={() => handleImageLoad(item.id)}
+                                            />
+                                            <Text className="text-dark-brown font-regular text-left mt-2 px-1">
+                                                {restaurantNames[item.restaurantId] || "Carregando..."}
                                             </Text>
-                                        </View>
-                                    </Pressable>
-                                </View>
-                            ))
-                        )}
-                    </View>
-                </>
+                                            <View className="flex flex-row justify-between items-center px-1">
+                                                <Text className="text-dark-brown text-lg font-semibold text-center">{item.name}</Text>
+                                            </View>
+                                            <View className="flex flex-row justify-between mt-2 px-1 items-center">
+                                                <View className="flex flex-row items-center">
+                                                    <Entypo name="star" size={16} color="#FFD700" className="mr-1" />
+                                                    <Text className="text-dark-brown font-bold text-center py-2">{item.rating}</Text>
+                                                </View>
+                                                <Text className="text-dark-brown text-lg font-semibold text-center">
+                                                    R$ {item.price.toFixed(2).replace('.', ',')}
+                                                </Text>
+                                            </View>
+                                        </Pressable>
+                                    </View>
+                                ))
+                            )}
+                        </View>
+                    </ScrollView>
+                </View>
             )}
             
         </View>
