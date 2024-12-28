@@ -99,11 +99,9 @@ export default function OrderDetails(){
                 simulateOrderPreparation();
 
                 if(OrderFetched.status == "Preparing"){
-                    if (isPreparing) {
-                        const updatedOrder = { ...OrderFetched, status: "Out for Delivery" };
-                        setOrder(updatedOrder);
-                        await axios.put(`${LOCAL_IP}/orders/${OrderFetched.id}`, updatedOrder);
-                    }   
+                    const updatedOrder = { ...OrderFetched, status: "Out for Delivery" };
+                    setOrder(updatedOrder);
+                    await axios.put(`${LOCAL_IP}/orders/${OrderFetched.id}`, updatedOrder);
                 } else if(OrderFetched.status == "Out for Delivery"){
                     setOrderStatus("Out for Delivery");
                     setIsButtonDisabled(false);
