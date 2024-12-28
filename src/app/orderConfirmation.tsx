@@ -3,13 +3,35 @@ import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import PaymentDetails from '../components/paymentDetails';
 import BackArrow from '../components/backArrow';
 import CardList from "../components/cardList";
+import { useEffect, useState } from "react";
+import WaitingForRestaurant from "../components/waitingForRestaurant";
 
 export default function OrderConfirmation(){
     const router = useRouter();
     const { orderId, subtotal, deliveryFee, deliveryTime } = useLocalSearchParams();
+    const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
+
     const handleCardSelect = (id: string) => {
         console.log(`Cartão selecionado: ${id}`);
       };
+
+    /*const simulateOrderConfirmation = () => {
+        setTimeout(() => {
+            setIsOrderConfirmed(true);
+        }, 5000);
+    };
+
+    useEffect(() => {
+        simulateOrderConfirmation();
+    }, []);*/
+
+    if(!isOrderConfirmed) {
+        return (
+            <View className='flex-1 flex-col justify-center items-center'>
+                <WaitingForRestaurant/>
+            </View>
+        )
+    }
 
     return (
         <View className="flex-1">
