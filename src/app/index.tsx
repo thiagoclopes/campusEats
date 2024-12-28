@@ -104,7 +104,6 @@ export default function Index() {
 			if (items.length > 0 && items[0].restaurantId) {
 				const fetchedRestaurant = await fetchRestaurant(items[0].restaurantId);
 				setRestaurantOnCart(fetchedRestaurant);
-
 			}
 
 			const foodItemsPromises = items.map(item => {

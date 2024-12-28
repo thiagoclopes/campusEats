@@ -18,13 +18,6 @@ interface CartItem {
     price: number;
 }
 
-interface Order {
-    id: string;
-    items: CartItem[];
-    address: string;
-    status: string;
-}
-
 interface Restaurant {
     id: string;
     name: string;
@@ -58,7 +51,7 @@ const createOrder = async (cartItems: CartItem[], address: string, latitude: num
         address: address,
         latitude: latitude,
         longitude: longitude,
-        status: 'Pendente',
+        status: 'Awaiting Confirmation',
     };
 
     try {

@@ -101,11 +101,11 @@ export default function OrderProgress() {
 
     async function handleOrderReceived(orderId: string) {
         try {
-            await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {status: "Entregue"})
+            await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {status: "Delivered"})
             
             setOrder(prevOrder => {
                 if (prevOrder && prevOrder.id === orderId) {
-                    return { ...prevOrder, status: "Entregue" };
+                    return { ...prevOrder, status: "Delivered" };
                 }
                 return prevOrder;
             });
