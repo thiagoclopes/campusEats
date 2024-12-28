@@ -33,7 +33,7 @@ export default function Success() {
         await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {
           courierId: courierId,
       });
-      router.push(`/orderDetails`)
+		router.push(`/orderProgress?orderId=${orderId}`);
       } else {
         console.error('Não foi possível atribuir um entregador.');
       }
@@ -53,13 +53,13 @@ export default function Success() {
         <Octicons name="check-circle-fill" size={90} color="#EF2A39" />
         <Text className="text-3xl font-bold text-red-main text-center mt-5">Sucesso!</Text>
         <Text className="text-lg font-regular text-black-gray text-center mt-2 w-full">
-          Seu pagamento foi aceito.
+          Seu pagamento foi aceito. Aguarde seu pedido...
         </Text> 
         <TouchableOpacity 
           className="bg-red-main rounded-2xl py-5 px-8 mt-12" 
           onPress={handleOrderTracking}
         > 
-          <Text className="text-white text-lg text-center font-semibold">Aguardar pedido</Text>
+          <Text className="text-white text-lg text-center font-semibold">Procurar entregador</Text>
         </TouchableOpacity>
       </View>
     </View>

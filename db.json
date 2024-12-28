@@ -264,26 +264,10 @@
   "cart": [],
   "orders": [
     {
-      "id": "5ff5",
+      "id": "42ed",
       "items": [
         {
-          "id": "88de",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor IV",
-      "latitude": -5.842412943228999,
-      "longitude": -35.19972013385473,
-      "status": "Entregue",
-      "courierId": "321"
-    },
-    {
-      "id": "9911",
-      "items": [
-        {
-          "id": "7fc8",
+          "id": "ebba",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
@@ -292,14 +276,14 @@
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
-      "status": "Entregue",
+      "status": "Delivered",
       "courierId": "321"
     },
     {
-      "id": "41f6",
+      "id": "a4d1",
       "items": [
         {
-          "id": "6432",
+          "id": "e93c",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
@@ -308,23 +292,40 @@
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
-      "status": "Entregue",
+      "status": "Delivered",
       "courierId": "123"
     },
     {
-      "id": "29cd",
+      "id": "a045",
       "items": [
         {
-          "id": "66d9",
+          "id": "4a2d",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
         }
       ],
-      "address": "Setor IV",
-      "latitude": -5.842412943228999,
-      "longitude": -35.19972013385473,
-      "status": "Pendente"
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Delivered",
+      "courierId": "123"
+    },
+    {
+      "id": "9b18",
+      "items": [
+        {
+          "id": "0625",
+          "foodId": "3",
+          "restaurantId": "2",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor II",
+      "latitude": -5.840452832201686,
+      "longitude": -35.19724725069943,
+      "status": "Delivered",
+      "courierId": "123"
     }
   ]
 }

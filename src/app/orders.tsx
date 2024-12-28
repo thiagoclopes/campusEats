@@ -32,7 +32,7 @@ interface Order {
   address: string;
   latitude: number;
   longitude: number;
-  status: 'Pendente' | 'Entregue';
+  status: 'Preparing' | 'Delivered';
   courierId: string;
 }
 
@@ -71,8 +71,8 @@ export default function Orders() {
         const response = await axios.get<Order[]>(`${LOCAL_IP}/orders`);
         const allOrders = response.data;
 
-        setPendingOrders(allOrders.filter((order) => order.status === 'Pendente'));
-        setDeliveredOrders(allOrders.filter((order) => order.status === 'Entregue'));
+        setPendingOrders(allOrders.filter((order) => order.status === 'Preparing'));
+        setDeliveredOrders(allOrders.filter((order) => order.status === 'Delivered'));
 
         const restaurantIds = new Set(allOrders.flatMap((order) => order.items.map((item) => item.restaurantId)));
         const restaurantRequests = Array.from(restaurantIds).map((restaurantId) =>
@@ -213,7 +213,7 @@ export default function Orders() {
 									</Text>
 									
 								</View>
-								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl" onPress={() => router.push(`/orderProgress?orderId=${item.id}`)}>
+								<TouchableOpacity className="bg-red-main mx-auto py-4 rounded-xl" onPress={() => router.push(`/orderDetails`)}>
 									<Text className="text-white text-center">Acompanhar pedido</Text>
 								</TouchableOpacity>
 							</View>
