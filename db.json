@@ -261,14 +261,7 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "7ebb",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
       "id": "42ed",
@@ -332,6 +325,22 @@
       "latitude": -5.840452832201686,
       "longitude": -35.19724725069943,
       "status": "Delivered",
+      "courierId": "123"
+    },
+    {
+      "id": "9ef3",
+      "items": [
+        {
+          "id": "7e58",
+          "foodId": "3",
+          "restaurantId": "2",
+          "quantity": 1
+        }
+      ],
+      "address": "Setor II",
+      "latitude": -5.840452832201686,
+      "longitude": -35.19724725069943,
+      "status": "Preparing",
       "courierId": "123"
     }
   ]
