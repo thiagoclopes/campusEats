@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { StatusBar, Text, TouchableOpacity, View, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
+import { StatusBar, Text, TouchableOpacity, View, StyleSheet, TextInput, FlatList, ScrollView, Platform, KeyboardAvoidingView } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
@@ -62,6 +62,7 @@ export default function SelectAddress() {
     const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredPoints, setFilteredPoints] = useState(referencePoints);
+    const [selectedPoint, setSelectedPoint] = useState<ReferencePoint | null>(null); 
     const router = useRouter();
 
     const requestLocationPermission = async () => {
@@ -113,14 +114,30 @@ export default function SelectAddress() {
     ];
 
     const handleSelectPoint = (point: ReferencePoint) => {
-        router.push({
-            pathname: '/cart',
-            params: { 
-                pointName: point.name,
-                latitudeParam: String(point.coords.latitude),
-                longitudeParam: String(point.coords.longitude)
-            },
-        });
+        setSelectedPoint(point);
+        setSearchQuery(''); // Clear the search input after selecting a point
+    };
+
+    const handleConfirmSelection = () => {
+        if (selectedPoint) {
+            router.push({
+                pathname: '/cart',
+                params: { 
+                    pointName: selectedPoint.name,
+                    latitudeParam: String(selectedPoint.coords.latitude),
+                    longitudeParam: String(selectedPoint.coords.longitude)
+                },
+            });
+        } else {
+            alert('Selecione um setor primeiro!');
+        }
+    };
+
+    const handleInputFocus = () => {
+        if (selectedPoint) {
+            setSearchQuery(''); // Clear the selected point when the user focuses on the input to search again
+            setSelectedPoint(null); // Optionally reset the selected point
+        }
     };
 
     return (
@@ -128,39 +145,45 @@ export default function SelectAddress() {
             <StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
             <BackArrow color='white' title='Selecionar endereço'/>
 
-
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                className="flex-1"
+            >
             
             <View className='w-full flex-1 rounded-t-3xl bg-white'>
                 <View style={styles.container}>
-                    {searchQuery.length > 0 && (
-                        <ScrollView
-                            style={styles.suggestionList}
-                            showsVerticalScrollIndicator={true}
-                        >
-                            {filteredPoints.map((item) => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    style={styles.suggestionItem}
-                                    onPress={() => handleSelectPoint(item)}
-                                >
-                                    <Text style={styles.suggestionText}>{item.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    )}
                     <View className='shadow-xl' style={styles.searchContainer} >
                         <Text className='text-center font-semibold text-2xl'>Localização</Text>
                         <TextInput
                             className=" bg-white-gray w-[90%] mx-auto mt-6 mb-6 p-4 rounded-lg border border-gray-300"
                             placeholder="Pesquisar setor..."
-                            value={searchQuery}
+                            value={selectedPoint ? selectedPoint.name : searchQuery} // Show selected point name or search query
                             onChangeText={setSearchQuery}
+                            onFocus={handleInputFocus} // Clear the input and reset selected point on focus
                         />
 
-                        
+                        {searchQuery.length > 0 && (
+                            <ScrollView
+                                style={styles.suggestionList}
+                                showsVerticalScrollIndicator={true}
+                            >
+                                {filteredPoints.map((item) => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.suggestionItem}
+                                        onPress={() => handleSelectPoint(item)}
+                                    >
+                                        <Text style={styles.suggestionText}>{item.name}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        )}
 
-                        <TouchableOpacity className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center">
-                            <Text className="text-xl text-white">Continuar</Text>
+                        <TouchableOpacity 
+                            className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center"
+                            onPress={handleConfirmSelection}
+                        >
+                            <Text className="text-xl text-white">Confirmar</Text>
                         </TouchableOpacity>
                     </View>
                     
@@ -181,17 +204,17 @@ export default function SelectAddress() {
                                 onPress={() => handleSelectPoint(point)}
                             >
                                 <View className="items-center">
-                                    <Text className="font-bold text-lg mb-1 text-red-main bg-white/50">
+                                    <Text className={`font-bold text-lg mb-1 ${selectedPoint?.id === point.id ? 'text-green-500' : 'text-red-main'} bg-white/50`}>
                                         {point.name}
                                     </Text>
-                                    <FontAwesome name="map-pin" size={28} color="red" />
+                                    <FontAwesome name="map-pin" size={28} color={selectedPoint?.id === point.id ? 'green' : 'red'} />
                                 </View>
                             </Marker>
                         ))}
-                        
                     </MapView>
                 </View>
             </View>
+        </KeyboardAvoidingView>
         </View>
     );
 }
@@ -216,10 +239,9 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     suggestionList: {
-        position: 'absolute',
-        top: 0,
-        width: '60%',
-        left: '20%',
+        borderWidth: 1,
+        width: '90%',
+        left: '5%',
         zIndex: 10,
         backgroundColor: 'white',
         borderRadius: 8,
