@@ -276,6 +276,22 @@
       "address": "Setor IV",
       "latitude": -5.842412943228999,
       "longitude": -35.19972013385473,
+      "status": "Entregue",
+      "courierId": "321"
+    },
+    {
+      "id": "9911",
+      "items": [
+        {
+          "id": "7fc8",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
       "status": "Pendente",
       "courierId": "321"
     }

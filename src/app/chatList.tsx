@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FlatList, Pressable, StatusBar, Text, View, Image } from 'react-native';
+import { FlatList, Pressable, StatusBar, Text, View, Image, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
@@ -36,6 +36,7 @@ interface ChatItem {
 export default function ChatList() {
   const [chatList, setChatList] = useState<ChatItem[]>([]);
   const router = useRouter();
+  const [loading, setLoading] = useState<Boolean>(true);
 
   useEffect(() => {
     async function fetchChatData() {
@@ -69,11 +70,21 @@ export default function ChatList() {
         setChatList(chatsWithLastMessages);
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchChatData();
   }, []);
+
+  if (loading){
+      return(
+        <View className="flex-1 flex-col items-center justify-center">
+          <ActivityIndicator color="red" size="large"/>
+        </View>
+      )
+    }
 
   return (
     <View className='w-full h-full'>

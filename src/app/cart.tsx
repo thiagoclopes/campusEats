@@ -233,8 +233,12 @@ const Cart = () => {
     }, 0);
 
 
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
+    if (loading){
+        return(
+            <View className="flex-1 flex-col items-center justify-center">
+                <ActivityIndicator color="red" size="large"/>
+            </View>
+        )
     }
 
     return (

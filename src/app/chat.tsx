@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Text, TouchableOpacity, View, ScrollView, TextInput, Image, Pressable, StatusBar } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView, TextInput, Image, Pressable, StatusBar, ActivityIndicator } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -26,6 +26,7 @@ export default function Chat({ color = "black" }) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+    const [loading, setLoading] = useState<Boolean>(true);
 
     useEffect(() => {
         const fetchMessagesAndRestaurant = async () => {
@@ -44,6 +45,8 @@ export default function Chat({ color = "black" }) {
 
             } catch (error) {
                 console.error("Erro ao buscar mensagens ou restaurante:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -69,6 +72,14 @@ export default function Chat({ color = "black" }) {
             }
         }
     };
+
+    if(loading) {
+        return (
+            <View className='flex-1 flex-col justify-center items-center'>
+                <ActivityIndicator color="red" size="large"/>
+            </View>
+        )
+    }
 
     return (
         <View className="flex-1 bg-white">

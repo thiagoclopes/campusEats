@@ -1,6 +1,6 @@
 import BackArrow from '../components/backArrow';
 import { useEffect, useState } from 'react';
-import { FlatList, Text, View, Image, TouchableOpacity } from 'react-native';
+import { FlatList, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Footer } from '../components/footer';
 import LOCAL_IP from '@/config';
@@ -22,6 +22,7 @@ interface Notification {
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,11 +48,21 @@ export default function Notifications() {
         setNotifications(mappedNotifications);
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchNotifications();
   }, []);
+
+  if(loading) {
+      return (
+          <View className='flex-1 flex-col justify-center items-center'>
+              <ActivityIndicator color="red" size="large"/>
+          </View>
+      )
+  }
 
   return (
     <View className="flex-1 bg-white">

@@ -125,14 +125,13 @@ export default function Orders() {
     }
 };
 
-  if (loading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#000" />
-        <Text>Carregando pedidos...</Text>
-      </View>
-    );
-  }
+	if (loading){
+		return(
+			<View className="flex-1 flex-col items-center justify-center">
+				<ActivityIndicator color="red" size="large"/>
+			</View>
+		)
+	}
 
 
   return (

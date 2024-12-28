@@ -172,7 +172,14 @@ export default function Product() {
         }
     };
 
-    if (!product) {
+    if (loading){
+        return(
+            <View className="flex-1 flex-col items-center justify-center">
+                <ActivityIndicator color="red" size="large"/>
+            </View>
+        )
+    }
+    else if (!product) {
         return (
             <View className="p-4">
                 <Text className="text-center">Produto não encontrado.</Text>
