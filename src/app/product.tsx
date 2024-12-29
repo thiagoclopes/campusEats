@@ -269,7 +269,8 @@ export default function Product() {
                 </ScrollView>
                 </KeyboardAvoidingView>
 
-                <View style={{
+                <View 
+                style={{
                     height: 100,
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -280,10 +281,10 @@ export default function Product() {
                         <Text className='text-slate-500 text-xl'>Total:</Text>
                         <Text className='font-bold text-2xl'>R$ {totalPrice}</Text>
                     </View>
-                    <TouchableOpacity className={'w-[65%] rounded-xl bg-red-main py-5'} onPress={() => {
+                    <TouchableOpacity className={'w-[55%] rounded-xl bg-red-main py-5'} onPress={() => {
                         addToCart(product, quantity);
                     }}>
-                        <Text className={'text-center text-white'}>ADICIONAR AO CARRINHO</Text>
+                        <Text className={'text-center font-semibold text-white'}>ADICIONAR AO CARRINHO</Text>
                     </TouchableOpacity>
                 </View>
             

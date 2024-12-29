@@ -12,11 +12,11 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({ subtotal, deliveryFee, 
 
     return (
         <View className="flex flex-col gap-3 w-full px-4">
-            <View className="flex flex-row justify-between">
+            <View className="flex flex-row justify-between text-black-gray-500">
                 <Text>Subtotal</Text>
                 <Text>R$ {subtotal.toFixed(2).replace('.', ',')}</Text>
             </View>
-            <View className="flex flex-row justify-between">
+            <View className="flex flex-row justify-between text-black-gray-500">
                 <Text>Taxa de entrega</Text>
                 <Text>R$ {deliveryFee.toFixed(2).replace('.', ',')}</Text>
             </View>

@@ -111,6 +111,7 @@ const Cart = () => {
     const { pointName, latitudeParam, longitudeParam } = useLocalSearchParams();
     const latitude = latitudeParam ? Number(latitudeParam) : 0;
     const longitude = longitudeParam ? Number(longitudeParam) : 0;
+    const [errorMessage, setErrorMessage] = useState(""); 
 
 
     useEffect(() => {
@@ -173,6 +174,7 @@ const Cart = () => {
             }
         } else {
             console.log("Endereço não selecionado ou carrinho vazio");
+            setErrorMessage("Selecione um endereço antes de confirmar pedido.");
         }
     };
 
@@ -285,21 +287,21 @@ const Cart = () => {
                                                 style={{ width: 64, height: 64, resizeMode: 'cover' }}
                                             />
                                         </View>
-										<View className="flex flex-col w-72 px-4 pt-8">
+										<View className="flex flex-col w-72 p-4">
 											<View className="flex flex-row justify-between">
 												<Text className="text-lg font-semibold">{foodItem ? foodItem.name : 'Item não encontrado'}</Text>
 												<TouchableOpacity onPress={() => handleRemoveItem(item.id)}>
 													<Feather name="x" size={15} color="black" className="mt-1"/>
 												</TouchableOpacity>
 											</View>
-											<View className='flex flex-row h-16 items-center justify-between'>
+											<View className='flex flex-row h-10 items-center justify-between'>
 												<Text className="text-gray-600">R$ {(price * item.quantity).toFixed(2).replace('.', ',')}</Text>
 												<View className="flex flex-row">
-													<TouchableOpacity className='w-5 h-5 rounded-full bg-red-main flex items-center justify-center'>
+													<TouchableOpacity className='w-5 h-5 rounded-lg bg-red-main flex items-center justify-center'>
 														<FontAwesome5 name="minus" size={12} color="white" onPress={() => decreaseQuantity(item.id)}/>
 													</TouchableOpacity>
 													<Text className='mx-5'>{item.quantity}</Text>
-													<TouchableOpacity className='w-5 h-5 rounded-full bg-red-main flex items-center justify-center'>
+													<TouchableOpacity className='w-5 h-5 rounded-lg bg-red-main flex items-center justify-center'>
 														<FontAwesome5 name="plus" size={12} color="white" onPress={() => increaseQuantity(item.id)}/>
 													</TouchableOpacity>
 												</View>
@@ -314,7 +316,7 @@ const Cart = () => {
                     {cartItems.length > 0 && (
 					<View className="w-96 mt-5 mx-auto">
                         <TouchableOpacity
-                            className="flex-row flex-1 gap-2 items-center bg-white-gray mx-6 mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
+                            className="flex-row flex-1 gap-2 items-center bg-white-gray mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
                             onPress={() => handleSaveAndNavigate('/selectAddress')}>
                             <Feather name="map-pin" size={14} color="#7D7D7D" />
                             {selectedAddress ? (
@@ -323,6 +325,12 @@ const Cart = () => {
                                 <Text className="text-black-gray-500">Calcular taxa de entrega</Text>
                             )}
                         </TouchableOpacity>
+
+                        {errorMessage && (
+    <Text className="text-red-600 mb-6">{errorMessage}</Text>
+)}
+
+
                         <Text className="font-semibold mb-5 text-xl">Valores</Text>
                         <PaymentDetails 
     subtotal={totalAmount} 
@@ -335,7 +343,8 @@ const Cart = () => {
 			</View>
 			
 			{cartItems.length > 0 && (
-				<View style={{
+				<View className="shadow-md" 
+                style={{
 					height: 100,
 					flexDirection: 'row',
 					alignItems: 'center',
@@ -343,11 +352,11 @@ const Cart = () => {
 					backgroundColor: 'white',
 				}}>
 					<View className='flex flex-col items-center justify-center'>
-						<Text className='text-slate-500 text-lg'>Total:</Text>
-						<Text className='font-bold text-xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
+						<Text className='text-slate-500 text-xl'>Total:</Text>
+						<Text className='font-bold text-2xl'>R$ {(totalAmount+3.75).toFixed(2).replace('.', ',')}</Text>
 					</View>
-					<TouchableOpacity className={'w-[60%] rounded-xl bg-red-main py-5'} onPress={handleOrderCreation}>
-						<Text className='text-center text-white font-semibold'>Continuar</Text>
+					<TouchableOpacity className={'w-[55%] rounded-xl bg-red-main py-5'} onPress={handleOrderCreation}>
+						<Text className='text-center text-white font-semibold'>CONFIRMAR PEDIDO</Text>
 					</TouchableOpacity>
 				</View>
 			)}

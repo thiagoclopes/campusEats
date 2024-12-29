@@ -186,7 +186,7 @@ export default function Orders() {
 					</View>
 				</>
 			)}
-			<View className="flex-row items-center px-4 py-4 gap-2">
+			<View className="flex-row items-center px-4 py-4 gap-2 mt-5">
 				<FontAwesome5 name="history" size={24} color="black" />
 				<Text className="text-lg font-semibold">Histórico de Pedidos</Text>
 			</View>
@@ -279,7 +279,7 @@ export default function Orders() {
 
 				ListEmptyComponent={
 					<View 
-						className={`flex-1 justify-center items-center bg-slate-400 ${
+						className={`flex-1 justify-center items-center ${
 							pendingOrder ? 'mt-0' : 'mt-[20%]'
 						}`}
 					>

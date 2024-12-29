@@ -53,7 +53,7 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string)
         return (
           <TouchableOpacity
             onPress={() => handleSelectCard(item.id)}
-            className={` rounded-xl p-6 shadow-sm mt-3 w-[96%] mx-auto ${
+            className={` rounded-xl p-6 shadow-sm mt-3 w-[100%] mx-auto ${
               isSelected ? 'bg-button-press' : 'bg-white-80'
             }`}
           >
