@@ -78,7 +78,7 @@ const fetchFoodItem = async (foodId: string) => {
 const fetchPendingOrder = async () => {
 	try {
 		const response = await axios.get<Order[]>(`${LOCAL_IP}/orders`, {
-			params: { status: "Preparing" },
+			params: { status: ["Preparing", "Out for Delivery"] },
 		});
 		return response.data;
 

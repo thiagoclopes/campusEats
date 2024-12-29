@@ -20,7 +20,7 @@ export const validateCart = async (newProductRestaurantId: string): Promise<Vali
         }
 
         const { data: orders } = await axios.get(`${LOCAL_IP}/orders`);
-        const hasPendingOrders = orders.some((order: { status: string }) => order.status === "Preparing");
+        const hasPendingOrders = orders.some((order: { status: string }) => order.status === "Preparing" || order.status === "Out for Delivery");
 
         if (hasPendingOrders) {
             return { isValid: false, errorType: 'orders' };
