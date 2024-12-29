@@ -316,7 +316,7 @@ const Cart = () => {
                     {cartItems.length > 0 && (
 					<View className="w-96 mt-5 mx-auto">
                         <TouchableOpacity
-                            className="flex-row flex-1 gap-2 items-center bg-white-gray mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
+                            className="flex-row gap-2 items-center bg-white-gray w-[95%] mx-auto mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
                             onPress={() => handleSaveAndNavigate('/selectAddress')}>
                             <Feather name="map-pin" size={14} color="#7D7D7D" />
                             {selectedAddress ? (

@@ -202,12 +202,12 @@ export default function SelectAddress() {
                                 title={point.name}
                                 description={point.description}
                                 onPress={() => handleSelectPoint(point)}
+                                className='w-32 h-10 bg-slate-600'
                             >
-                                <View className="items-center">
-                                    <Text className={`font-bold text-lg mb-1 ${selectedPoint?.id === point.id ? 'text-green-500' : 'text-red-main'} bg-white/50`}>
-                                        {point.name}
-                                    </Text>
-                                    <FontAwesome name="map-pin" size={28} color={selectedPoint?.id === point.id ? 'green' : 'red'} />
+                                
+                                <View className="items-center absolute z-10">
+                                    
+                                    <FontAwesome name="map-pin" size={24} color={selectedPoint?.id === point.id ? 'green' : 'red'} />
                                 </View>
                             </Marker>
                         ))}

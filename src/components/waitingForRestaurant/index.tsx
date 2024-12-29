@@ -23,11 +23,11 @@ export default function WaitingForRestaurant({ isOrderConfirmed, onProceedToPaym
             {isOrderConfirmed ? (
                 <View className="flex flex-col items-center justify-center p-4 bg-white h-[50%] w-full rounded-2xl elevation-lg shadow-md">
                     <View className="flex flex-col items-center justify-center rounded-full bg-red-200 h-20 w-20">
-                        <FontAwesome6 name="check" size={40} color="red" />
+                    <FontAwesome6 name="check" size={40} color="red" />
                     </View>
-                    <Text className="text-center text-3xl font-bold text-red-main mt-5">Pedido confirmado</Text>
-                    <Text className="text-center text-lg font-regular text-black-gray mt-2 w-full">Seu pedido foi confirmado. Volte para efetuar seu pagamento</Text>
-                    <View className="bg-red-main mt-12 py-5 px-8 rounded-2xl">
+                    <Text className="text-center text-2xl mt-4 font-bold text-red-main">Pedido confirmado</Text>
+                    <Text className="text-center text-base mt-2 font-normal text-gray-300">Seu pedido foi confirmado. Volte para efetuar seu pagamento</Text>
+                    <View className="flex bg-red-main mt-8 p-4 rounded-xl">
                         <TouchableOpacity onPress={onProceedToPayment}>
                             <Text className="text-white text-lg text-center font-semibold">Ir para pagamento</Text>
                         </TouchableOpacity>

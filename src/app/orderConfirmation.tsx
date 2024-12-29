@@ -95,7 +95,6 @@ export default function OrderConfirmation(){
             <View className="flex-1">
                 <BackArrow color='black' title='Resumo do pedido' route='/cart'/>
 
-                <ScrollView style={{ width: '100%'}} showsVerticalScrollIndicator={false}>
                 {isPaymentValidating ? (
                     <View className="flex flex-col w-full my-auto items-center justify-center">
                         <View className="flex flex-col items-center justify-center rounded-full bg-red-200 h-16 w-16">
@@ -105,38 +104,39 @@ export default function OrderConfirmation(){
                         <Text className="text-sm mt-4 pb-20">Aguarde enquanto processamos seu pedido</Text>
                     </View>
                 ) : (
-                    <View className="w-96 mx-auto">
-                        <Text className="font-semibold mb-5 text-xl">Valores</Text>
-                        <PaymentDetails 
-                                subtotal={Number(subtotal)} 
-                                deliveryFee={Number(deliveryFee)} 
-                                deliveryTime={String(deliveryTime)} 
-                            />
+                    <ScrollView style={{ width: '100%'}} showsVerticalScrollIndicator={false}>
+                        <View className="w-96 mx-auto">
+                            <Text className="font-semibold mb-5 text-xl">Valores</Text>
+                            <PaymentDetails 
+                                    subtotal={Number(subtotal)} 
+                                    deliveryFee={Number(deliveryFee)} 
+                                    deliveryTime={String(deliveryTime)} 
+                                />
 
-                        <Text className="font-semibold mt-16 mb-5 text-xl">Endereço de Entrega</Text>
-                        <Text>ENDEREÇOS</Text>
-                        <TouchableOpacity>
-                            <Text className="font-medium text-lg mt-2">Mudar endereço</Text>
-                        </TouchableOpacity>
+                            <Text className="font-semibold mt-16 mb-5 text-xl">Endereço de Entrega</Text>
+                            <Text>ENDEREÇOS</Text>
+                            <TouchableOpacity>
+                                <Text className="font-medium text-lg mt-2">Mudar endereço</Text>
+                            </TouchableOpacity>
 
-                        <Text className="font-semibold mt-16 mb-2 text-xl">Formas de pagamento</Text>
-                        <CardList onCardSelect={handleCardSelect} />
-                    </View>
+                            <Text className="font-semibold mt-16 mb-2 text-xl">Formas de pagamento</Text>
+                            <CardList onCardSelect={handleCardSelect} />
+                        </View>
+                        <View className="shadow-md" 
+                            style={{
+                                height: 100,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-around',
+                                backgroundColor: 'white',
+                            }}>
+                                <TouchableOpacity className={'w-[70%] rounded-xl bg-red-main py-6'} onPress={simulatePaymentValidation}>
+                                    <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
+                                </TouchableOpacity>
+                        </View>
+                    </ScrollView>
                 )}
-                </ScrollView>
 
-                <View className="shadow-md" 
-                style={{
-                    height: 100,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-around',
-                    backgroundColor: 'white',
-                }}>
-                    <TouchableOpacity className={'w-[70%] rounded-xl bg-red-main py-6'} onPress={simulatePaymentValidation}>
-                        <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         </View>
     )
