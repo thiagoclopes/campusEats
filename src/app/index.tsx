@@ -77,11 +77,17 @@ const fetchFoodItem = async (foodId: string) => {
 
 const fetchPendingOrder = async () => {
 	try {
-		const response = await axios.get<Order[]>(`${LOCAL_IP}/orders`, {
-			params: { status: ["Preparing", "Out for Delivery"] },
+		let response = await axios.get<Order[]>(`${LOCAL_IP}/orders`, {
+			params: { status: "Preparing" },
 		});
-		return response.data;
 
+		if (response.data.length === 0) {
+			response = await axios.get<Order[]>(`${LOCAL_IP}/orders`, {
+				params: { status: "Out for Delivery" },
+			});
+		}
+
+		return response.data;
 	} catch (error) {
 		console.error("Erro ao buscar itens do carrinho:", error);
 		return [];
