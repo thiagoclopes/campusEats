@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { View, ScrollView, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import PaymentDetails from '../components/paymentDetails';
 import BackArrow from '../components/backArrow';
 import CardList from "../components/cardList";
@@ -104,8 +104,14 @@ export default function OrderConfirmation(){
                         <Text className="text-sm mt-4 pb-20">Aguarde enquanto processamos seu pedido</Text>
                     </View>
                 ) : (
-                    <ScrollView style={{ width: '100%'}} showsVerticalScrollIndicator={false}>
-                        <View className="w-96 mx-auto">
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
+                        className="flex-1"
+                    >
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+                    keyboardShouldPersistTaps="handled"
+                    showsVerticalScrollIndicator={false}>
+                        <View className="w-96 mx-auto mb-6">
                             <Text className="font-semibold mb-5 text-xl">Valores</Text>
                             <PaymentDetails 
                                     subtotal={Number(subtotal)} 
@@ -122,7 +128,11 @@ export default function OrderConfirmation(){
                             <Text className="font-semibold mt-16 mb-2 text-xl">Formas de pagamento</Text>
                             <CardList onCardSelect={handleCardSelect} />
                         </View>
-                        <View className="shadow-md" 
+                        
+                    </ScrollView>
+                    </KeyboardAvoidingView>
+                )}
+                <View className="shadow-md" 
                             style={{
                                 height: 100,
                                 flexDirection: 'row',
@@ -134,8 +144,6 @@ export default function OrderConfirmation(){
                                     <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
                                 </TouchableOpacity>
                         </View>
-                    </ScrollView>
-                )}
 
             </View>
         </View>

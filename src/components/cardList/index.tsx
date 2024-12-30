@@ -1,25 +1,32 @@
-import { ScrollView, TouchableOpacity, View, Text, Image } from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text, Image, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
 import LOCAL_IP from '@/config';
 
 interface Cards {
   id: string;
   method: string;
-  name: string;
-  flag: string;
-  number: number;
+  name?: string;
+  flag?: string;
+  number?: number;
 }
 
-export default function CardList({ onCardSelect }: { onCardSelect?: (id: string) => void }) {
+export default function CardList({ onCardSelect }: { onCardSelect?: (id: string, cashChange?: string) => void }) {
   const [cards, setCards] = useState<Cards[]>([]);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+  const [cashChange, setCashChange] = useState<string>('');
 
   useEffect(() => {
     async function fetchCards() {
       try {
         const response = await fetch(`${LOCAL_IP}/cards`);
         const cardsData: Cards[] = await response.json();
-        setCards(cardsData);
+
+        const fixedOptions = [
+          { id: 'cash', method: 'Dinheiro', flag: 'dinheiro' },
+          { id: 'pix', method: 'Pix', flag: 'pix' },
+        ];
+
+        setCards([...cardsData, ...fixedOptions]);
       } catch (error) {
         console.error('Erro ao buscar cartões:', error);
       }
@@ -30,14 +37,30 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string)
 
   const handleSelectCard = (id: string) => {
     setSelectedCardId((prevId) => (prevId === id ? null : id));
-    onCardSelect?.(id);
+
+    if (id !== 'cash') {
+      setCashChange('');
+    }
+
+    onCardSelect?.(id, id === 'cash' ? cashChange : undefined);
   };
 
-  const renderCardFlag = (flag: string) => {
-    if (flag.toLowerCase() === 'visa') {
+  const incrementCashChange = (value: number) => {
+    setCashChange((prev) => {
+      const numericValue = parseFloat(prev) || 0;
+      return (numericValue + value).toString();
+    });
+  };
+
+  const renderCardFlag = (flag?: string) => {
+    if (flag?.toLowerCase() === 'visa') {
       return <Image source={require('@/assets/images/visa.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />;
-    } else if (flag.toLowerCase() === 'master') {
+    } else if (flag?.toLowerCase() === 'master') {
       return <Image source={require('@/assets/images/master.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />;
+    } else if (flag?.toLowerCase() === 'dinheiro') {
+      return <Image source={require('@/src/assets/dinheiro.jpg')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />;
+    } else if (flag?.toLowerCase() === 'pix') {
+      return <Image source={require('@/src/assets/pix.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />;
     }
     return null;
   };
@@ -58,7 +81,7 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string)
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
                 <View className="w-12 h-12 rounded-full flex items-center justify-center">
-                  {renderCardFlag(item.flag)}
+                  {item.flag ? renderCardFlag(item.flag) : null}
                 </View>
                 <View className="ml-6">
                   <Text
@@ -68,7 +91,9 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string)
                   >
                     {item.method}
                   </Text>
-                  <Text className="text-black-gray font-regular text-md">{item.number}</Text>
+                  {item.number && (
+                    <Text className="text-black-gray font-regular text-md">{item.number}</Text>
+                  )}
                 </View>
               </View>
               <TouchableOpacity
@@ -82,6 +107,32 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string)
                 )}
               </TouchableOpacity>
             </View>
+
+            {isSelected && item.id === 'cash' && (
+              <View className="mt-4">
+                <Text className="text-white font-regular text-md mb-2">Troco para:</Text>
+                <View className="flex-row items-center">
+                  <TextInput
+                    value={cashChange}
+                    onChangeText={(text) => setCashChange(text)}
+                    placeholder="Digite o valor do troco"
+                    keyboardType="numeric"
+                    className="border border-white rounded-lg p-2 text-white flex-1"
+                  />
+                </View>
+                <View className="flex-row justify-around mt-3">
+                  {[2, 5, 10, 20, 50].map((value) => (
+                    <TouchableOpacity
+                      key={value}
+                      onPress={() => incrementCashChange(value)}
+                      className="bg-white rounded-lg px-4 py-2"
+                    >
+                      <Text className="text-black font-medium">+{value}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
         );
       })}
