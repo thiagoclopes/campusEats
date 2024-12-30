@@ -26,6 +26,7 @@ interface Restaurant {
     name: string;
 }
 
+
 const fetchItems = async () => {
     try {
         const response = await axios.get(`${LOCAL_IP}/products`);
@@ -54,7 +55,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products({ restaurantId, showFavorites, showFilters, searchQuery}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string;}) {
+export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string;}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -160,12 +161,8 @@ export function Products({ restaurantId, showFavorites, showFilters, searchQuery
                         <View
                             className="pl-4"
                         >
+                            {showFilters && (
                             <View className="flex flex-row gap-2">
-                                {showFilters && (
-                                    <TouchableOpacity className="w-24 py-4 rounded-xl bg-off-white">
-                                        <Text className="font-bold text-center text-black-gray">Filtros</Text>
-                                    </TouchableOpacity>
-                                )}
                                 {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
                                     <TouchableOpacity
                                         key={category}
@@ -178,6 +175,7 @@ export function Products({ restaurantId, showFavorites, showFilters, searchQuery
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            )}
                         </View>
 
                         <View className="flex flex-row flex-wrap p-1">
