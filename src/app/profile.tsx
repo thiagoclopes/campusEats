@@ -1,8 +1,10 @@
 import { Image, StatusBar, Text, TouchableOpacity, View, Pressable, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
 import BackArrow from '../components/backArrow';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router'; 
 import { Footer } from '../components/footer';
+import LOCAL_IP from '@/config';
 
 const sections = [
     {
@@ -38,7 +40,29 @@ const sections = [
 ];
 
 export default function Profile() {
+    const [profile, setProfile] = useState({
+        name: '',
+        email: '',
+        phone: '',
+    });
+    
     const router = useRouter(); 
+
+    useEffect(() => {
+        async function fetchProfile() {
+            try {
+                const response = await fetch(`${LOCAL_IP}/profile`);
+                const profileData = await response.json();
+                if (profileData.length > 0) {
+                    setProfile(profileData[0]); 
+                }
+            } catch (error) {
+                console.error('Erro ao buscar perfil:', error);
+            }
+        }
+
+        fetchProfile();
+    }, []);
 
     return (
         <View className="flex-1 bg-red-main">
@@ -54,11 +78,17 @@ export default function Profile() {
                 </View>
 
                 <View className="w-full h-full rounded-t-3xl px-4 -mt-10 bg-white shadow-lg">
-                    <View className="h-14 mt-28 px-6 w-full rounded-xl border border-gray-line flex justify-center">
-                        <Text className="font-semibold">Thiago Lopes</Text>
+                    <Text className='font-semibold mt-28 ml-4 mb-2'>Nome</Text>
+                    <View className="h-14 px-6 w-full rounded-xl border border-gray-line flex justify-center">
+                        <Text className="font-semibold text-black-gray">{profile.name}</Text>
                     </View>
-                    <View className="h-14 mt-8 px-6 w-full rounded-xl border border-gray-line flex justify-center">
-                        <Text className="font-semibold">thiagoviniciusc33@gmail.com</Text>
+                    <Text className='font-semibold mt-4 ml-4 mb-2'>Email</Text>
+                    <View className="h-14 px-6 w-full rounded-xl border border-gray-line flex justify-center">
+                        <Text className="font-semibold text-black-gray">{profile.email}</Text>
+                    </View>
+                    <Text className='font-semibold mt-4 ml-4 mb-2'>Telefone</Text>
+                    <View className="h-14 px-6 w-full rounded-xl border border-gray-line flex justify-center">
+                        <Text className="font-semibold text-black-gray">{profile.phone}</Text>
                     </View>
                     <TouchableOpacity className="flex justify-center mt-4 mb-4 w-[50%] shadow-sm py-2 rounded-full bg-black">
                         <Text className="text-center text-white">Editar Perfil</Text>

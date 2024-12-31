@@ -158,6 +158,10 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ flexGrow: 1 }}
                     >
+                        <ScrollView horizontal
+    showsHorizontalScrollIndicator={false}>
+
+                        
                         <View
                             className="pl-4"
                         >
@@ -177,6 +181,7 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                             </View>
                             )}
                         </View>
+                        </ScrollView>
 
                         <View className="flex flex-row flex-wrap p-1">
                             {searchFilteredItems.length === 0 ? (
