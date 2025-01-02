@@ -1,4 +1,4 @@
-import { Keyboard, TextInput, View, Modal, TouchableOpacity, Text, FlatList } from 'react-native';
+import { Keyboard, TextInput, View, Modal, TouchableOpacity, Text, FlatList, TouchableWithoutFeedback  } from 'react-native';
 import BackArrow from '../components/backArrow';
 import { Footer } from '../components/footer';
 import { Products } from '../components/productsList';
@@ -34,10 +34,11 @@ export default function Search() {
     const [selectedCategory, setSelectedCategory] = useState<CategoriesType>([]);
     const [filterType, setFilterType] = useState<FilterType>('categories');
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
-    const [orderFilter, setOrderFilter] = useState<SortOrderType>(null);
+    const [orderFilter, setOrderFilter] = useState<SortOrderType>('default');
     const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
     const [appliedCategories, setAppliedCategories] = useState<CategoriesType>([]);
     const [appliedSortOrder, setAppliedSortOrder] = useState<SortOrderType>(null);
+    
     
 
     const textInputRef = useRef<TextInput>(null)
@@ -93,6 +94,10 @@ export default function Search() {
         );
     };
 
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+    };
+
     const reverseSortOrderMap: { [key in Exclude<SortOrderType, null>]: string } = {
         'rating': 'Melhor avaliação',
         'price': 'Menor preço',
@@ -109,6 +114,8 @@ export default function Search() {
     
 
     return (
+        <>
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <View className="flex-1">
             <BackArrow color="black" title="Pesquisar" route="/" />
 
@@ -124,7 +131,7 @@ export default function Search() {
 
             <View className="flex-row items-center mx-4 gap-2">
                 <TouchableOpacity
-                    className="w-40 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
+                    className="w-48 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
                     onPress={() => toggleFilterModal('order')}
                 >
                     <Text className="font-bold text-center text-black-gray">
@@ -244,8 +251,7 @@ export default function Search() {
 
             {!isKeyboardVisible && <Footer />}
         </View>
+        </TouchableWithoutFeedback>
+        </>
     );
 }
-
-// Fazer os filtros funcionarem
-// 
