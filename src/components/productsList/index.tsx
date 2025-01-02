@@ -55,7 +55,8 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[];}) {
+
+export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories, sortBy}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[]; sortBy?: string | null;}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -86,6 +87,12 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                     );
                 }
 
+                if (sortBy === 'rating') {
+                    filteredItems.sort((a: FoodItem, b: FoodItem) =>  Number(b.rating) - Number(a.rating));
+                } else if (sortBy === 'price') {
+                    filteredItems.sort((a: FoodItem, b: FoodItem) => a.price - b.price);
+                }
+
                 setItems(filteredItems);
 
                 const names: { [key: string]: string } = {};
@@ -104,7 +111,7 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
         };
         getData();
 
-    }, [restaurantId, searchQuery, categories]);
+    }, [restaurantId, searchQuery, categories, sortBy]);
 
 
     const handleCategorySelect = (category: string) => {
@@ -167,30 +174,29 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ flexGrow: 1 }}
                     >
-                        <ScrollView horizontal
-    showsHorizontalScrollIndicator={false}>
-
+                        {showFilters && (
+                            <ScrollView horizontal
+                            showsHorizontalScrollIndicator={false}>
+                                <View
+                                    className="pl-4"
+                                >
+                                    <View className="flex flex-row gap-2">
+                                        {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
+                                            <TouchableOpacity
+                                                key={category}
+                                                className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-off-white'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
+                                                onPress={() => handleCategorySelect(category)}
+                                            >
+                                                <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
+                                                    {category}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ))}
+                                    </View>
+                                </View>
+                            </ScrollView>
+                        )}
                         
-                        <View
-                            className="pl-4"
-                        >
-                            {showFilters && (
-                            <View className="flex flex-row gap-2">
-                                {['Todos', 'Combos', 'Almoço', 'Pizza', 'Açaí'].map((category, index, arr) => (
-                                    <TouchableOpacity
-                                        key={category}
-                                        className={`w-24 py-4 rounded-xl ${selectedCategory === category ? 'bg-red-500' : 'bg-off-white'} ${index === arr.length - 1 ? 'mr-4' : ''}`}
-                                        onPress={() => handleCategorySelect(category)}
-                                    >
-                                        <Text className={`font-bold text-center ${selectedCategory === category ? 'text-white' : 'text-black-gray'}`}>
-                                            {category}
-                                        </Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                            )}
-                        </View>
-                        </ScrollView>
 
                         <View className="flex flex-row flex-wrap p-1">
                             {searchFilteredItems.length === 0 ? (

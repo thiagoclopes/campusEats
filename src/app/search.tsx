@@ -4,8 +4,9 @@ import { Footer } from '../components/footer';
 import { Products } from '../components/productsList';
 import { useEffect, useRef, useState } from 'react';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import React from 'react';
 
-function useDebounce(value, delay) {
+function useDebounce(value: string, delay: number) {
     const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {
@@ -21,23 +22,29 @@ function useDebounce(value, delay) {
     return debouncedValue;
 }
 
+type FilterType = 'status' | 'order' | 'categories';
+type CategoriesType = ('Combos' | 'Almoço' | 'Pizza' | 'Açaí' | 'Salgados' | 'Bebidas')[];
+type SortOrderType = 'rating' | 'price' | 'default' | null;
+
 export default function Search() {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const debouncedQuery = useDebounce(searchQuery, 300);
-    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-    const [isFilterModalVisible, setFilterModalVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState([]);
-    const [appliedCategoryCount, setAppliedCategoryCount] = useState(0);
-    const [filterType, setFilterType] = useState('categories');
-    const [statusFilter, setStatusFilter] = useState(null);
-    const [orderFilter, setOrderFilter] = useState(null);
-    const [activeFilter, setActiveFilter] = useState(null);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
+    const [isFilterModalVisible, setFilterModalVisible] = useState<boolean>(false);
+    const [selectedCategory, setSelectedCategory] = useState<CategoriesType>([]);
+    const [filterType, setFilterType] = useState<FilterType>('categories');
+    const [statusFilter, setStatusFilter] = useState<string | null>(null);
+    const [orderFilter, setOrderFilter] = useState<SortOrderType>(null);
+    const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
+    const [appliedCategories, setAppliedCategories] = useState<CategoriesType>([]);
+    const [appliedSortOrder, setAppliedSortOrder] = useState<SortOrderType>(null);
+    
 
-    const textInputRef = useRef(null);
+    const textInputRef = useRef<TextInput>(null)
 
-    const categories = ['Combos', 'Almoço', 'Pizza', 'Açaí', 'Salgados', 'Bebidas'];
+    const categories = ['Combos', 'Almoço', 'Pizza', 'Açaí', 'Salgados', 'Bebidas'] as const;
 
-    const orderOptions = ['Proximidade', 'Menor preço', 'Todos'];
+    const orderOptions = ['rating', 'price', 'default'];
 
     useEffect(() => {
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
@@ -60,7 +67,14 @@ export default function Search() {
         setIsKeyboardVisible(false);
     };
 
-    const toggleFilterModal = (type) => {
+    const handleApplyFilters = () => {
+        setFilterModalVisible(false);
+        setActiveFilter(null);
+        setAppliedCategories(selectedCategory)
+        setAppliedSortOrder(orderFilter)
+    };
+
+    const toggleFilterModal = (type: FilterType) => {
         if (activeFilter === type) {
             setFilterModalVisible(false);
             setActiveFilter(null);
@@ -71,7 +85,7 @@ export default function Search() {
         }
     };
 
-    const toggleCategorySelection = (category) => {
+    const toggleCategorySelection = (category: typeof categories[number]) => {
         setSelectedCategory((prev) =>
             prev.includes(category)
                 ? prev.filter((item) => item !== category)
@@ -79,17 +93,20 @@ export default function Search() {
         );
     };
 
-    const handleApplyFilters = () => {
-        if (orderFilter === 'Todos') {
-            setOrderFilter(null);
-        }
-        if (statusFilter === 'Todos') {
-            setStatusFilter(null);
-        }
-        setAppliedCategoryCount(selectedCategory.length);
-        setFilterModalVisible(false);
-        setActiveFilter(null);
+    const reverseSortOrderMap: { [key in Exclude<SortOrderType, null>]: string } = {
+        'rating': 'Melhor avaliação',
+        'price': 'Menor preço',
+        'default': 'Ordenação padrão'
     };
+
+    const handleOrderDisplay = (orderFilter: SortOrderType) => {
+        if (orderFilter === null) {
+            return;
+        }
+    
+        return reverseSortOrderMap[orderFilter];
+    };
+    
 
     return (
         <View className="flex-1">
@@ -111,7 +128,7 @@ export default function Search() {
                     onPress={() => toggleFilterModal('order')}
                 >
                     <Text className="font-bold text-center text-black-gray">
-                        {orderFilter ? orderFilter : 'Ordenar por'}
+                        {orderFilter === 'default' ? 'Ordenar por' : handleOrderDisplay(orderFilter)}
                     </Text>
                     <AntDesign name={activeFilter === 'order' ? 'up' : 'down'} size={16} color="#EF2A39" />
                 </TouchableOpacity>
@@ -121,7 +138,7 @@ export default function Search() {
                     onPress={() => toggleFilterModal('categories')}
                 >
                     <Text className="font-bold text-center text-black-gray">
-                        {appliedCategoryCount > 0 ? appliedCategoryCount : 'Todos'}
+                        {selectedCategory.length > 0 ? selectedCategory.length : 'Todos'}
                     </Text>
                     <AntDesign name={activeFilter === 'categories' ? 'up' : 'down'} size={16} color="#EF2A39" />
                 </TouchableOpacity>
@@ -180,9 +197,13 @@ export default function Search() {
                                     <TouchableOpacity
                                         key={option}
                                         className="py-2 flex-row items-center justify-between"
-                                        onPress={() => setOrderFilter(option)}
+                                        onPress={() => {
+                                            setOrderFilter(option as SortOrderType);
+                                        }}
                                     >
-                                        <Text className="text-lg text-black">{option}</Text>
+                                        <Text>
+                                        {handleOrderDisplay(option as SortOrderType)}
+                                        </Text>
                                         <View
                                             className={`w-6 h-6 rounded-full border-2 ${orderFilter === option ? 'border-red-500 bg-red-500' : 'border-black'}`}
                                         />
@@ -219,7 +240,7 @@ export default function Search() {
                 </View>
             </Modal>
 
-            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories}/>
+            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories} sortBy={appliedSortOrder}/>
 
             {!isKeyboardVisible && <Footer />}
         </View>
