@@ -219,7 +219,7 @@ export default function Search() {
                 </View>
             </Modal>
 
-            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} />
+            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories}/>
 
             {!isKeyboardVisible && <Footer />}
         </View>
