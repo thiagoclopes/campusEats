@@ -50,7 +50,8 @@
     {
       "name": "Natan Bastos de Morais",
       "email": "natanbastosdemorais7@gmail.com",
-      "phone": "84988185946"
+      "phone": "84988185946",
+      "id": "2aae"
     }
   ],
   "notifications": [
@@ -268,7 +269,14 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "001f",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    }
+  ],
   "orders": [
     {
       "id": "dff8",
@@ -600,6 +608,22 @@
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
       "status": "Awaiting Confirmation"
+    },
+    {
+      "id": "fd23",
+      "items": [
+        {
+          "id": "001f",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Delivered",
+      "courierId": "321"
     }
   ]
 }
