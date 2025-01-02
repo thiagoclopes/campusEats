@@ -55,7 +55,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     }
 };
 
-export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string;}) {
+export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[];}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -73,16 +73,23 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                 let filteredItems = restaurantId
                     ? fetchedItems.filter((item: FoodItem) => item.restaurantId === restaurantId)
                     : fetchedItems;
-                let searchFilteredItems = searchQuery ? filteredItems.filter((item: FoodItem) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) : filteredItems;
+
+                filteredItems = searchQuery ? filteredItems.filter((item: FoodItem) => item.name.toLowerCase().includes(searchQuery.toLowerCase())) : filteredItems;
 
                 if(showFavorites){
-                    searchFilteredItems = searchFilteredItems.filter((item: FoodItem) => item.isFavorite);
+                    filteredItems = filteredItems.filter((item: FoodItem) => item.isFavorite);
                 }
 
-                setItems(searchFilteredItems);
+                if (categories?.length) {
+                    filteredItems = filteredItems.filter((item: FoodItem) =>
+                        categories.includes(item.category)
+                    );
+                }
+
+                setItems(filteredItems);
 
                 const names: { [key: string]: string } = {};
-                for (const item of searchFilteredItems) {
+                for (const item of filteredItems) {
                     if (!names[item.restaurantId]) {
                         const name = await fetchRestaurant(item.restaurantId);
                         names[item.restaurantId] = name || "Restaurante Desconhecido";
@@ -96,7 +103,9 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
             }
         };
         getData();
-    }, [restaurantId, searchQuery]);
+
+    }, [restaurantId, searchQuery, categories]);
+
 
     const handleCategorySelect = (category: string) => {
         setSelectedCategory(category);

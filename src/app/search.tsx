@@ -26,8 +26,8 @@ export default function Search() {
     const debouncedQuery = useDebounce(searchQuery, 300);
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
     const [isFilterModalVisible, setFilterModalVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-    const [appliedCategoryCount, setAppliedCategoryCount] = useState<number>(0);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [appliedCategories, setAppliedCategories] = useState<string[]>([]);
 
     const textInputRef = useRef<TextInput>(null);
 
@@ -60,16 +60,16 @@ export default function Search() {
         setFilterModalVisible(!isFilterModalVisible);
     };
 
-    const toggleCategorySelection = (category: string) => {
-        setSelectedCategory((prev) =>
-            prev.includes(category)
-                ? prev.filter((item) => item !== category) 
-                : [...prev, category]                    
+    const toggleCategoriesSelection = (Categories: string) => {
+        setSelectedCategories((prev) =>
+            prev.includes(Categories)
+                ? prev.filter((item) => item !== Categories) 
+                : [...prev, Categories]                    
         );
     };
 
     const handleApplyFilters = () => {
-        setAppliedCategoryCount(selectedCategory.length); 
+        setAppliedCategories(selectedCategories)
         setFilterModalVisible(false); 
     };
 
@@ -93,7 +93,7 @@ export default function Search() {
                     onPress={toggleFilterModal}
                 >
                     <Text className="font-bold text-center text-black-gray">
-                        {appliedCategoryCount > 0 ? appliedCategoryCount : 'Todos'} 
+                        {selectedCategories.length > 0 ? selectedCategories.length : 'Todos'} 
                     </Text>
                     <AntDesign name={isFilterModalVisible ? 'up' : 'down'} size={16} color="#EF2A39"/>
                 </TouchableOpacity>
@@ -114,17 +114,17 @@ export default function Search() {
                             renderItem={({ item }) => (
                                 <TouchableOpacity
                                     className="py-2 flex-row justify-between items-center"
-                                    onPress={() => toggleCategorySelection(item)}
+                                    onPress={() => toggleCategoriesSelection(item)}
                                 >
                                     <Text
-                                        className={`text-lg ${selectedCategory.includes(item) ? 'text-red-500 font-bold' : 'text-black'}`}
+                                        className={`text-lg ${selectedCategories.includes(item) ? 'text-red-500 font-bold' : 'text-black'}`}
                                     >
                                         {item}
                                     </Text>
-                                    {selectedCategory.includes(item) && (
+                                    {selectedCategories.includes(item) && (
                                         <MaterialIcons name="check-box" size={24} color="red" />
                                     )}
-                                    {!selectedCategory.includes(item) && (
+                                    {!selectedCategories.includes(item) && (
                                         <MaterialIcons name="check-box-outline-blank" size={24} color="black" />
                                     )}
                                 </TouchableOpacity>
@@ -133,7 +133,7 @@ export default function Search() {
 
                         <TouchableOpacity
                             className="mt-4 rounded-full py-2"
-                            onPress={() => setSelectedCategory([])}
+                            onPress={() => setSelectedCategories([])}
                         >
                             <Text className="text-center text-black font-bold">Limpar Seleções</Text>
                         </TouchableOpacity>
@@ -148,7 +148,7 @@ export default function Search() {
                 </View>
             </Modal>
 
-            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} />
+            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories}/>
 
             {!isKeyboardVisible && <Footer />}
         </View>
