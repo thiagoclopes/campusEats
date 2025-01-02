@@ -118,10 +118,11 @@ export default function OrderConfirmation(){
                                     deliveryFee={Number(deliveryFee)} 
                                     deliveryTime={String(deliveryTime)} 
                                 />
+                                
 
                             <Text className="font-semibold mt-16 mb-5 text-xl">Endereço de Entrega</Text>
                             <Text>ENDEREÇOS</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => router.push('/address')}>
                                 <Text className="font-medium text-lg mt-2">Mudar endereço</Text>
                             </TouchableOpacity>
 
@@ -153,3 +154,4 @@ export default function OrderConfirmation(){
 // se não tiver endereço ou método de pagamento, aparecer mensagem
 // Total deve ser recebido como props
 // quando estiver confirmando pagamento, desaparecer botão de efetuar
+// se o "troco para" for menor que o valor total, aparecer mensagem 
