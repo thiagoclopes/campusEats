@@ -24,8 +24,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (!isOpen) return null;
   
     return (
-      <View className="absolute z-10 left-0 top-0 p-4 bottom-0 w-64 bg-white">
-        <View className='flex flex-row items-center mb-6'>
+      <View className="absolute z-10 left-0 top-0 p-4 bottom-0 w-80 bg-white rounded-r-3xl shadow-xl">
+        <View className='flex flex-row items-center mb-6 mt-2'>
             <Image 
                 source={{ uri: 'https://img.criativodahora.com.br/2023/10/MTQvMTAvMjAyMyAxOWgzOQ==652b18a66840f.jpeg' }} 
                 style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }} 
@@ -43,10 +43,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </View>
         
         {menuItems.map((item, index) => (
-            <TouchableOpacity key={index} className="p-4" onPress={item.onPress}>
-                <Text className="text-black text-lg font-semibold">{item.title}</Text>
+            <TouchableOpacity key={index} className="px-4 py-3" onPress={item.onPress}>
+                <Text className="text-black text-2xl font-bold">{item.title}</Text>
             </TouchableOpacity>
         ))}
+
+        <TouchableOpacity className='px-4 py-3 mt-12' onPress={() => router.push('/delivery/notifications')}>
+          <Text className="text-black text-lg font-medium">Perguntas Frequentes</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity className='px-4 py-3' onPress={() => router.push('/delivery/notifications')}>
+          <Text className="text-black text-lg font-medium">Termos e Políticas</Text>
+        </TouchableOpacity>
       </View>
     );
   }
