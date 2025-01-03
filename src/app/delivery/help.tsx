@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import BackArrow from '../../components/shared/backArrow';
-import { Footer } from '../../components/client/footer';
 
 interface CardProps {
   icon: React.ReactNode;
@@ -12,7 +11,7 @@ interface CardProps {
 
 export default function Help() {
   const [expanded, setExpanded] = useState<number |null>(null);
-  const [activeTab, setActiveTab] = useState('contact'); 
+  const [activeTab, setActiveTab] = useState('contact');
 
   const questions = [
     {
@@ -83,7 +82,7 @@ export default function Help() {
   return (
     <View className='flex-1'>
       <ScrollView className='flex-1'>
-        <BackArrow color='black' title='Ajuda e suporte' route='/client/profile' />
+        <BackArrow color='black' title='Ajuda e suporte' route='/delivery' />
 
         <View className="flex-row justify-center mt-4">
           <TouchableOpacity
@@ -186,8 +185,6 @@ export default function Help() {
 )}
 
       </ScrollView>
-
-      <Footer />
     </View>
   );
 }

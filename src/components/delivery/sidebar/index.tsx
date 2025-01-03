@@ -48,11 +48,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             </TouchableOpacity>
         ))}
 
-        <TouchableOpacity className='px-4 py-3 mt-12' onPress={() => router.push('/delivery/notifications')}>
-          <Text className="text-black text-lg font-medium">Perguntas Frequentes</Text>
+        <TouchableOpacity className='px-4 py-3 mt-12' onPress={() => router.push('/delivery/help')}>
+          <Text className="text-black text-lg font-medium">Ajuda e Suporte</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className='px-4 py-3' onPress={() => router.push('/delivery/notifications')}>
+        <TouchableOpacity className='px-4 py-3' onPress={() => router.push('/delivery/privacyPolicy')}>
           <Text className="text-black text-lg font-medium">Termos e Políticas</Text>
         </TouchableOpacity>
       </View>
