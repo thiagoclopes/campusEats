@@ -131,21 +131,20 @@ export default function OrderConfirmation(){
                         </View>
                         
                     </ScrollView>
+                    <View className="shadow-md" 
+                        style={{
+                            height: 100,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-around',
+                            backgroundColor: 'white',
+                        }}>
+                            <TouchableOpacity className={'w-[70%] rounded-xl bg-red-main py-6'} onPress={simulatePaymentValidation}>
+                                <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
+                            </TouchableOpacity>
+                    </View>
                     </KeyboardAvoidingView>
                 )}
-                <View className="shadow-md" 
-                            style={{
-                                height: 100,
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'space-around',
-                                backgroundColor: 'white',
-                            }}>
-                                <TouchableOpacity className={'w-[70%] rounded-xl bg-red-main py-6'} onPress={simulatePaymentValidation}>
-                                    <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
-                                </TouchableOpacity>
-                        </View>
-
             </View>
         </View>
     )

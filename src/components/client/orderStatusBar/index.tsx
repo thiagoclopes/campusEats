@@ -4,10 +4,9 @@ import { TouchableOpacity, View, Text, Image } from "react-native";
 
 interface OrderStatusBarProps {
     imageUrl: string;
-    pendingOrderId: string;
 }
 
-export default function orderStatusBar({imageUrl, pendingOrderId}: OrderStatusBarProps) {
+export default function orderStatusBar({imageUrl}: OrderStatusBarProps) {
     return (
         <View className="flex-row items-center justify-center gap-3 py-2.5 bg-off-white">
             <Image
@@ -21,7 +20,7 @@ export default function orderStatusBar({imageUrl, pendingOrderId}: OrderStatusBa
             </View>
             <TouchableOpacity
                 className="px-6 py-2 ml-1 bg-red-main rounded-xl"
-                onPress={() => router.push(`/client/orderProgress?orderId=${pendingOrderId}`)}
+                onPress={() => router.push(`/client/orderDetails`)}
             >
                 <Text className="text-off-white">Acompanhar Pedido</Text>
             </TouchableOpacity>
