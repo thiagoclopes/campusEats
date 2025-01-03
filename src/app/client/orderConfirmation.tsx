@@ -4,7 +4,7 @@ import PaymentDetails from '../../components/client/paymentDetails';
 import BackArrow from '../../components/shared/backArrow';
 import CardList from "../../components/client/cardList";
 import { useEffect, useState } from "react";
-import WaitingForRestaurant from "../../components/waitingForRestaurant";
+import WaitingForRestaurant from "../../components/client/waitingForRestaurant";
 import axios from "axios";
 import LOCAL_IP from "@/config";
 

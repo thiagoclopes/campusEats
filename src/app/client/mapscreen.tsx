@@ -72,7 +72,6 @@ const Sectors: Sector[] = [
 ];
 
 export default function MapScreen() {
-    const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -95,22 +94,11 @@ export default function MapScreen() {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
             console.log('You can use the Location');
-            getCurrentLocation();
         } else {
             console.log('Location permission denied');
         }
     };
 
-    const getCurrentLocation = async () => {
-        try {
-            const location = await Location.getCurrentPositionAsync({});
-            const { latitude, longitude } = location.coords;
-            setCurrentLocation({ latitude, longitude });
-            console.log(latitude, longitude);
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     useEffect(() => {
         requestLocationPermission();
