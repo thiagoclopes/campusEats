@@ -1,5 +1,5 @@
 import Constants from "expo-constants";
-import "../../styles/global.css";
+import "../styles/global.css";
 import { Slot } from "expo-router";
 import { StatusBar, View, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
