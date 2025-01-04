@@ -271,5 +271,21 @@
   ],
   "cart": [],
   "orders": [
+    {
+      "id": "1be4",
+      "items": [
+        {
+          "id": "b5ab",
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Delivered",
+      "courierId": "123"
+    }
   ]
 }
