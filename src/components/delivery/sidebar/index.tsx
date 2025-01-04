@@ -24,6 +24,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     if (!isOpen) return null;
   
     return (
+      <View className="absolute z-10 left-0 top-0 bottom-0 right-0">
+      <TouchableOpacity
+        onPress={onClose}
+        className="absolute z-10 top-0 left-0 bottom-0 right-0"
+        activeOpacity={1}
+      />
+      
       <View className="absolute z-10 left-0 top-0 p-4 bottom-0 w-80 bg-white rounded-r-3xl shadow-xl">
         <View className='flex flex-row items-center mb-6 mt-2'>
             <Image 
@@ -43,8 +50,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </View>
         
         {menuItems.map((item, index) => (
-            <TouchableOpacity key={index} className="px-4 py-3" onPress={item.onPress}>
+            <TouchableOpacity key={index} className="px-4 py-3 flex-row items-center" onPress={item.onPress}>
                 <Text className="text-black text-2xl font-bold">{item.title}</Text>
+                <View className='bg-red-main rounded-full w-7 h-7 items-center ml-2 justify-center'>
+                  <Text className='text-lg text-white font-semibold'>2</Text>
+                </View>
             </TouchableOpacity>
         ))}
 
@@ -55,6 +65,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <TouchableOpacity className='px-4 py-3' onPress={() => router.push('/delivery/privacyPolicy')}>
           <Text className="text-black text-lg font-medium">Termos e Políticas</Text>
         </TouchableOpacity>
+      </View>
       </View>
     );
   }

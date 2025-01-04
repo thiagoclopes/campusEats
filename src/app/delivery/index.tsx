@@ -73,15 +73,12 @@ export default function DeliveryHome() {
 		</TouchableOpacity>
 		<Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
 
-		{!isOnline && (
-			<TouchableOpacity 
-				className="absolute z-10 top-5 right-5 w-16 h-16 bg-red-main flex items-center justify-center rounded-full"
-				onPress={toggleSidebar}
-				style={{ zIndex: 2}}
-			>
-				<Entypo name="magnifying-glass" size={36} color="white"/>
-			</TouchableOpacity>
-		)}
+		<View 
+			className="absolute z-10 top-5 left-1/2 transform -translate-x-1/2 px-6 h-16 bg-black flex items-center justify-center rounded-full"
+			style={{ zIndex: 2}}
+		>
+			<Text className="text-white text-xl">R$ 249,80</Text>
+		</View>
 
 		<MapView
 			style={{ flex: 1 }}
@@ -92,18 +89,16 @@ export default function DeliveryHome() {
 			followsUserLocation={true}
 			loadingEnabled={true}
 		/>
+		{!isOnline && (
 		<TouchableOpacity
-			className={`absolute bottom-36 left-1/2 transform -translate-x-1/2 h-24 w-24 rounded-full items-center justify-center ${!isOnline ? 'bg-red-main' : 'bg-gray-300'}`}
+			className={`absolute  bottom-36 left-1/2 transform -translate-x-1/2 h-24 w-24 rounded-full items-center justify-center bg-red-main`}
 			onPress={handleToggleOnlineStatus}
 		>
-			{!isOnline? (
-				<Text className="text-white text-lg font-semibold">INICIAR</Text>
-			) : (
-				<Feather name="x" size={42} color="white" />
-			)}
+			<Text className="text-white text-lg font-bold">INICIAR</Text>
 		</TouchableOpacity>
-
-		<View className="absolute bottom-0 left-0 right-0 h-32 p-8 rounded-3xl shadow-md flex flex-row items-center justify-between bg-white">
+		)}
+	
+		<View className={`absolute bottom-0 left-0 right-0 p-8 rounded-3xl shadow-md flex flex-row items-center justify-between bg-white ${!isOnline ? 'bottom-0' : '-bottom-0'}`}>
 			{!isOnline ? (
 				<>
 					<TouchableOpacity className="w-[20%]">
@@ -114,8 +109,16 @@ export default function DeliveryHome() {
 				</>
 			) : (
 				<View className="flex flex-col items-center justify-center w-full flex-1">
-					<ActivityIndicator color="red" size="small" />
-					<Text className="text-center font-semibold text-xl mt-2">Procurando Viagens</Text>
+					<View className="w-20 h-1 bg-gray rounded-full mb-8"/>
+					<ActivityIndicator color="red" size="small"/>
+					<Text className="text-center font-semibold text-xl mt-2">Procurando entregas</Text>
+
+					<TouchableOpacity
+						className={`h-24 w-24 rounded-full items-center justify-center bg-gray-300 mt-8`}
+						onPress={handleToggleOnlineStatus}
+					>
+						<Feather name="x" size={42} color="white" />
+					</TouchableOpacity>
 				</View>
 			)}
 			

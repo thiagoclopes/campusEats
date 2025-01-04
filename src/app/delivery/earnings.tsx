@@ -170,7 +170,7 @@ export default function Earnings() {
 							>
 								{item.items.length > 0 && (
 									<TouchableOpacity className="flex-row items-center justify-between" onPress={() => toggleExpand(item.id)}>
-										<View className='absolute top-0 right-2'>
+										<View className='absolute top-0 right-1'>
                                             <Text>14:35</Text>
                                         </View>
                                         
@@ -192,8 +192,8 @@ export default function Earnings() {
                                                         (PIX)
                                                     </Text>
                                                 </View>
-                                                <Text className="font-medium text-base">
-                                                    Thiago Vinicius
+                                                <Text className="font-medium text-base text-black-gray">
+                                                    2 min 15 segundos - 1.65 km
                                                 </Text> 
                                             </View>
 										</View>
@@ -209,22 +209,15 @@ export default function Earnings() {
 									<>
 										<View className="w-full h-[1px] bg-gray-line my-4" />
 
-										{item.items.map((orderItem) => {
-											return (
-												<View key={orderItem.id} className="flex-row justify-between items-center mb-2">
-													<Text className="font-medium py-1 rounded text-md">2:15 - 2.65 km</Text>
-												</View>
-											);
-										})}
 										<View className="flex flex-col items-start gap-1 ml-4">
                                             <View className="flex-row items-center">
                                             <View className="w-[10px] h-[10px] rounded-full border-2 "></View>
-                                                <Text className="font-regular text-black-gray text-base ml-8">Setor I</Text>
+                                                <Text className="font-medium text-black-gray text-base ml-8">Setor I</Text>
                                             </View>
                                             {/* <View className="ml-[4px] w-0.5 h-3 bg-black"></View> */}
                                             <View className="flex-row items-center">
                                                 <View className="bg-black w-[10px] h-[10px] rounded-full"></View>
-                                                <Text className="font-regular text-black-gray text-base ml-8">ECT (Escola de Ciência e Tecnologia)</Text>
+                                                <Text className="font-medium text-black-gray text-base ml-8">ECT (Escola de Ciência e Tecnologia)</Text>
                                             </View>
                                         </View>
 									</>

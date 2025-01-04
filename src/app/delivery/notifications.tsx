@@ -2,7 +2,6 @@ import BackArrow from '../../components/shared/backArrow';
 import { useEffect, useState } from 'react';
 import { FlatList, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Footer } from '../../components/client/footer';
 import LOCAL_IP from '@/config';
 import ChameleonWarning from '../../components/shared/chameleonWarning';
 
@@ -67,7 +66,7 @@ export default function Notifications() {
   return (
     <View className="flex-1 bg-white">
       <View className="flex-1">
-        <BackArrow color='black' title='Notificações' route='/client'/>
+        <BackArrow color='black' title='Notificações' route='/delivery'/>
 
         <FlatList
           data={notifications}
@@ -80,10 +79,10 @@ export default function Notifications() {
                   style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
                 />
                 <View>
-                  <TouchableOpacity onPress={() => router.push(`/client/restaurant_profile?id=${item.restaurantId}`)}>
-                    <Text className="text-black font-medium text-lg ml-4">{item.restaurantName}</Text>
+                  <TouchableOpacity>
+                    <Text className="text-black font-medium text-lg ml-4">Campus Eats</Text>
                   </TouchableOpacity>
-                  <Text className="text-black-gray font-regular text-md ml-4">{item.message}</Text>
+                  <Text className="text-black-gray w-64 font-regular text-md ml-4">Bata sua meta do dia! Você está quase lá.</Text>
                 </View>
               </View>
               <Text className="text-black-gray text-xs absolute top-4 right-4">
@@ -98,7 +97,6 @@ export default function Notifications() {
           }
         />
       </View>
-      <Footer />
     </View>
   );
 }
