@@ -13,11 +13,6 @@ export default function CourierStatusSheet({ isOnline, handleToggleOnlineStatus 
 	const bottomSheetRef = useRef<BottomSheet>(null);
 	const snapPoints = useMemo(() => ["20%", "30%"], [])
 
-	const handleCloseAction = () => {
-		handleToggleOnlineStatus();
-		
-		bottomSheetRef.current?.close();
-	};
 	
 
     return(

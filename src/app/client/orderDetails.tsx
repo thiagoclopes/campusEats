@@ -103,7 +103,6 @@ export default function OrderDetails(){
                     if (OrderFetched.status == "Preparing"){
                         await simulateOrderPreparation();
                         const updatedOrder = { ...OrderFetched, status: "Out for Delivery" };
-                        console.log("TESTE")
                         setOrderStatus("Out for Delivery");
                         setOrder(updatedOrder);
                         await axios.put(`${LOCAL_IP}/orders/${OrderFetched.id}`, updatedOrder); 
@@ -112,6 +111,7 @@ export default function OrderDetails(){
                     if(!OrderFetched.courierId) {
                         setIsSearchingCourier(true);
                     } else if (OrderFetched.status == "Out for Delivery") {
+                        console.log("já tenho entregador")
                         setIsButtonDisabled(false);
                     }
 
@@ -125,55 +125,21 @@ export default function OrderDetails(){
         };
     
         fetchOrder();
-
-    }, [updateKey]);
+    }, []);
 
     useEffect(() => {
-        console.log("TESTE")
-        if(order && isSearchingCourier==true){
-            assignCourierToOrder(order.id);
-        }
-        console.log("FUI CHAMADO")
-    }, [isSearchingCourier]);
+        const intervalId = setInterval(() => {
+          if (isSearchingCourier && order) {
+            console.log("Procurando entregador...");
+          } else if (!isSearchingCourier) {
+            console.log("Entregador encontrado ou processo finalizado.");
+            clearInterval(intervalId);
+          }
+        }, 5000);
+    
+        return () => clearInterval(intervalId);
+    }, [isSearchingCourier, order]);
 
-
-
-	const fetchAvailableCouriers = async () => {
-		try {
-		  const response = await axios.get(`${LOCAL_IP}/couriers`);
-		  const couriers = response.data;
-	
-		  const availableCouriers = couriers.filter((courier: { availability: boolean }) => courier.availability === true);
-	
-		  if (availableCouriers.length > 0) {
-			const randomCourier = availableCouriers[Math.floor(Math.random() * availableCouriers.length)];
-			return randomCourier.id;
-		  } else {
-			throw new Error('Nenhum entregador disponível no momento');
-		  }
-		} catch (error) {
-		  console.error('Erro ao buscar entregadores:', error);
-		  return null;
-		}
-	  };
-
-    const assignCourierToOrder = async (orderId: string) => {
-        try {
-        const courierId = await fetchAvailableCouriers();
-        console.log("COURIERID: "+courierId)
-        if (courierId) {
-            await axios.patch(`${LOCAL_IP}/orders/${orderId}`, {
-            courierId: courierId,
-        });
-        setIsSearchingCourier(false);
-        setIsButtonDisabled(false);
-        } else {
-            console.error('Não foi possível atribuir um entregador.');
-        }
-        } catch (error) {
-        console.error('Erro ao atribuir entregador à ordem:', error);
-        }
-    };
 
 
     const totalOrder = order?.items.reduce((total, orderItem) => {
@@ -219,6 +185,8 @@ export default function OrderDetails(){
                         {
                             order.status == 'Preparing' ? (
                                 <Text className='font-semibold text-base'>Pedido em preparação • Nº {order.id}</Text>
+                            ) : !order.courierId ? (
+                                <Text className='font-semibold text-base'>Procurando entregador... • Nº {order.id}</Text>
                             ) : (
                                 <Text className='font-semibold text-base'>Saiu para entrega • Nº {order.id}</Text>
                             )

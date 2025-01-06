@@ -13,7 +13,7 @@ import {
   import { useEffect, useState } from "react";
   import BackArrow from "../../components/shared/backArrow";
   import FontAwesome from "@expo/vector-icons/FontAwesome";
-  import { useRouter } from "expo-router";
+  import { Link, useRouter } from "expo-router";
   import { Footer } from "../../components/client/footer";
   import LOCAL_IP from "@/config";
   
@@ -185,6 +185,11 @@ import {
                   {index < sections.length - 1 && <View className="border-t border-gray-line mt-4" />}
                 </View>
               ))}
+              <Link href="/delivery" className="w-full mb-4">
+                <View className="p-4 border border-gray-500 rounded-lg items-center">
+                  <Text className="text-base">Entrar como Entregador</Text>
+                </View>
+              </Link>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
