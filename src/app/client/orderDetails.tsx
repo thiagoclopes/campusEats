@@ -156,18 +156,21 @@ export default function OrderDetails(){
     }
 
     return (
-        <View className="flex-col flex-1 w-fit h-full bg-slate-100">
-            <BackArrow color='black' title='Detalhes do pedido' route='/client'/>
-            <View className="w-full h-16 flex items-center justify-center bg-red-main">
+        <View className="flex-col flex-1 w-fit h-full bg-slate-100 ">
+            <View className="bg-white">
+                <BackArrow color='black' title='Detalhes do pedido' route='/client'/>
+            </View>
+            <View className="flex justify-center">
+            <View className="w-full h-16 flex absolute top-8 items-center justify-center bg-red-main">
                 {
                     orderStatus == "Preparing" ? (
-                        <Text className="text-white text-semibold text-center">Disponível para entrega em 20 minutos</Text>
+                        <Text className="text-white text-lg text-semibold text-center">Disponível para entrega em 20 minutos</Text>
                     ) : (
-                        <Text className="text-white text-semibold text-center">Previsão de entrega: 18:30 - 19:00</Text>
+                        <Text className="text-white text-lg text-semibold text-center">Previsão de entrega: 18:30 - 19:00</Text>
                     )
                 }
             </View>
-            <TouchableOpacity className="mt-14 -mb-6 flex flex-row w-full items-center justify-center" onPress={() => setUpdateKey((prev) => prev + 1)}>
+            <TouchableOpacity className="mt-24 -mb-6 flex flex-row w-full items-center justify-center" onPress={() => setUpdateKey((prev) => prev + 1)}>
                 <Ionicons name="reload-circle-sharp" size={36} color="black" />
             </TouchableOpacity>
             <View className="mt-16 -mb-14 w-28 h-28 rounded-full overflow-hidden z-10 mx-auto">
@@ -178,21 +181,21 @@ export default function OrderDetails(){
                     style={{ width: '100%', height: '100%' }}
                 />
             </View>
-            <View className="flex flex-col p-4 mx-6 bg-white elevation-2xl shadow-lg">
+            <View className="flex flex-col p-8 mx-6 bg-white elevation-2xl shadow-lg rounded-2xl">
                 <View className='mt-12'>
                     <View className='flex-row justify-center items-center w-fit mx-auto'>
                         <Entypo name="dot-single" size={24} color="red" />
                         {
                             order.status == 'Preparing' ? (
-                                <Text className='font-semibold text-base'>Pedido em preparação • Nº {order.id}</Text>
+                                <Text className='font-bold text-base'>Pedido em preparação • Nº {order.id}</Text>
                             ) : !order.courierId ? (
-                                <Text className='font-semibold text-base'>Procurando entregador... • Nº {order.id}</Text>
+                                <Text className='font-bold text-base'>Procurando entregador... • Nº {order.id}</Text>
                             ) : (
-                                <Text className='font-semibold text-base'>Saiu para entrega • Nº {order.id}</Text>
+                                <Text className='font-bold text-base'>Saiu para entrega • Nº {order.id}</Text>
                             )
                         }
                     </View>
-                    <View className="flex flex-row justify-between mt-6 mb-2">
+                    <View className="flex flex-row justify-between mt-8 mb-2">
                         <Text className="font-bold text-sm w-1/5 text-left">ITEM</Text>
                         <Text className="font-bold text-sm w-3/5 text-left">DESCRIÇÃO</Text>
                         <Text className="font-bold text-sm w-1/5 text-right">VALOR</Text>
@@ -217,16 +220,17 @@ export default function OrderDetails(){
                 </View>
                 <View className="w-full h-[1px] bg-gray-line my-4" />
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className="font-semibold text-base">
+                    <Text className="font-bold text-lg text-base">
                         Total: R$ {totalOrder.toFixed(2)}
                     </Text>
                     
                 </View>
-                <TouchableOpacity className={`mx-auto py-4 rounded-xl ${isButtonDisabled ? 'bg-black-gray opacity-70' : 'bg-red-main'}`} onPress={() => !isButtonDisabled && router.push(`/client/orderProgress?orderId=${order?.id}`)} disabled={isButtonDisabled}>
-                    <Text className="text-white text-center">
+                <TouchableOpacity className={`mx-auto mt-6 px-6 py-4 rounded-xl ${isButtonDisabled ? 'bg-black-gray' : 'bg-red-main'}`} onPress={() => !isButtonDisabled && router.push(`/client/orderProgress?orderId=${order?.id}`)} disabled={isButtonDisabled}>
+                    <Text className="text-white font-medium text-center">
                         {isButtonDisabled ? 'Seu pedido está sendo preparado' : 'Acompanhar pedido'}
                     </Text>
                 </TouchableOpacity>
+            </View>
             </View>
         </View>
     )

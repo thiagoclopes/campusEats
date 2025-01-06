@@ -14,9 +14,15 @@ interface Address {
 }
 
 export default function Address() {
-
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+  const [profile, setProfile] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: null,
+    card: null
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -33,18 +39,78 @@ export default function Address() {
     fetchAddresses();
   }, []);
 
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await fetch(`${LOCAL_IP}/profile/2aae`);
+        const profileData = await response.json();
+        
+        if (profileData) {
+          setProfile({
+            name: profileData.name,
+            email: profileData.email,
+            phone: profileData.phone,
+            address: profileData.address || null,
+            card: profileData.card || null
+          });
+          setSelectedAddressId(profileData.address?.id || null); 
+        }
+      } catch (error) {
+        console.error('Erro ao buscar perfil:', error);
+      }
+    }
+
+    fetchProfile();
+  }, []);
+
   const handleSelectAddress = (id: string) => {
     setSelectedAddressId(prevId => (prevId === id ? null : id));
   };
 
+  const handleSaveAndRedirect = async () => {
+    if (selectedAddressId) {
+      const selectedAddress = addresses.find(address => address.id === selectedAddressId);
+
+      if (selectedAddress) {
+        try {
+          const response = await fetch(`${LOCAL_IP}/profile/2aae`, {  
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: profile.name,  
+              email: profile.email, 
+              phone: profile.phone, 
+              address: selectedAddress,
+              card: profile.card, 
+              id: "2aae",
+            }),
+          });
+
+          if (response.ok) {
+            console.log('Endereço salvo com sucesso no perfil:', selectedAddress);
+            router.push('/client/profile');
+          } else {
+            console.error('Erro ao salvar endereço no perfil');
+          }
+        } catch (error) {
+          console.error('Erro ao salvar endereço no perfil:', error);
+        }
+      }
+    } else {
+      router.push('/client/profile');
+    }
+  };
+
   const handleAddNewAddress = () => {
-    // adicionar novo endereço
+    // Adicionar novo endereço
   };
 
   return (
     <View className='flex-1'>
       <View className='flex-1'>
-        <BackArrow color='black' title='Meus Endereços' route='/client/profile' />
+        <BackArrow color='black' title='Meus Endereços' route='/client/profile' onClick={handleSaveAndRedirect} />
 
         <FlatList
           data={addresses}
@@ -82,7 +148,7 @@ export default function Address() {
           }}
           ListEmptyComponent={
             <View className='flex-1 justify-center items-center mt-[45%]'>
-              <ChameleonWarning message="Nenhum endereço cadastrado!"/>
+              <ChameleonWarning message="Nenhum endereço cadastrado!" />
             </View>
           }
         />

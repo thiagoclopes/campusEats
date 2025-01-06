@@ -63,3 +63,38 @@ export default function WaitingForRestaurant({ isOrderConfirmed, onProceedToPaym
         </View>
     );
 }
+
+
+// {isOrderConfirmed ? (
+//                 <PopUpComponent
+//                 title="Pedido confirmado"
+//                 subtitle="Seu pedido foi confirmado. Volte para efetuar seu pagamento"
+//                 onPress={onProceedToPayment}
+//                 buttonText="Ir para pagamento"
+//                 IconComponent={FontAwesome6}
+//                 iconName="check"
+//                 iconSize={40}
+//                 iconColor="red"
+//             />
+//             ) : timeLeft === 0 ? (
+//                 <PopUpComponent
+//                 title="Pedido negado"
+//                 subtitle="Infelizmente o estabelecimento negou o seu pedido."
+//                 onPress={() => router.push(`/client`)}
+//                 buttonText="Voltar para tela inicial"
+//                 IconComponent={FontAwesome6}
+//                 iconName="x"
+//                 iconSize={40}
+//                 iconColor="red"
+//             />
+//             ) : (
+//                 <PopUpComponent
+//                 title="Aguarde..."
+//                 subtitle="Seu pedido está sendo confirmado pelo estabelecimento"
+//                 onPress={() => router.push(`/client/orderDetails`)}
+//                 buttonText={formatTime(timeLeft)}
+//                 IconComponent={ActivityIndicator}
+//                 iconName="large"
+//                 iconColor="red"
+//             />
+//             )}

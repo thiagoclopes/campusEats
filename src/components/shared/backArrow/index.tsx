@@ -8,16 +8,17 @@ interface BackArrowProps {
     color: string;
     title?: string;
     route?: Href;
-    onClick?: (route: Href) => void;
+    onClick?: () => void;
 }
 
 export default function BackArrow({ color, title, route, onClick }: BackArrowProps) {
 
     const handleBackPress = async () => {
-        if (route) {
-            router.push(route);
-        }
-        else {
+        if (onClick) {
+            onClick();
+        } else if (route) {
+            router.push(route); 
+        } else {
             router.back();
         }
     };

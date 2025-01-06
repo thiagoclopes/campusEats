@@ -3,7 +3,7 @@ import BackArrow from '../../components/shared/backArrow';
 import { Footer } from '../../components/client/footer';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import LOCAL_IP from '@/config';
 import ChameleonWarning from '../../components/shared/chameleonWarning';
 
@@ -19,6 +19,13 @@ export default function Cards() {
 
   const [cards, setCards] = useState<Cards[]>([]);
   const [selectedCardsId, setSelectedCardsId] = useState<string | null>(null);
+  const [profile, setProfile] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: null,
+    card: null
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -35,17 +42,72 @@ export default function Cards() {
     fetchCards();
   }, []);
 
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await fetch(`${LOCAL_IP}/profile/2aae`);
+        const profileData = await response.json();
+        
+        if (profileData) {
+          setProfile({
+            name: profileData.name,
+            email: profileData.email,
+            phone: profileData.phone,
+            address: profileData.address || null,
+            card: profileData.card || null
+          });
+          setSelectedCardsId(profileData.card?.id || null); 
+        }
+      } catch (error) {
+        console.error('Erro ao buscar perfil:', error);
+      }
+    }
+    fetchProfile();
+  }, []);
+
+
   const handleSelectCards = (id: string) => {
     setSelectedCardsId(prevId => (prevId === id ? null : id));
   };
 
-  const handleAddNewCards = () => {
-    // adicionar novo cartão
+  const handleSaveAndRedirect = async () => {
+    if (selectedCardsId) {
+      const selectedCard = cards.find(card => card.id === selectedCardsId);
+
+      if (selectedCard) {
+        try {
+          const response = await fetch(`${LOCAL_IP}/profile/2aae`, {  
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: profile.name,  
+              email: profile.email,
+              phone: profile.phone, 
+              address: profile.address,  
+              card: selectedCard,
+              id: "2aae",
+            }),
+          });
+
+          if (response.ok) {
+            console.log('Endereço salvo com sucesso no perfil:', selectedCard);
+            router.push('/client/profile');
+          } else {
+            console.error('Erro ao salvar endereço no perfil');
+          }
+        } catch (error) {
+          console.error('Erro ao salvar endereço no perfil:', error);
+        }
+      }
+    } else {
+      router.push('/client/profile');
+    }
   };
 
-  const handleDeleteCard = (id: string) => {
-    // lógica para excluir o cartão
-    console.log(`Excluir cartão com ID: ${id}`);
+  const handleAddNewCards = () => {
+    // adicionar novo cartão
   };
 
   const renderCardFlag = (flag: string) => {
@@ -60,8 +122,13 @@ export default function Cards() {
   return (
     <View className='flex-1'>
       <View className='flex-1'>
-        <BackArrow color='black' title='Meus Cartões' route='/client/profile' />
+        <BackArrow color='black' title='Meus Cartões' route='/client/profile' onClick={handleSaveAndRedirect}/>
 
+        <TouchableOpacity className='flex-row justify-end items-center px-4 mr-2'>
+          <Feather name="edit" size={24} color="black"/>
+        </TouchableOpacity>
+
+        
         <FlatList
           data={cards}
           keyExtractor={(item) => item.id}
@@ -85,10 +152,12 @@ export default function Cards() {
                   </View>
 
                   <TouchableOpacity
-                    onPress={() => handleDeleteCard(item.id)}
-                    className="w-6 h-6 rounded-full flex items-center justify-center relative"
+                    onPress={() => handleSelectCards(item.id)}
+                    className={`w-6 h-6 rounded-full border-2 border-red-main flex items-center justify-center relative`}
                   >
-                    <AntDesign name="delete" size={20} color="red" />
+                    {isSelected && (
+                      <View className="w-4 h-4 rounded-full bg-red-main absolute top-0.5 left-0.5" />
+                    )}
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>
@@ -96,7 +165,7 @@ export default function Cards() {
           }}
           ListEmptyComponent={
             <View className='flex-1 justify-center items-center mt-[45%]'>
-              <ChameleonWarning message="Nenhum cartão cadastrado!"/>
+              <ChameleonWarning message="Nenhum cartão cadastrado!" />
             </View>
           }
         />
