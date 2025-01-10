@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import LOCAL_IP from '@/config';
 import ChameleonWarning from '../../components/shared/chameleonWarning';
+import { AddCardModal } from '@/src/components/client/addCardModal';
 
 interface Cards {
   id: string;
@@ -19,6 +20,7 @@ export default function Cards() {
 
   const [cards, setCards] = useState<Cards[]>([]);
   const [selectedCardsId, setSelectedCardsId] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [profile, setProfile] = useState({
     name: '',
     email: '',
@@ -26,6 +28,7 @@ export default function Cards() {
     address: null,
     card: null
   });
+  const [isEditing, setIsEditing] = useState(false); // Estado para controlar o modo de edição
   const router = useRouter();
 
   useEffect(() => {
@@ -73,7 +76,7 @@ export default function Cards() {
   const handleSaveAndRedirect = async () => {
     if (selectedCardsId) {
       const selectedCard = cards.find(card => card.id === selectedCardsId);
-
+  
       if (selectedCard) {
         try {
           const response = await fetch(`${LOCAL_IP}/profile/2aae`, {  
@@ -90,10 +93,9 @@ export default function Cards() {
               id: "2aae",
             }),
           });
-
+  
           if (response.ok) {
             console.log('Endereço salvo com sucesso no perfil:', selectedCard);
-            router.push('/client/profile');
           } else {
             console.error('Erro ao salvar endereço no perfil');
           }
@@ -101,13 +103,14 @@ export default function Cards() {
           console.error('Erro ao salvar endereço no perfil:', error);
         }
       }
-    } else {
-      router.push('/client/profile');
     }
+  
+    router.push('/client/profile');
   };
+  
 
   const handleAddNewCards = () => {
-    // adicionar novo cartão
+    setModalVisible(true);
   };
 
   const renderCardFlag = (flag: string) => {
@@ -119,16 +122,60 @@ export default function Cards() {
     return null;
   };
 
+  const handleSaveCard = async (newCard: { method: string; name: string; flag: string; number: number }) => {
+    try {
+      const response = await fetch(`${LOCAL_IP}/cards`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: Math.random().toString(36).substr(2, 9), // Gera um ID aleatório
+          ...newCard,
+        }),
+      });
+
+      if (response.ok) {
+        setCards((prevCards) => [...prevCards, { id: Math.random().toString(36).substr(2, 9), ...newCard }]);
+        console.log('Cartão adicionado com sucesso!');
+      } else {
+        console.error('Erro ao adicionar cartão.');
+      }
+    } catch (error) {
+      console.error('Erro ao adicionar cartão:', error);
+    }
+  };
+
+  const handleDeleteCard = async (id: string) => {
+    try {
+      const response = await fetch(`${LOCAL_IP}/cards/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        setCards(prevCards => prevCards.filter(card => card.id !== id));
+        console.log('Cartão deletado com sucesso!');
+      } else {
+        console.error('Erro ao deletar o cartão');
+      }
+    } catch (error) {
+      console.error('Erro ao deletar o cartão:', error);
+    }
+  };
+  
+
   return (
     <View className='flex-1'>
       <View className='flex-1'>
         <BackArrow color='black' title='Meus Cartões' route='/client/profile' onClick={handleSaveAndRedirect}/>
 
-        <TouchableOpacity className='flex-row justify-end items-center px-4 mr-2'>
-          <Feather name="edit" size={24} color="black"/>
+        <TouchableOpacity 
+          onPress={() => setIsEditing(!isEditing)} 
+          className={`flex-row justify-end items-center px-4 mr-2 ${isEditing ? 'text-red-500' : ''}`}
+        >
+          <Feather name="edit" size={24} color={isEditing ? 'red' : 'black'} />
         </TouchableOpacity>
 
-        
         <FlatList
           data={cards}
           keyExtractor={(item) => item.id}
@@ -151,14 +198,23 @@ export default function Cards() {
                     </View>
                   </View>
 
-                  <TouchableOpacity
-                    onPress={() => handleSelectCards(item.id)}
-                    className={`w-6 h-6 rounded-full border-2 border-red-main flex items-center justify-center relative`}
-                  >
-                    {isSelected && (
-                      <View className="w-4 h-4 rounded-full bg-red-main absolute top-0.5 left-0.5" />
-                    )}
-                  </TouchableOpacity>
+                  {isEditing ? (
+                    <TouchableOpacity
+                      onPress={() => handleDeleteCard(item.id)}
+                      className="w-6 h-6 rounded-full flex items-center justify-center relative"
+                    >
+                      <Feather name="trash-2" size={20} color="red" />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => handleSelectCards(item.id)}
+                      className={`w-6 h-6 rounded-full border-2 border-red-main flex items-center justify-center relative`}
+                    >
+                      {isSelected && (
+                        <View className="w-4 h-4 rounded-full bg-red-main absolute top-0.5 left-0.5" />
+                      )}
+                    </TouchableOpacity>
+                  )}
                 </View>
               </TouchableOpacity>
             );
@@ -180,7 +236,17 @@ export default function Cards() {
         </View>
 
       </View>
+      <AddCardModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSave={handleSaveCard}
+      />
       <Footer />
     </View>
   );
 }
+
+
+//BUG: O cartão é criado e selecionado e depois clica no backarrow. Quando retorna a tela, ele não está selecionado.
+// teclado sobrepondo input
+// sem validação nos campos
