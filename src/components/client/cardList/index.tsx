@@ -1,8 +1,15 @@
 import { ScrollView, TouchableOpacity, View, Text, Image, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
 import LOCAL_IP from '@/config';
+import { AntDesign } from '@expo/vector-icons';
 
-interface Cards {
+interface Address {
+  id: string;
+  setor: string;
+  subtitle: string;
+}
+
+interface Card {
   id: string;
   method: string;
   name?: string;
@@ -10,39 +17,66 @@ interface Cards {
   number?: number;
 }
 
-export default function CardList({ onCardSelect }: { onCardSelect?: (id: string, cashChange?: string) => void }) {
-  const [cards, setCards] = useState<Cards[]>([]);
-  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+interface CardListProps {
+  type: 'address' | 'payment';
+  onSelect?: (id: string, additionalData?: string) => void;
+}
+
+export default function CardList({ type, onSelect }: CardListProps) {
+  const [items, setItems] = useState<(Card | Address)[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [cashChange, setCashChange] = useState<string>('');
 
   useEffect(() => {
-    async function fetchCards() {
+    async function fetchItems() {
       try {
-        const response = await fetch(`${LOCAL_IP}/cards`);
-        const cardsData: Cards[] = await response.json();
+        const response = await fetch(`${LOCAL_IP}/profile`);
+        const profileData = await response.json();
+        const userProfile = profileData[0];
 
-        const fixedOptions = [
-          { id: 'cash', method: 'Dinheiro', flag: 'dinheiro' },
-          { id: 'pix', method: 'Pix', flag: 'pix' },
-        ];
+        if (type === 'payment') {
+          const userCard = userProfile?.card
+            ? {
+                id: userProfile.card.id,
+                method: userProfile.card.method || 'Cartão',
+                flag: userProfile.card.flag,
+                number: userProfile.card.number.toString(),
+              }
+            : null;
 
-        setCards([...cardsData, ...fixedOptions]);
+          const fixedOptions = [
+            { id: 'cash', method: 'Dinheiro', flag: 'dinheiro' },
+            { id: 'pix', method: 'Pix', flag: 'pix' },
+          ];
+
+          setItems(userCard ? [userCard, ...fixedOptions] : fixedOptions);
+        } else if (type === 'address') {
+          const addresses = userProfile?.address
+            ? [
+                {
+                  id: userProfile.address.id,
+                  setor: userProfile.address.setor,
+                  subtitle: userProfile.address.subtitle,
+                },
+              ]
+            : [];
+          setItems(addresses);
+        }
       } catch (error) {
-        console.error('Erro ao buscar cartões:', error);
+        console.error('Erro ao buscar dados:', error);
       }
     }
 
-    fetchCards();
-  }, []);
+    fetchItems();
+  }, [type]);
 
-  const handleSelectCard = (id: string) => {
-    setSelectedCardId((prevId) => (prevId === id ? null : id));
-
-    if (id !== 'cash') {
+  const handleSelect = (id: string) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+    if (type === 'payment' && id !== 'cash') {
       setCashChange('');
     }
 
-    onCardSelect?.(id, id === 'cash' ? cashChange : undefined);
+    onSelect?.(id, type === 'payment' && id === 'cash' ? cashChange : undefined);
   };
 
   const incrementCashChange = (value: number) => {
@@ -67,48 +101,50 @@ export default function CardList({ onCardSelect }: { onCardSelect?: (id: string,
 
   return (
     <ScrollView style={{ width: '100%' }} nestedScrollEnabled>
-      {cards.map((item) => {
-        const isSelected = item.id === selectedCardId;
+      {items.map((item) => {
+        const isSelected = item.id === selectedId;
 
         return (
           <TouchableOpacity
             key={item.id}
-            onPress={() => handleSelectCard(item.id)}
+            onPress={() => handleSelect(item.id)}
             className={`rounded-xl p-6 shadow-sm mt-3 w-[100%] mx-auto ${
               isSelected ? 'bg-button-press' : 'bg-white-80'
             }`}
           >
-            <View className="flex-row items-center justify-between">
-              <View className="flex-row items-center">
-                <View className="w-12 h-12 rounded-full flex items-center justify-center">
-                  {item.flag ? renderCardFlag(item.flag) : null}
-                </View>
-                <View className="ml-6">
-                  <Text
-                    className={`font-medium text-lg ${
-                      isSelected ? 'text-white' : 'text-black'
-                    }`}
-                  >
-                    {item.method}
-                  </Text>
-                  {item.number && (
-                    <Text className="text-black-gray font-regular text-md">{item.number}</Text>
-                  )}
+            {type === 'payment' ? (
+              <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center">
+                  <View className="w-12 h-12 rounded-full flex items-center justify-center">
+                    {'flag' in item ? renderCardFlag(item.flag) : null}
+                  </View>
+                  <View className="ml-6">
+                    <Text
+                      className={`font-medium text-lg ${
+                        isSelected ? 'text-white' : 'text-black'
+                      }`}
+                    >
+                      {item.method}
+                    </Text>
+                    {'number' in item && item.number && (
+                      <Text className="text-black-gray font-regular text-md">{item.number}</Text>
+                    )}
+                  </View>
                 </View>
               </View>
-              <TouchableOpacity
-                onPress={() => handleSelectCard(item.id)}
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center relative ${
-                  isSelected ? 'border-white' : 'border-red-main'
-                }`}
-              >
-                {isSelected && (
-                  <View className="w-4 h-4 rounded-full bg-white absolute top-0.5 left-0.5" />
-                )}
-              </TouchableOpacity>
-            </View>
+            ) : (
+              <View className='flex-row'>
+                <View className="w-12 h-12 rounded-full bg-red-main flex items-center justify-center">
+                  <AntDesign name="enviroment" size={20} color="#FFFFFF" />
+                </View>
+                <View className="ml-6">
+                  <Text className="text-black font-medium text-lg">{item.setor}</Text>
+                  <Text className="text-black-gray font-regular text-md">{item.subtitle}</Text>
+                </View>
+              </View>
+            )}
 
-            {isSelected && item.id === 'cash' && (
+            {isSelected && type === 'payment' && item.id === 'cash' && (
               <View className="mt-4">
                 <Text className="text-white font-regular text-md mb-2">Troco para:</Text>
                 <View className="flex-row items-center">

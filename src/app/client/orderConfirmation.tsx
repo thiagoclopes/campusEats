@@ -121,13 +121,16 @@ export default function OrderConfirmation(){
                                 
 
                             <Text className="font-semibold mt-16 mb-5 text-xl">Endereço de Entrega</Text>
-                            <Text>ENDEREÇOS</Text>
+                            <CardList type="address" />
                             <TouchableOpacity onPress={() => router.push('/client/address')}>
-                                <Text className="font-medium text-lg mt-2">Mudar endereço</Text>
+                                <Text className="font-bold text-red-main text-lg mt-2 ">TROCAR</Text>
                             </TouchableOpacity>
 
                             <Text className="font-semibold mt-16 mb-2 text-xl">Formas de pagamento</Text>
-                            <CardList onCardSelect={handleCardSelect} />
+                            <CardList type="payment" />
+                            <TouchableOpacity onPress={() => router.push('/client/cards')}>
+                                <Text className="font-bold text-red-main text-lg mt-2 ">TROCAR</Text>
+                            </TouchableOpacity>
                         </View>
                         
                     </ScrollView>
@@ -154,3 +157,6 @@ export default function OrderConfirmation(){
 // Total deve ser recebido como props
 // quando estiver confirmando pagamento, desaparecer botão de efetuar
 // se o "troco para" for menor que o valor total, aparecer mensagem 
+
+// trocar deve aparecer imediatamente em baixo do cartão
+// ao clicar em profile/cards ou /address e clicar no backarrow, deve voltar para o resumo do pedido
