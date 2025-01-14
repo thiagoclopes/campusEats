@@ -25,7 +25,7 @@ const PopUpComponent: React.FC<PopUpProps> = ({
 }) => {
   return (
     <View className="flex-1 bg-white-80 items-center justify-center">
-      <View className="bg-white rounded-2xl shadow-lg p-10 w-[82%] items-center">
+      <View className="bg-white rounded-2xl shadow-lg py-16 px-10 w-[82%] items-center">
         <IconComponent name={iconName} size={iconSize} color={iconColor} />
         <Text className="text-3xl font-bold text-red-main text-center mt-5">{title}</Text>
         <Text className="text-lg font-regular text-black-gray text-center mt-2 w-full">
