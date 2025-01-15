@@ -14,6 +14,7 @@ export default function Success() {
       iconName="check-circle-fill"
       iconSize={90}
       iconColor="red"
+      primaryButtonSize={{ width: 250, height: 60 }}
     />
   );
 }
