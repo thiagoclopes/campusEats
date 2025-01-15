@@ -208,11 +208,12 @@ const Cart = () => {
         );
     };
     
-    const handleSaveAndNavigate = async (route: Href) => {
+    const handleSaveAndNavigate = async (route?: Href) => {
         try {
             for (const item of cartItems) {
                 await updateCartItemQuantity(item.id, item.quantity);
             }
+            if(route) 
             router.push(route);
         } catch (error) {
             console.error("Erro ao salvar os itens do carrinho:", error);

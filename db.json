@@ -283,29 +283,7 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "f4ee",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
-    {
-      "id": "cf31",
-      "items": [
-        {
-          "id": "f4ee",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Preparing"
-    }
   ]
 }

@@ -77,7 +77,7 @@ export default function DeliveryHome() {
 					const response = await axios.get(`${LOCAL_IP}/orders`)
 					const ordersData = response.data;
 
-					const assignedOrder = ordersData.find((order: Order) => order.courierId === courierId);
+					const assignedOrder = ordersData.find((order: Order) => order.courierId === courierId && order.status !== 'Delivered');
 					if (assignedOrder) {
 						setCurrentOrder(assignedOrder);
 						return; 
