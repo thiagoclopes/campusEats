@@ -283,29 +283,22 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "f4ee",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
-      "id": "cf31",
+      "id": "a1fe",
       "items": [
         {
-          "id": "f4ee",
+          "id": "f303",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
         }
       ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Preparing"
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Out for Delivery"
     }
   ]
 }
