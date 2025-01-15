@@ -1,6 +1,6 @@
-import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { IconProps } from '@expo/vector-icons/build/createIconSet';
+import React from "react";
+import { Text, View, TouchableOpacity } from "react-native";
+import { IconProps } from "@expo/vector-icons/build/createIconSet";
 
 type PopUpProps = {
   title: string;
@@ -11,10 +11,11 @@ type PopUpProps = {
   iconName: string;
   iconSize?: number;
   iconColor?: string;
-  primaryButtonSize?: { width: number; height: number }; 
+  primaryButtonSize?: { width: number; height: number };
   secondaryButtonText?: string;
-  onSecondaryPress?: () => void; 
-  secondaryButtonSize?: { width: number; height: number }; 
+  onSecondaryPress?: () => void;
+  secondaryButtonSize?: { width: number; height: number };
+  backgroundColor?: string; 
 };
 
 const PopUpComponent: React.FC<PopUpProps> = ({
@@ -30,15 +31,19 @@ const PopUpComponent: React.FC<PopUpProps> = ({
   secondaryButtonText,
   onSecondaryPress,
   secondaryButtonSize = { width: 200, height: 50 },
+  backgroundColor = "#FFFFFF", 
 }) => {
   return (
     <View className="flex-1 bg-white-80 items-center justify-center">
       <View className="bg-white rounded-2xl shadow-lg py-16 px-10 w-[82%] items-center">
-        <IconComponent name={iconName} size={iconSize} color={iconColor} />
+        <View
+          className="items-center justify-center rounded-full"
+          style={{ width: 100, height: 100, backgroundColor }}
+        >
+          <IconComponent name={iconName} size={iconSize} color={iconColor} />
+        </View>
         <Text className="text-3xl font-bold text-red-main text-center mt-5">{title}</Text>
-        <Text className="text-lg font-regular text-black-gray text-center mt-2 w-full">
-          {subtitle}
-        </Text>
+        <Text className="text-lg font-regular text-black-gray text-center mt-2">{subtitle}</Text>
 
         <TouchableOpacity
           className="bg-red-main rounded-2xl mt-12"
@@ -64,9 +69,7 @@ const PopUpComponent: React.FC<PopUpProps> = ({
               alignItems: "center",
             }}
           >
-            <Text className="text-white text-lg text-center font-semibold">
-              {secondaryButtonText}
-            </Text>
+            <Text className="text-white text-lg text-center font-semibold">{secondaryButtonText}</Text>
           </TouchableOpacity>
         )}
       </View>

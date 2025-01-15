@@ -8,16 +8,17 @@ export default function NoResponse() {
     <PopUpComponent
       title="Cancelar pedido"
       subtitle="Tem certeza que deseja cancelar este pedido? Esta ação não pode ser desfeita."
-      onPress={() => router.push(`/client`)}
+      onPress={() => router.push(`/client/cancelled`)}
       buttonText="Confirmar cancelamento"
       IconComponent={FontAwesome}
-      iconName="exclamation-circle"
-      iconSize={90}
+      iconName="exclamation"
+      iconSize={60}
       iconColor="red"
       primaryButtonSize={{ width: 250, height: 60 }}
       secondaryButtonText="Voltar"
       onSecondaryPress={() => router.push(`/client`)}
       secondaryButtonSize={{ width: 250, height: 60 }}
+      backgroundColor="#FEECEC"
     />
   );
 }

@@ -283,7 +283,14 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "0faa",
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1
+    }
+  ],
   "orders": [
   ]
 }
