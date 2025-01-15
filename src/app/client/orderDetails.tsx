@@ -155,6 +155,18 @@ export default function OrderDetails(){
         return <Text>No pending order available</Text>;
     }
 
+    const handleAcceptOrder = async (order: Order) => {
+		try {
+			const updatedOrder = { ...order, courierId: '321'};
+	
+			await axios.patch(`${LOCAL_IP}/orders/${order.id}`, updatedOrder);
+			setOrder(updatedOrder);
+            setIsButtonDisabled(false);
+		} catch (error) {
+			console.error("Erro ao aceitar pedido:", error);
+		}
+	};
+
     return (
         <View className="flex-col flex-1 w-fit h-full bg-slate-100 ">
             <View className="bg-white">
@@ -170,7 +182,7 @@ export default function OrderDetails(){
                     )
                 }
             </View>
-            <TouchableOpacity className="mt-24 -mb-6 flex flex-row w-full items-center justify-center" onPress={() => setUpdateKey((prev) => prev + 1)}>
+            <TouchableOpacity className="mt-24 -mb-6 flex flex-row w-full items-center justify-center" onPress={() => handleAcceptOrder(order)}>
                 <Ionicons name="reload-circle-sharp" size={36} color="black" />
             </TouchableOpacity>
             <View className="mt-16 -mb-14 w-28 h-28 rounded-full overflow-hidden z-10 mx-auto">

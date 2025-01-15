@@ -5,6 +5,7 @@ import { Products } from '../../components/client/productsList';
 import { useEffect, useRef, useState } from 'react';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
+import { SellerList } from '@/src/components/client/sellerList';
 
 function useDebounce(value: string, delay: number) {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -38,6 +39,8 @@ export default function Search() {
     const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
     const [appliedCategories, setAppliedCategories] = useState<CategoriesType>([]);
     const [appliedSortOrder, setAppliedSortOrder] = useState<SortOrderType>(null);
+    const [isSearchingRestaurants, setIsSearchingestaurants] = useState(false);
+
     
     
 
@@ -116,141 +119,164 @@ export default function Search() {
     return (
         <>
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
-        <View className="flex-1">
-            <BackArrow color="black" title="Pesquisar" route="/client" />
+            <View className="flex-1">
+                <BackArrow color="black" title="Pesquisar" route="/client" />
 
-            <TextInput
-                ref={textInputRef}
-                className="m-4 bg-slate-100 rounded-3xl p-4"
-                placeholder="Buscar produtos..."
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-            />
-
-            <View className="flex-row items-center mx-4 gap-2">
-                <TouchableOpacity
-                    className="w-48 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
-                    onPress={() => toggleFilterModal('order')}
-                >
-                    <Text className="font-bold text-center text-black-gray">
-                        {orderFilter === 'default' ? 'Ordenar por' : handleOrderDisplay(orderFilter)}
-                    </Text>
-                    <AntDesign name={activeFilter === 'order' ? 'up' : 'down'} size={16} color="#EF2A39" />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    className="w-24 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
-                    onPress={() => toggleFilterModal('categories')}
-                >
-                    <Text className="font-bold text-center text-black-gray">
-                        {selectedCategory.length > 0 ? selectedCategory.length : 'Todos'}
-                    </Text>
-                    <AntDesign name={activeFilter === 'categories' ? 'up' : 'down'} size={16} color="#EF2A39" />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    className="w-24 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
-                    onPress={() => toggleFilterModal('status')}
-                >
-                    <Text className="font-bold text-center text-black-gray">
-                        {statusFilter ? statusFilter : 'Status'}
-                    </Text>
-                    <AntDesign name={activeFilter === 'status' ? 'up' : 'down'} size={16} color="#EF2A39" />
-                </TouchableOpacity>
-            </View>
-
-            <Modal
-                transparent={true}
-                visible={isFilterModalVisible}
-                animationType="slide"
-                onRequestClose={() => setFilterModalVisible(false)}
-            >
-                <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
-                    <View className="w-4/5 bg-white rounded-xl p-4">
-                        {filterType === 'categories' && (
-                            <>
-                                <Text className="text-xl font-bold text-center mb-4">Categorias</Text>
-                                <FlatList
-                                    data={categories}
-                                    keyExtractor={(item) => item}
-                                    renderItem={({ item }) => (
-                                        <TouchableOpacity
-                                            className="py-2 flex-row justify-between items-center"
-                                            onPress={() => toggleCategorySelection(item)}
-                                        >
-                                            <Text
-                                                className={`text-lg ${selectedCategory.includes(item) ? 'text-red-500 font-bold' : 'text-black'}`}
-                                            >
-                                                {item}
-                                            </Text>
-                                            {selectedCategory.includes(item) && (
-                                                <MaterialIcons name="check-box" size={24} color="red" />
-                                            )}
-                                            {!selectedCategory.includes(item) && (
-                                                <MaterialIcons name="check-box-outline-blank" size={24} color="black" />
-                                            )}
-                                        </TouchableOpacity>
-                                    )}
-                                />
-                            </>
-                        )}
-
-                        {filterType === 'order' && (
-                            <>
-                                <Text className="text-xl font-bold text-center mb-4">Ordenar por</Text>
-                                {orderOptions.map((option) => (
-                                    <TouchableOpacity
-                                        key={option}
-                                        className="py-2 flex-row items-center justify-between"
-                                        onPress={() => {
-                                            setOrderFilter(option as SortOrderType);
-                                        }}
-                                    >
-                                        <Text>
-                                        {handleOrderDisplay(option as SortOrderType)}
-                                        </Text>
-                                        <View
-                                            className={`w-6 h-6 rounded-full border-2 ${orderFilter === option ? 'border-red-500 bg-red-500' : 'border-black'}`}
-                                        />
-                                    </TouchableOpacity>
-                                ))}
-                            </>
-                        )}
-
-                        {filterType === 'status' && (
-                            <>
-                                <Text className="text-xl font-bold text-center mb-4">Status</Text>
-                                {['Ativo', 'Inativo', 'Todos'].map((status) => (
-                                    <TouchableOpacity
-                                        key={status}
-                                        className="py-2 flex-row items-center justify-between"
-                                        onPress={() => setStatusFilter(status)}
-                                    >
-                                        <Text className="text-lg text-black">{status}</Text>
-                                        <View
-                                            className={`w-6 h-6 rounded-full border-2 ${statusFilter === status ? 'border-red-500 bg-red-500' : 'border-black'}`}
-                                        />
-                                    </TouchableOpacity>
-                                ))}
-                            </>
-                        )}
+                {!isSearchingRestaurants ? (
+                <>
+                    <TextInput
+                        ref={textInputRef}
+                        className="m-4 bg-slate-100 rounded-3xl p-4"
+                        placeholder="Buscar produtos..."
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                    />
+                    <View className="flex-row items-center mx-4 gap-2">
+                        <TouchableOpacity
+                            className="w-48 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
+                            onPress={() => toggleFilterModal('order')}
+                        >
+                            <Text className="font-bold text-center text-black-gray">
+                                {orderFilter === 'default' ? 'Ordenar por' : handleOrderDisplay(orderFilter)}
+                            </Text>
+                            <AntDesign name={activeFilter === 'order' ? 'up' : 'down'} size={16} color="#EF2A39" />
+                        </TouchableOpacity>
 
                         <TouchableOpacity
-                            className="mt-4 bg-red-500 rounded-full py-2"
-                            onPress={handleApplyFilters}
+                            className="w-24 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
+                            onPress={() => toggleFilterModal('categories')}
                         >
-                            <Text className="text-center text-white font-bold">Aplicar</Text>
+                            <Text className="font-bold text-center text-black-gray">
+                                {selectedCategory.length > 0 ? selectedCategory.length : 'Todos'}
+                            </Text>
+                            <AntDesign name={activeFilter === 'categories' ? 'up' : 'down'} size={16} color="#EF2A39" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            className="w-24 flex-row justify-center gap-2 py-4 rounded-xl bg-off-white"
+                            onPress={() => toggleFilterModal('status')}
+                        >
+                            <Text className="font-bold text-center text-black-gray">
+                                {statusFilter ? statusFilter : 'Status'}
+                            </Text>
+                            <AntDesign name={activeFilter === 'status' ? 'up' : 'down'} size={16} color="#EF2A39" />
                         </TouchableOpacity>
                     </View>
-                </View>
-            </Modal>
+                    <TouchableOpacity className='flex-row w-full justify-end p-2' onPress={() => setIsSearchingestaurants(true)}>
+                        <Text>Mostrar restaurantes</Text>
+                    </TouchableOpacity>
+                    
 
-            <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories} sortBy={appliedSortOrder}/>
+                    <Modal
+                        transparent={true}
+                        visible={isFilterModalVisible}
+                        animationType="slide"
+                        onRequestClose={() => setFilterModalVisible(false)}
+                    >
+                        <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+                            <View className="w-4/5 bg-white rounded-xl p-4">
+                                {filterType === 'categories' && (
+                                    <>
+                                        <Text className="text-xl font-bold text-center mb-4">Categorias</Text>
+                                        <FlatList
+                                            data={categories}
+                                            keyExtractor={(item) => item}
+                                            renderItem={({ item }) => (
+                                                <TouchableOpacity
+                                                    className="py-2 flex-row justify-between items-center"
+                                                    onPress={() => toggleCategorySelection(item)}
+                                                >
+                                                    <Text
+                                                        className={`text-lg ${selectedCategory.includes(item) ? 'text-red-500 font-bold' : 'text-black'}`}
+                                                    >
+                                                        {item}
+                                                    </Text>
+                                                    {selectedCategory.includes(item) && (
+                                                        <MaterialIcons name="check-box" size={24} color="red" />
+                                                    )}
+                                                    {!selectedCategory.includes(item) && (
+                                                        <MaterialIcons name="check-box-outline-blank" size={24} color="black" />
+                                                    )}
+                                                </TouchableOpacity>
+                                            )}
+                                        />
+                                    </>
+                                )}
 
-            {!isKeyboardVisible && <Footer />}
-        </View>
+                                {filterType === 'order' && (
+                                    <>
+                                        <Text className="text-xl font-bold text-center mb-4">Ordenar por</Text>
+                                        {orderOptions.map((option) => (
+                                            <TouchableOpacity
+                                                key={option}
+                                                className="py-2 flex-row items-center justify-between"
+                                                onPress={() => {
+                                                    setOrderFilter(option as SortOrderType);
+                                                }}
+                                            >
+                                                <Text>
+                                                {handleOrderDisplay(option as SortOrderType)}
+                                                </Text>
+                                                <View
+                                                    className={`w-6 h-6 rounded-full border-2 ${orderFilter === option ? 'border-red-500 bg-red-500' : 'border-black'}`}
+                                                />
+                                            </TouchableOpacity>
+                                        ))}
+                                    </>
+                                )}
+
+                                {filterType === 'status' && (
+                                    <>
+                                        <Text className="text-xl font-bold text-center mb-4">Status</Text>
+                                        {['Ativo', 'Inativo', 'Todos'].map((status) => (
+                                            <TouchableOpacity
+                                                key={status}
+                                                className="py-2 flex-row items-center justify-between"
+                                                onPress={() => setStatusFilter(status)}
+                                            >
+                                                <Text className="text-lg text-black">{status}</Text>
+                                                <View
+                                                    className={`w-6 h-6 rounded-full border-2 ${statusFilter === status ? 'border-red-500 bg-red-500' : 'border-black'}`}
+                                                />
+                                            </TouchableOpacity>
+                                        ))}
+                                    </>
+                                )}
+
+                                <TouchableOpacity
+                                    className="mt-4 bg-red-500 rounded-full py-2"
+                                    onPress={handleApplyFilters}
+                                >
+                                    <Text className="text-center text-white font-bold">Aplicar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+
+                    <Products showFilters={false} searchQuery={debouncedQuery} restaurantId={undefined} showFavorites={false} categories={appliedCategories} sortBy={appliedSortOrder}/>
+                    
+                </>
+                ) : (
+                    <>
+                        <TextInput
+                            ref={textInputRef}
+                            className="m-4 bg-slate-100 rounded-3xl p-4"
+                            placeholder="Buscar restaurantes..."
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                        />
+                        <TouchableOpacity className='flex-row w-full justify-end p-2' onPress={() => setIsSearchingestaurants(false)}>
+                            <Text>Mostrar produtos</Text>
+                        </TouchableOpacity>
+                        <SellerList />
+                    </>
+                )}
+                {!isKeyboardVisible && <Footer />}
+            </View>
         </TouchableWithoutFeedback>
         </>
     );
