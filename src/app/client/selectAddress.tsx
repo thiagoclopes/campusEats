@@ -157,9 +157,9 @@ export default function SelectAddress() {
                         <TextInput
                             className=" bg-white-gray w-[90%] mx-auto mt-6 mb-6 p-4 rounded-lg border border-gray-300"
                             placeholder="Pesquisar setor..."
-                            value={selectedPoint ? selectedPoint.name : searchQuery} // Show selected point name or search query
+                            value={selectedPoint ? selectedPoint.name : searchQuery} 
                             onChangeText={setSearchQuery}
-                            onFocus={handleInputFocus} // Clear the input and reset selected point on focus
+                            onFocus={handleInputFocus} 
                         />
 
                         {searchQuery.length > 0 && (

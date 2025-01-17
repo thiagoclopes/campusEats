@@ -1,5 +1,4 @@
 import React from 'react';
-import AvaliationComponent from '@/src/components/client/avaliation';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 

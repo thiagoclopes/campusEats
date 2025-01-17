@@ -232,7 +232,7 @@ export default function OrderDetails(){
                 </View>
                 <View className="w-full h-[1px] bg-gray-line my-4" />
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className="font-bold text-lg text-base">
+                    <Text className="font-bold text-lg">
                         Total: R$ {totalOrder.toFixed(2)}
                     </Text>
                     

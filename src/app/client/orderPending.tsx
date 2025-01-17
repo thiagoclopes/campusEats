@@ -23,7 +23,7 @@ export default function OrderPending({ timeLeft }: OrderPendingProps) {
       buttonText={formatTime(timeLeft)}
       IconComponent={ActivityIndicator}
       iconName="exclamation-circle"
-      iconSize={90}
+      iconSize={60}
       iconColor="red"
       primaryButtonSize={{ width: 250, height: 60 }}
       backgroundColor="#FEECEC"

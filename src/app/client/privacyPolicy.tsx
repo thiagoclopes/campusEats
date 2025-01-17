@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
-import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import React from 'react';
+import { Text, View, ScrollView } from 'react-native';
 import BackArrow from '../../components/shared/backArrow';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Footer } from '../../components/client/footer';
 
 export default function PrivacyPolicy() {
-  const [isChecked, setIsChecked] = useState(true);
-
-  const currentRoute = isChecked ? "/client/profile" : "/client/privacyPolicyPopUp";
 
   return (
     <View className="flex-1">
       <View className="flex-1">
-        <BackArrow color="black" title="Termos e Políticas" route={currentRoute} />
+        <BackArrow color="black" title="Termos e Políticas" />
         <ScrollView>
           <View className="mx-auto mt-8 w-96">
             <Text className="font-semibold text-xl text-justify">
@@ -113,21 +109,6 @@ export default function PrivacyPolicy() {
         </Text>
           </View>
         </ScrollView>
-
-        <View className="h-16 justify-center flex-row items-center w-full shadow-sm bg-white">
-          <TouchableOpacity
-            onPress={() => setIsChecked(!isChecked)}
-            className='justify-center items-center w-8 h-8 rounded-lg'
-            style={{
-              borderWidth: 2,
-              borderColor: isChecked ? 'green' : 'gray',
-              backgroundColor: isChecked ? 'green' : 'transparent',
-            }}
-          >
-            {isChecked && <MaterialIcons name="check" size={20} color="white" />}
-          </TouchableOpacity>
-          <Text className="ml-4 text-xl font-semibold">Concordo com os termos e políticas</Text>
-        </View>
       </View>
       <Footer />
     </View>

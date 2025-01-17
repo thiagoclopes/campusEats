@@ -3,20 +3,20 @@ import { router } from 'expo-router';
 import PopUpComponent from '@/src/components/client/popUp';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function NoResponse() {
+export default function NoCourier() {
   return (
     <PopUpComponent
-      title="Sinto muito!"
-      subtitle="O estabelecimento não respondeu sua confirmação. Aconselhamos que procure em outro vendedor ou tente novamente"
-      onPress={() => router.push(`/client/orderConfirmation`)}
-      buttonText="Tentar novamente"
+      title="Nenhum entregador encontrado!"
+      subtitle="..."
+      onPress={() => router.push(`/client`)}
+      buttonText="Continuar procurando"
       IconComponent={FontAwesome}
       iconName="exclamation"
       iconSize={60}
       iconColor="red"
       primaryButtonSize={{ width: 250, height: 60 }}
-      secondaryButtonText="Voltar para o pedido"
-      onSecondaryPress={() => router.push(`/client/cart`)}
+      secondaryButtonText="Cancelar pedido"
+      onSecondaryPress={() => router.push(`/client/cancelled`)}
       secondaryButtonSize={{ width: 250, height: 60 }}
       backgroundColor="#FEECEC"
     />

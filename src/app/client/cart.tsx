@@ -213,13 +213,14 @@ const Cart = () => {
             for (const item of cartItems) {
                 await updateCartItemQuantity(item.id, item.quantity);
             }
-            if(route) 
-            router.push(route);
         } catch (error) {
             console.error("Erro ao salvar os itens do carrinho:", error);
             alert("Ocorreu um erro ao salvar o carrinho. Tente novamente.");
+        } finally {
+            if (route) router.push(route); // Navega independentemente do sucesso ou erro
         }
     };
+    
 
 
 	const totalAmount = cartItems.reduce((acc, item) => {
@@ -240,7 +241,7 @@ const Cart = () => {
     return (
 		<View className='w-full flex flex-col bg-red-main flex-1'>
 			<StatusBar backgroundColor="#EF2A39" barStyle="light-content" />
-			<BackArrow color='white' route='/client'  onClick={handleSaveAndNavigate}/>
+			<BackArrow color='white' route='/client'  onClick={() => handleSaveAndNavigate('/client')} />
 			<View className="flex flex-row items-center justify-start gap-8 p-8">
 				<Image className="rounded-full border-white border-2"
 					source={restaurant?.logo ? { uri: restaurant?.logo } : require('@/assets/images/icon.png')} 

@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import PopUpComponent from '@/src/components/client/popUp';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function NoResponse() {
+export default function Cancel() {
   return (
     <PopUpComponent
       title="Cancelar pedido"
