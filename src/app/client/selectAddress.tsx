@@ -59,6 +59,7 @@ const referencePoints: ReferencePoint[] = [
 ];
 
 export default function SelectAddress() {
+    
     const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredPoints, setFilteredPoints] = useState(referencePoints);

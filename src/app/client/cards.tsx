@@ -28,7 +28,7 @@ export default function Cards() {
     address: null,
     card: null
   });
-  const [isEditing, setIsEditing] = useState(false); // Estado para controlar o modo de edição
+  const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
   useEffect(() => {

@@ -23,6 +23,24 @@ export function Banner(){
                         className="w-full h-36 rounded-xl"
                     />
                 </Pressable>
+                <Pressable 
+                    className="w-full h-36 rounded-2xl" 
+                    key={3}
+                >
+                    <Image
+                        source={require("../../../assets/banner3.png")}
+                        className="w-full h-36 rounded-xl"
+                    />
+                </Pressable>
+                <Pressable 
+                    className="w-full h-36 rounded-2xl" 
+                    key={4}
+                >
+                    <Image
+                        source={require("../../../assets/banner4.png")}
+                        className="w-full h-36 rounded-xl"
+                    />
+                </Pressable>
             </PagerView>
         </View>
     )

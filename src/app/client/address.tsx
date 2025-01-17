@@ -3,7 +3,7 @@ import BackArrow from '../../components/shared/backArrow';
 import { Footer } from '../../components/client/footer';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import LOCAL_IP from '@/config';
 import ChameleonWarning from '../../components/shared/chameleonWarning';
 
@@ -23,6 +23,7 @@ export default function Address() {
     address: null,
     card: null
   });
+  const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -107,10 +108,34 @@ export default function Address() {
     // Adicionar novo endereço
   };
 
+  const handleDeleteAddress = async (id: string) => {
+    try {
+      const response = await fetch(`${LOCAL_IP}/addresses/${id}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        setAddresses(prevAddress => prevAddress.filter(address => address.id !== id));
+        console.log('Endereço deletado com sucesso!');
+      } else {
+        console.error('Erro ao deletar o endereço');
+      }
+    } catch (error) {
+      console.error('Erro ao deletar o endereço:', error);
+    }
+  };
+
   return (
     <View className='flex-1'>
       <View className='flex-1'>
         <BackArrow color='black' title='Meus Endereços' route='/client/profile' onClick={handleSaveAndRedirect} />
+
+        <TouchableOpacity 
+          onPress={() => setIsEditing(!isEditing)} 
+          className={`flex-row justify-end items-center px-4 mr-2 ${isEditing ? 'text-red-500' : ''}`}
+        >
+          <Feather name="edit" size={24} color={isEditing ? 'red' : 'black'} />
+        </TouchableOpacity>
 
         <FlatList
           data={addresses}
@@ -134,14 +159,23 @@ export default function Address() {
                     </View>
                   </View>
 
-                  <TouchableOpacity
-                    onPress={() => handleSelectAddress(item.id)}
-                    className={`w-6 h-6 rounded-full border-2 border-red-main flex items-center justify-center relative`}
-                  >
-                    {isSelected && (
-                      <View className="w-4 h-4 rounded-full bg-red-main absolute top-0.5 left-0.5" />
-                    )}
-                  </TouchableOpacity>
+                  {isEditing ? (
+                    <TouchableOpacity
+                      onPress={() => handleDeleteAddress(item.id)}
+                      className="w-6 h-6 rounded-full flex items-center justify-center relative"
+                    >
+                      <Feather name="trash-2" size={20} color="red" />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => handleSelectAddress(item.id)}
+                      className={`w-6 h-6 rounded-full border-2 border-red-main flex items-center justify-center relative`}
+                    >
+                      {isSelected && (
+                        <View className="w-4 h-4 rounded-full bg-red-main absolute top-0.5 left-0.5" />
+                      )}
+                    </TouchableOpacity>
+                  )}
                 </View>
               </TouchableOpacity>
             );
@@ -155,7 +189,7 @@ export default function Address() {
 
         <View className="mb-4 w-[90%] mx-auto">
           <TouchableOpacity
-            onPress={handleAddNewAddress}
+            onPress={() => router.push(`/client/selectAddress`)}
             className="bg-red-main w-full py-3 rounded-xl flex items-center justify-center"
           >
             <Text className="text-white font-semibold text-lg">Adicionar novo endereço</Text>
@@ -167,3 +201,6 @@ export default function Address() {
     </View>
   );
 }
+
+
+// se clicar em adicionar endereço, deve levar pra essa tela de volta, e não pro cart
