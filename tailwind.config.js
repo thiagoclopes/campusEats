@@ -12,7 +12,7 @@ module.exports = {
           'white-gray': '#F2F2F7',
           'gray-line': '#E1E1E1',
           'dark-brown': '#3c2f2f',
-          'gray-chat': 'F3F4F6',
+          'gray-chat': '#F3F4F6',
           'white-80': 'rgba(255, 255, 255, 0.8)',
           'white-85': 'rgba(245, 245, 245, 0.8)',
           'off-white': '#FAF9F6',

@@ -13,11 +13,11 @@ export function Header() {
             </View>
 
             <View className="w-[30%] flex flex-row items-center justify-center gap-8">
-                <Pressable className="bg-red-main h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/client/noCourier')}>
-                    <Feather name="bell" size={20} color="white"/>
+                <Pressable className="bg-gray-chat h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/client/noCourier')}>
+                    <Feather name="bell" size={20} color="#808080"/>
                 </Pressable>
-                <Pressable className="bg-red-main h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/client/mapscreen')}>
-                    <Fontisto name="map" size={20} color="white"/>
+                <Pressable className="bg-gray-chat h-10 w-10 rounded-full flex justify-center items-center" onPress={() => router.push('/client/mapscreen')}>
+                    <Fontisto name="map" size={20} color="#808080"/>
                 </Pressable>
             </View>
             

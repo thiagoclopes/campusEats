@@ -254,6 +254,15 @@
       "restaurantId": "1"
     }
   ],
+  "courierProfile": [
+    {
+      "id": "1",
+      "name": "Matheus Entregador",
+      "email": "matheusbaratinha@oficial.com.br",
+      "phone": "84988776655",
+      "vehicle": "Carro"
+    }
+  ],
   "couriers": [
     {
       "id": "123",
