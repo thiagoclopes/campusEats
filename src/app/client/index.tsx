@@ -42,8 +42,18 @@ interface Order {
 	latitude: number;
 	longitude: number;
 	status: 'Pendente' | 'Entregue';
-	courierId: string;
-  }
+	courierId: string;  
+}
+
+interface Courier {
+	id: string;
+	name: string;
+	photo: string;
+	vehicle: string;
+	vehicleName: string;
+	vehiclePlate: string;
+	rating: string;
+}
 
 const fetchCartItems = async (): Promise<CartItem[]> => {
 	try {
@@ -61,6 +71,16 @@ const fetchRestaurant = async (restaurantId: string) => {
         return response.data;
     } catch (error) {
         console.error('Erro ao buscar restaurante:', error);
+        return null;
+    }
+};
+
+const fetchCourier = async (courierId: string) => {
+    try {
+        const response = await axios.get(`${LOCAL_IP}/couriers/${courierId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao buscar entregador:', error);
         return null;
     }
 };
@@ -99,7 +119,7 @@ export default function Index() {
 	const [cartItems, setCartItems] = useState<CartItem[]>([]);
 	const [foodItemsOnCart, setFoodItemsOnCart] = useState<FoodItem[]>([]);
 	const [pendingOrder, setPendingOrder] = useState<Order | null>(null);
-	const [pendingOrderRestaurant, setPendingOrderRestaurant] = useState<Restaurant | null>(null);
+	const [pendingOrderCourier, setPendingOrderCourier] = useState<Courier | null>(null);
 	const [restaurantOnCart, setRestaurantOnCart] = useState<Restaurant | null>(null);
 
 	useEffect(() => {
@@ -122,9 +142,9 @@ export default function Index() {
 
 		const getActiveOrders = async () => {
 			const pendingOrders = await fetchPendingOrder();
-			const pendingOrderRestaurant = await fetchRestaurant(pendingOrders[0].items[0].restaurantId);
+			const pendingOrderCouriers = await fetchCourier(pendingOrders[0].courierId);
 			setPendingOrder(pendingOrders[0])
-			setPendingOrderRestaurant(pendingOrderRestaurant)
+			setPendingOrderCourier(pendingOrderCouriers)
 		}
 		getActiveOrders();
 	}, []);
@@ -140,8 +160,6 @@ export default function Index() {
 	}, 0);
 	
 	const imageUrl = restaurantOnCart ? restaurantOnCart.logo : 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=';
-
-	const pendingOrderRestaurantLogo = pendingOrderRestaurant ? pendingOrderRestaurant?.logo : 'https://media.istockphoto.com/id/1222357475/vector/image-preview-icon-picture-placeholder-for-website-or-ui-ux-design-vector-illustration.jpg?s=612x612&w=0&k=20&c=KuCo-dRBYV7nz2gbk4J9w1WtTAgpTdznHu55W9FjimE=';
 		
 	return (
 		<View className="flex flex-1">
@@ -166,10 +184,13 @@ export default function Index() {
 						subTotal={subTotal}
 					/>
 				)}
-				{pendingOrder && (
+				{pendingOrder && pendingOrderCourier && (
 					<OrderStatusBar
-						imageUrl={pendingOrderRestaurantLogo}
-						pendingOrderId={pendingOrder.id}
+						imageUrl={pendingOrderCourier.photo}
+						name={pendingOrderCourier.name}
+						vehicle={pendingOrderCourier.vehicleName}
+						plate={pendingOrderCourier.vehiclePlate}
+						rating={pendingOrderCourier.rating}
 					/>
 				)}
 			<Footer/>
