@@ -62,6 +62,7 @@ export default function SelectAddress() {
     
     const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [name, setName] = useState('');
     const [filteredPoints, setFilteredPoints] = useState(referencePoints);
     const [selectedPoint, setSelectedPoint] = useState<ReferencePoint | null>(null); 
     const router = useRouter();
@@ -116,7 +117,7 @@ export default function SelectAddress() {
 
     const handleSelectPoint = (point: ReferencePoint) => {
         setSelectedPoint(point);
-        setSearchQuery(''); // Clear the search input after selecting a point
+        setSearchQuery(''); 
     };
 
     const handleConfirmSelection = () => {
@@ -136,8 +137,8 @@ export default function SelectAddress() {
 
     const handleInputFocus = () => {
         if (selectedPoint) {
-            setSearchQuery(''); // Clear the selected point when the user focuses on the input to search again
-            setSelectedPoint(null); // Optionally reset the selected point
+            setSearchQuery(''); 
+            setSelectedPoint(null); 
         }
     };
 
@@ -179,6 +180,14 @@ export default function SelectAddress() {
                                 ))}
                             </ScrollView>
                         )}
+
+                        <TextInput
+                            className=" bg-white-gray w-[90%] mx-auto mb-6 p-4 rounded-lg border border-gray-300"
+                            placeholder="Nome"
+                            value={name} 
+                            onChangeText={setName}
+                        />
+
 
                         <TouchableOpacity 
                             className="h-12 w-[90%] mx-auto rounded-2xl bg-red-main flex items-center justify-center"
