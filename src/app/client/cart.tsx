@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator, Image, StatusBar } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator, Image, StatusBar, Modal } from "react-native";
 import { Href, router, useLocalSearchParams, useRouter } from "expo-router";
 import axios from 'axios';
 import LOCAL_IP from '../../../config';
@@ -9,6 +9,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { debounce } from 'lodash';
 import PaymentDetails from "../../components/client/paymentDetails";
 import ChameleonWarning from "../../components/shared/chameleonWarning";
+import CardList from "@/src/components/client/cardList";
 
 interface CartItem {
     id: string;
@@ -112,6 +113,11 @@ const Cart = () => {
     const latitude = latitudeParam ? Number(latitudeParam) : 0;
     const longitude = longitudeParam ? Number(longitudeParam) : 0;
     const [errorMessage, setErrorMessage] = useState(""); 
+    const [visible, setVisible] = useState(false);
+
+const handleToggleModal = () => {
+    setVisible(!visible);
+};
 
 
     useEffect(() => {
@@ -319,7 +325,7 @@ const Cart = () => {
 					<View className="w-96 mt-5 mx-auto">
                         <TouchableOpacity
                             className="flex-row gap-2 items-center bg-white-gray w-[95%] mx-auto mt-3 mb-6 p-4 rounded-lg border border-black-gray-500"
-                            onPress={() => handleSaveAndNavigate('/client/selectAddress')}>
+                            onPress={handleToggleModal}>
                             <Feather name="map-pin" size={14} color="#7D7D7D" />
                             {selectedAddress ? (
                                 <Text className="text-black-gray-500">{selectedAddress}</Text>
@@ -339,6 +345,39 @@ const Cart = () => {
     deliveryFee={3.75} 
     deliveryTime="15 - 30mins" 
 />
+                        <Modal
+                            animationType="none"
+                            transparent={true}
+                            visible={visible}
+                        >
+                            <View className="flex-1 justify-end" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <View className="absolute bottom-0 w-full bg-white rounded-t-3xl p-8 shadow-lg">
+                                    <Text className="text-center text-xl font-bold text-black mb-2">Calcular taxa de entrega</Text>
+                                    <CardList type="address" />
+                                    <TouchableOpacity onPress={() => router.push('/client/address')}>
+                                        <Text className="font-bold text-red-main text-lg mt-2 ">TROCAR</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        className="bg-red-main py-4 px-6 rounded-xl w-96 mx-auto mt-4 mb-2"
+                                        onPress={() => {
+                                            setVisible(false);
+                                        }}
+                                    >
+                                        <Text className="text-white text-center font-semibold">Calcular</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        className="bg-black-gray py-4 px-6 rounded-xl w-96 mx-auto"
+                                        onPress={() => {
+                                            setVisible(false);
+                                            handleSaveAndNavigate('/client/selectAddress');
+                                        }}
+                                    >
+                                        <Text className="text-white text-center font-semibold">Selecionar endereço manualmente</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+
                     </View>
                         )}
 				</ScrollView>
