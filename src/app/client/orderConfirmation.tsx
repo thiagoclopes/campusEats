@@ -31,6 +31,7 @@ export default function OrderConfirmation(){
     const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
     const [isPaymentValidating, setIsPaymentValidating] = useState(false);
     const [isReadyForPayment, setIsReadyForPayment] = useState(false);
+    const [paymentMethodSelected, setPaymentMethodSelected] = useState("");
 
     useEffect(() => {
         axios.get(`${LOCAL_IP}/orders/${orderId}`)
@@ -59,9 +60,9 @@ export default function OrderConfirmation(){
         }
       };
 
-    const handleCardSelect = (id: string) => {
-        console.log(`Cartão selecionado: ${id}`);
-      };
+      useEffect(() => {
+        console.log(paymentMethodSelected);
+    }, [paymentMethodSelected]);
 
     const simulateOrderConfirmation = () => {
         setTimeout(() => {
@@ -81,6 +82,7 @@ export default function OrderConfirmation(){
           setIsPaymentValidating(false);
         }, 3000);
     };
+    
 
     if(!isReadyForPayment) {
         return (
@@ -127,7 +129,7 @@ export default function OrderConfirmation(){
                             </TouchableOpacity>
 
                             <Text className="font-semibold mt-16 mb-2 text-xl">Formas de pagamento</Text>
-                            <CardList type="payment" />
+                            <CardList type="payment" onSelect={setPaymentMethodSelected}/>
                             <TouchableOpacity onPress={() => router.push('/client/cards')}>
                                 <Text className="font-bold text-red-main text-lg mt-2 ">TROCAR</Text>
                             </TouchableOpacity>
@@ -142,9 +144,18 @@ export default function OrderConfirmation(){
                             justifyContent: 'space-around',
                             backgroundColor: 'white',
                         }}>
-                            <TouchableOpacity className={'w-[70%] rounded-xl bg-red-main py-6'} onPress={simulatePaymentValidation}>
-                                <Text className='text-center text-white font-semibold'>Efetuar pagamento - R$ total</Text>
+                            <TouchableOpacity
+                                className={`w-[70%] rounded-xl py-6 ${
+                                    paymentMethodSelected.length === 0 ? 'bg-gray-300' : 'bg-red-main'
+                                }`}
+                                onPress={simulatePaymentValidation}
+                                disabled={paymentMethodSelected.length === 0}
+                            >
+                                <Text className="text-center text-white font-semibold">
+                                    Efetuar pagamento - R$ total
+                                </Text>
                             </TouchableOpacity>
+
                     </View>
                     </KeyboardAvoidingView>
                 )}
