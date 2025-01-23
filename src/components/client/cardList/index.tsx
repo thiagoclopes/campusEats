@@ -71,13 +71,21 @@ export default function CardList({ type, onSelect }: CardListProps) {
   }, [type]);
 
   const handleSelect = (id: string) => {
-    setSelectedId((prevId) => (prevId === id ? null : id));
+    const isDeselecting = selectedId === id;
+    const newSelectedId = isDeselecting ? null : id;
+  
+    setSelectedId(newSelectedId);
+  
     if (type === 'payment' && id !== 'cash') {
       setCashChange('');
     }
-
-    onSelect?.(id, type === 'payment' && id === 'cash' ? cashChange : undefined);
+  
+    onSelect?.(
+      newSelectedId || "",
+      type === 'payment' && newSelectedId === 'cash' ? cashChange : undefined
+    );
   };
+  
 
   const incrementCashChange = (value: number) => {
     setCashChange((prev) => {

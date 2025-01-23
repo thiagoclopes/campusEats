@@ -288,21 +288,5 @@
   ],
   "cart": [],
   "orders": [
-    {
-      "id": "1451",
-      "items": [
-        {
-          "id": "0c43",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor IV",
-      "latitude": -5.842412943228999,
-      "longitude": -35.19972013385473,
-      "status": "Out for Delivery",
-      "courierId": "321"
-    }
   ]
 }
