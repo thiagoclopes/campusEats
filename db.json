@@ -263,6 +263,19 @@
       "vehicle": "Carro"
     }
   ],
+  "restaurantProfile": [
+    {
+      "id": "1",
+      "name": "Nordestino",
+      "email": "amarmitaria@oficial.com.br",
+      "logo": "https://collective-gold-clownfish.myfilebase.com/ipfs/QmRqngfsXPWTvKXaw4S1fauutTXeFEHx3KduCthC8CdLHE/restaurants/nordestino.jpg",
+      "rating": "4.8",
+      "category": "Brasileira",
+      "workingHours": "Seg-Sex: 9h às 22h\nSáb: 10h às 21h",
+      "whatsapp": "84986338368",
+      "instagram": "thiago.vinicius"
+    }
+  ],
   "couriers": [
     {
       "id": "123",
@@ -286,51 +299,22 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "id": "5d51",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    },
-    {
-      "id": "975f",
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1
-    }
-  ],
+  "cart": [],
   "orders": [
     {
-      "id": "1451",
+      "id": "d87a",
       "items": [
         {
-          "id": "0c43",
+          "id": "5900",
           "foodId": "1",
           "restaurantId": "1",
           "quantity": 1
         }
       ],
-      "address": "Setor IV",
-      "latitude": -5.842412943228999,
-      "longitude": -35.19972013385473,
-      "status": "Delivered",
-      "courierId": "321"
-    },
-    {
-      "id": "52aa",
-      "items": [
-        {
-          "id": "75df",
-          "foodId": "1",
-          "restaurantId": "1",
-          "quantity": 1
-        }
-      ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
-      "status": "Delivered",
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Out for Delivery",
       "courierId": "321"
     }
   ]
