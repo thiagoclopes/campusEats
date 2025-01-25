@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import TimerCircle from "./timerCircle";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 interface Order {
     id: string;
@@ -52,8 +53,8 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
     }, [])
 
     return (
-        <>
-        <View className="flex flex-col items-center bg-white absolute z-10 bottom-64 left-3 right-3 rounded-xl">
+        <View className="absolute z-10 bottom-14 left-3 right-3">
+        <View className="flex flex-col items-center bg-white rounded-xl">
             <TimerCircle timeLeft={timeLeft} />
             <View className="flex flex-row items-center gap-40 p-8">
                 <Text className="text-2xl font-bold">R$ 3,50</Text>
@@ -87,9 +88,14 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
                 
             </View>
         </View>
-        <View className="flex flex-row items-center bg-white absolute z-10 bottom-36 left-3 right-3 rounded-xl">
+
+        <View className="flex flex-row items-center bg-white mt-2 rounded-xl">
             <View className="w-72 p-4">
-                <Text className="font-semibold p-2">Colete em</Text>
+                <View className="flex flex-row">
+                    <Ionicons className="my-auto " name="storefront" size={16} color="black" />
+                    <Text className="font-semibold p-2 ml-2">Colete em</Text>
+                    <Text className="font-medium p-2 ml-2">1.5km</Text>
+                </View>
                 <View className="flex h-[1px] w-full bg-gray"/>
                 <Text className="text-sm p-2">Final da rua</Text>
             </View>
@@ -97,6 +103,21 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
                 <Text>FOTO AQUI</Text>
             </View>
         </View>
-        </>
+
+        <View className="flex flex-row items-center bg-white mt-2 rounded-xl">
+            <View className="w-72 p-4">
+                <View className="flex flex-row">
+                    <FontAwesome className="my-auto" name="flag" size={16} color="black" />
+                    <Text className="font-semibold p-2 ml-2">Entregue em</Text>
+                    <Text className="font-medium p-2 ml-2">+ 1.5km</Text>
+                </View>
+                <View className="flex h-[1px] w-full bg-gray"/>
+                <Text className="text-sm p-2">Final da rua</Text>
+            </View>
+            <View className="w-28 flex items-center">
+                <Text>FOTO AQUI</Text>
+            </View>
+        </View>
+        </View>
     );
 }
