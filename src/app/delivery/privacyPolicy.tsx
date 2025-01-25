@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function PrivacyPolicy() {
   const [isChecked, setIsChecked] = useState(true);
 
-  const currentRoute = isChecked ? "/delivery" : "/client/privacyPolicyPopUp";
+  const currentRoute = isChecked ? "/delivery" : "/client/privacyPolicy";
 
   return (
     <View className="flex-1">

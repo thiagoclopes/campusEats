@@ -2,6 +2,7 @@ import { ScrollView, TouchableOpacity, View, Text, Image, TextInput } from 'reac
 import { useEffect, useState } from 'react';
 import LOCAL_IP from '@/config';
 import { AntDesign } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 interface Address {
   id: string;
@@ -75,6 +76,10 @@ export default function CardList({ type, onSelect }: CardListProps) {
     const newSelectedId = isDeselecting ? null : id;
   
     setSelectedId(newSelectedId);
+
+    if (type === 'payment' && id === 'pix') {
+      router.push('/client/pixPaymentScreen')
+    }
   
     if (type === 'payment' && id !== 'cash') {
       setCashChange('');
@@ -124,16 +129,16 @@ export default function CardList({ type, onSelect }: CardListProps) {
               <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center">
                   <View className="w-12 h-12 rounded-full flex items-center justify-center">
-                    {'flag' in item ? renderCardFlag(item.flag) : null}
+                    {'flag' in item && item.flag ? renderCardFlag(item.flag) : null}
                   </View>
                   <View className="ml-6">
-                    <Text
-                      className={`font-medium text-lg ${
-                        isSelected ? 'text-white' : 'text-black'
-                      }`}
-                    >
-                      {item.method}
-                    </Text>
+                    {'method' in item && typeof item.method === 'string' && (
+                      <Text
+                        className={`font-medium text-lg ${isSelected ? 'text-white' : 'text-black'}`}
+                      >
+                        {item.method}
+                      </Text>
+                    )}
                     {'number' in item && item.number && (
                       <Text className="text-black-gray font-regular text-md">{item.number}</Text>
                     )}
@@ -141,16 +146,21 @@ export default function CardList({ type, onSelect }: CardListProps) {
                 </View>
               </View>
             ) : (
-              <View className='flex-row'>
+              <View className="flex-row">
                 <View className="w-12 h-12 rounded-full bg-red-main flex items-center justify-center">
                   <AntDesign name="enviroment" size={20} color="#FFFFFF" />
                 </View>
                 <View className="ml-6">
-                  <Text className="text-black font-medium text-lg">{item.setor}</Text>
-                  <Text className="text-black-gray font-regular text-md">{item.subtitle}</Text>
+                  {'setor' in item && typeof item.setor === 'string' && (
+                    <Text className="text-black font-medium text-lg">{item.setor}</Text>
+                  )}
+                  {'subtitle' in item && typeof item.subtitle === 'string' && (
+                    <Text className="text-black-gray font-regular text-md">{item.subtitle}</Text>
+                  )}
                 </View>
               </View>
             )}
+
 
             {isSelected && type === 'payment' && item.id === 'cash' && (
               <View className="mt-4">

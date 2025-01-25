@@ -9,7 +9,7 @@ type AvaliationProps = {
   title: string;
   subtitle: string;
   type: "courier" | "order"; 
-  IconComponent?: React.ComponentType<IconProps>; 
+  IconComponent?: React.ComponentType<IconProps<string>>;
   iconName?: string;
   iconSize?: number;
   iconColor?: string;
@@ -48,7 +48,7 @@ const AvaliationComponent: React.FC<AvaliationProps> = ({
           />
         ) : (
           IconComponent && (
-            <IconComponent name={iconName} size={iconSize} color={iconColor} />
+            <IconComponent name={iconName || "default-icon-name"} size={iconSize} color={iconColor} />
           )
         )}
 
