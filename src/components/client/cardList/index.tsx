@@ -146,7 +146,9 @@ export default function CardList({ type, onSelect }: CardListProps) {
                   <AntDesign name="enviroment" size={20} color="#FFFFFF" />
                 </View>
                 <View className="ml-6">
-                  <Text className="text-black font-medium text-lg">{item.setor}</Text>
+                  <Text className={`font-medium text-lg ${
+                        isSelected ? 'text-white' : 'text-black'
+                      }`}>{item.setor}</Text>
                   <Text className="text-black-gray font-regular text-md">{item.subtitle}</Text>
                 </View>
               </View>

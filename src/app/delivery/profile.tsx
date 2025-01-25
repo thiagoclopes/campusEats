@@ -3,7 +3,7 @@ import BackArrow from '../../components/shared/backArrow';
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import LOCAL_IP from "@/config";
-import { FontAwesome, Octicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, Octicons } from "@expo/vector-icons";
 
 export default function CourierProfile(){
     const [courierProfile, setCourierProfile] = useState({
@@ -11,7 +11,10 @@ export default function CourierProfile(){
         name: "",
         email: "",
         phone: "",
-        vehicle: ""
+        vehicle: "",
+        vehicleName: "",
+        vehiclePlate: "",
+        avaliation: 0
       });
       const [isEditing, setIsEditing] = useState(false);
       const router = useRouter();
@@ -72,7 +75,12 @@ export default function CourierProfile(){
             </View>
 
             <View className="w-full h-full rounded-t-3xl px-4 -mt-10 bg-white shadow-lg">
-            <View className="flex-row justify-around mt-16">
+              <View className="flex flex-row justify-center mt-14 items-center">
+                <Text className="text-center font-semibold text-xl">{courierProfile.name}</Text>
+                <Ionicons name="star" size={20} color="#FFD700" className="ml-4"/>
+                <Text className="ml-1 font-bold text-xl">{courierProfile.avaliation}</Text>
+              </View>
+            <View className="flex-row justify-around mt-6">
 						<View
 							style={{
 								width: '45%',
@@ -115,8 +123,8 @@ export default function CourierProfile(){
 								<FontAwesome name="bicycle" size={20} color="#EF2A39" />
 								) : null}
 							</View>
-							<Text className="text-lg font-bold text-gray-700 ml-2 mt-2">Fox</Text>
-							<Text className="text-gray-600">OWD-5868</Text>
+							<Text className="text-lg font-bold text-gray-700 ml-2 mt-2">{courierProfile.vehicleName}</Text>
+							<Text className="text-gray-600">{courierProfile.vehiclePlate}</Text>
 						</View>
 					</View>
 
@@ -152,6 +160,24 @@ export default function CourierProfile(){
                 value={courierProfile.vehicle}
                 editable={isEditing}
                 onChangeText={(text) => setCourierProfile({ ...courierProfile, vehicle: text })}
+                className={`h-14 px-6 w-full rounded-xl border ${
+                  isEditing ? "border-blue-500" : "border-gray-line"
+                } flex justify-center`}
+              />
+              <Text className="font-semibold mt-4 ml-4 mb-2">Nome do veículo</Text>
+              <TextInput
+                value={courierProfile.vehicleName}
+                editable={isEditing}
+                onChangeText={(text) => setCourierProfile({ ...courierProfile, vehicleName: text })}
+                className={`h-14 px-6 w-full rounded-xl border ${
+                  isEditing ? "border-blue-500" : "border-gray-line"
+                } flex justify-center`}
+              />
+              <Text className="font-semibold mt-4 ml-4 mb-2">Placa</Text>
+              <TextInput
+                value={courierProfile.vehiclePlate}
+                editable={isEditing}
+                onChangeText={(text) => setCourierProfile({ ...courierProfile, vehiclePlate: text })}
                 className={`h-14 px-6 w-full rounded-xl border ${
                   isEditing ? "border-blue-500" : "border-gray-line"
                 } flex justify-center`}
