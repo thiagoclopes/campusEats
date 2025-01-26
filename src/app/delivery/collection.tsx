@@ -48,6 +48,7 @@ export default function CollectionScreen() {
                         <View className="flex flex-row items-center pb-2 gap-2 w-[50%] border-b border-b-gray">
                             <FontAwesome6 name="store" size={18} color="black" />
                             <Text>Colete em {currentOrder?.address}</Text>
+
                         </View>
                         <Image
                             source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDxIZuYWiY5x3xXGFEjPqcPuiG3LUsSxSoA&s'}}

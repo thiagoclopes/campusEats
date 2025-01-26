@@ -333,7 +333,8 @@
       "address": "Escola de Ciência e Tecnologia (ECT)",
       "latitude": -5.843395493045956,
       "longitude": -35.199395317946305,
-      "status": "Awaiting Confirmation"
+      "status": "Awaiting Confirmation",
+      "courierId": "321"
     },
     {
       "id": "9b9f",

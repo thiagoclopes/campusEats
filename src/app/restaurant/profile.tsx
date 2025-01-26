@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import LOCAL_IP from "@/config";
 import { FontAwesome, Octicons } from "@expo/vector-icons";
+import { Footer } from "@/src/components/restaurant/footer";
 
 export default function RestaurantProfile(){
     const [restaurantProfile, setRestaurantProfile] = useState({
@@ -58,7 +59,7 @@ export default function RestaurantProfile(){
     return(
         <View className="flex-1 bg-red-main">
         <StatusBar backgroundColor="#EF2A39" barStyle="dark-content" />
-        <BackArrow color="white" title="Meu Perfil" route="/delivery" />
+        <BackArrow color="white" title="Meu Perfil" route="/restaurant" />
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -187,6 +188,7 @@ export default function RestaurantProfile(){
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
+        <Footer/>
       </View>
     );
 }

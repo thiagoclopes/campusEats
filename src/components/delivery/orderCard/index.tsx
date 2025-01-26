@@ -1,7 +1,7 @@
 import LOCAL_IP from "@/config";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import TimerCircle from "./timerCircle";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
@@ -90,7 +90,7 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
         </View>
 
         <View className="flex flex-row items-center bg-white mt-2 rounded-xl">
-            <View className="w-72 p-4">
+            <View className="w-80 px-4">
                 <View className="flex flex-row">
                     <Ionicons className="my-auto " name="storefront" size={16} color="black" />
                     <Text className="font-semibold p-2 ml-2">Colete em</Text>
@@ -99,13 +99,17 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
                 <View className="flex h-[1px] w-full bg-gray"/>
                 <Text className="text-sm p-2">Final da rua</Text>
             </View>
-            <View className="w-28 flex items-center">
-                <Text>FOTO AQUI</Text>
+            <View className="aspect-square flex-1 flex items-center justify-end ml-auto">
+                <Image
+                    source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDxIZuYWiY5x3xXGFEjPqcPuiG3LUsSxSoA&s'}}
+                    style={{ flex: 1, resizeMode: 'cover'}}
+                    className="w-full rounded-r-xl"
+                />
             </View>
         </View>
 
         <View className="flex flex-row items-center bg-white mt-2 rounded-xl">
-            <View className="w-72 p-4">
+            <View className="w-80 p-4">
                 <View className="flex flex-row">
                     <FontAwesome className="my-auto" name="flag" size={16} color="black" />
                     <Text className="font-semibold p-2 ml-2">Entregue em</Text>
@@ -114,8 +118,12 @@ export default function OrderCard({ order, onAccept, onReject }: { order: Order,
                 <View className="flex h-[1px] w-full bg-gray"/>
                 <Text className="text-sm p-2">Final da rua</Text>
             </View>
-            <View className="w-28 flex items-center">
-                <Text>FOTO AQUI</Text>
+            <View className="aspect-square flex-1 flex items-center justify-end ml-auto">
+                <Image
+                    source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDxIZuYWiY5x3xXGFEjPqcPuiG3LUsSxSoA&s'}}
+                    style={{ flex: 1, resizeMode: 'cover'}}
+                    className="w-full rounded-r-xl"
+                />
             </View>
         </View>
         </View>

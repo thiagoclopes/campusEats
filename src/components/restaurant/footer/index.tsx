@@ -1,5 +1,5 @@
 import { View, Pressable } from "react-native";
-import { Ionicons, FontAwesome5, Entypo, AntDesign } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, Entypo, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter, usePathname, Href } from 'expo-router';
 import { useState, useEffect } from 'react';
 
@@ -47,7 +47,7 @@ export function Footer() {
             elevation: 5,
         }}>
             <IconWithDot route="/restaurant" IconComponent={AntDesign} iconName="home" />
-            <IconWithDot route="/restaurant/menu" IconComponent={AntDesign} iconName="search1" />
+            <IconWithDot route="/restaurant/menu" IconComponent={MaterialCommunityIcons} iconName="silverware-fork-knife" />
             <IconWithDot route="/restaurant/orders" IconComponent={FontAwesome5} iconName="list-alt" />
             <IconWithDot route="/restaurant/chatList" IconComponent={Entypo} iconName="chat" />
             <IconWithDot route="/restaurant/profile" IconComponent={AntDesign} iconName="user" />

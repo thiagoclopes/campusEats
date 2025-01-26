@@ -56,7 +56,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
 };
 
 
-export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories, sortBy}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[]; sortBy?: string | null;}) {
+export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories, sortBy, showHeartIcon = true}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[]; sortBy?: string | null; showHeartIcon?: boolean;}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -216,6 +216,7 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                                                 elevation: 5,
                                             }}
                                         >
+                                            {showHeartIcon && (
                                             <View className="flex flex-row items-center absolute left-3 top-3 z-10">
                                                 <Pressable onPress={() => toggleFavorite(item.id, item.isFavorite)}>
                                                     {item.isFavorite ? (
@@ -225,6 +226,7 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                                                     )}
                                                 </Pressable>
                                             </View>
+                                            )}
                                             <Image
                                                 source={{ uri: item.url }}
                                                 className="w-full mx-auto h-40"
