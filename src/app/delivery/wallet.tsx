@@ -27,7 +27,7 @@ export default function Wallet(){
                 >
                   <Pressable
                     className="flex-row items-center ml-4 p-2"
-                    onPress={() => router.push(`/delivery/sale`)}
+                    onPress={() => router.push(`/delivery/balance`)}
                   >
                     <View style={{ width: 30, alignItems: "center" }}>
                       <FontAwesome5 name='wallet' size={20} color="#EF2A39" />

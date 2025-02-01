@@ -4,7 +4,7 @@ import { TouchableOpacity, View, Text, Image, Pressable, ActivityIndicator, Scro
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import Constants from 'expo-constants';
 import LOCAL_IP from '../../../../config';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import ContentLoader, { Rect } from 'react-content-loader/native'
 import ChameleonWarning from "../../shared/chameleonWarning";
 import React from "react";
@@ -50,8 +50,16 @@ const fetchRestaurant = async (id: string) => {
 const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
     try {
         const response = await axios.patch(`${LOCAL_IP}/products/${id}`, { isFavorite });
+        console.log('Favorito atualizado com sucesso:', response.data);
     } catch (error) {
-        console.error('Erro ao atualizar favorito:', error);
+        if (error instanceof AxiosError) {
+            // Aqui, o TypeScript sabe que `error` é do tipo AxiosError
+            console.error('Erro na resposta:', error.response?.data);
+            console.error('Status:', error.response?.status);
+        } else {
+            // Se o erro não for uma instância de AxiosError
+            console.error('Erro desconhecido:', error);
+        }
     }
 };
 

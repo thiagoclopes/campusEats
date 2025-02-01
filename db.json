@@ -299,7 +299,7 @@
       "vehiclePlate": "HTX-5738",
       "photo": "https://img.freepik.com/vetores-premium/entregador-na-scooter-fazendo-ilustracao-de-servico-de-entrega_602666-23.jpg?semt=ais_hybrid",
       "rating": "4.8",
-      "availability": true
+      "availability": false
     }
   ],
   "cart": [],

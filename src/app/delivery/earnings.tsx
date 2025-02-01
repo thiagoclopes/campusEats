@@ -140,7 +140,13 @@ export default function Earnings() {
     <View style={styles.container}>
         <BackArrow color="black" title="Ganhos" route="/delivery"/>
       	<ScrollView className='flex-1 mt-4'>
-			
+			<View className='flex flex-col w-[90%] mx-auto p-2 bg-red-main rounded-lg'>
+				<Text className='text-sm text-center text-white'>12/12 - 18/12</Text>
+				<Text className='text-3xl text-white mt-12'>R$: 202,50</Text>
+				<View className='w-full h-[1px] bg-gray-line mt-12'/>
+				<Text className='text-sm text-right text-gray-line mt-2'>Campus Eats</Text>
+			</View>
+
 			<View className="flex-row items-center px-4 py-4 gap-2 mt-5 ml-4">
 				<Text className="text-md text-black-gray font-medium">seg, 18 de dez.</Text>
 			</View>
