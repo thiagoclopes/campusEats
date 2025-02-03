@@ -263,7 +263,19 @@
       "vehicle": "Carro",
       "vehicleName": "Fox",
       "vehiclePlate": "OWD-5868",
-      "avaliation": 4.9
+      "avaliation": 4.9,
+      "bankAccount": {
+        "name": "Natan",
+        "address": "Rua tenente ferreira maldos, 275",
+        "city": "Parnamirim",
+        "cep": "59140220",
+        "bankName": "Caixa",
+        "agencyCity": "Parnamirim",
+        "agencyNumber": "001",
+        "number": "002003",
+        "type": "",
+        "cpf": "70045990433"
+      }
     }
   ],
   "restaurantProfile": [

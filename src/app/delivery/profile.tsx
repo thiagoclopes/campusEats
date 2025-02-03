@@ -1,7 +1,7 @@
 import { View, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity, TextInput, Image, StatusBar, Platform } from "react-native";
 import BackArrow from '../../components/shared/backArrow';
-import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 import LOCAL_IP from "@/config";
 import { FontAwesome, Ionicons, Octicons } from "@expo/vector-icons";
 
