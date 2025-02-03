@@ -2,7 +2,7 @@ import LOCAL_IP from "@/config";
 import BackArrow from "@/src/components/shared/backArrow";
 import { FontAwesome6 } from "@expo/vector-icons";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 
 interface Order {
