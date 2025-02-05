@@ -1,9 +1,14 @@
 import LOCAL_IP from "@/config";
+import ArrivedStage from "@/src/components/delivery/collectionStages/ArrivedStage";
+import CompletedStage from "@/src/components/delivery/collectionStages/CompletedStage";
+import InProgressStage from "@/src/components/delivery/collectionStages/InProgressStage";
+import StartedStage from "@/src/components/delivery/collectionStages/StartedStage";
 import BackArrow from "@/src/components/shared/backArrow";
-import { FontAwesome6 } from "@expo/vector-icons";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { View, Text, Image } from "react-native";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { View } from "react-native";
+
 
 interface Order {
     id: string;
@@ -11,7 +16,8 @@ interface Order {
     address: string;
     status: string;
     courierId: string;
-	recused?: boolean;
+    recused?: boolean;
+    collectionStatus: string;
 }
 
 interface CartItem {
@@ -22,43 +28,63 @@ interface CartItem {
     price: number;
 }
 
-export default function CollectionScreen() {
+export default function Collection(){
     const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
-    
+    const [collectionStatus, setcollectionStatus] = useState<string>('');
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
+
     useEffect(() => {
         const fetchCurrentOrder = async () => {
-			try {
-				const response = await axios.get(`${LOCAL_IP}/orders?courierId=321`);
+            try {
+                const response = await axios.get(`${LOCAL_IP}/orders?courierId=321`);
                 
-				setCurrentOrder(response.data[0])
-
-			} catch (error) {
-				console.error("Erro:", error);
-			}
-		};
-		fetchCurrentOrder();
-    }, []);
+                if (response.data[0]) {
+                    setCurrentOrder(response.data[0])
+                    setcollectionStatus(response.data[0].collectionStatus);
+                  }
     
-    return (
-        <View className="flex-1 flex-col w-full bg-white">
-            <BackArrow color="black" title="Coleta"/>
-            <View className="px-4 py-8">
-                <View className="elevation-md rounded-md h-44 bg-white">
-                    <View className="flex flex-row p-4 w-full h-full justify-between">
-                        <View className="flex flex-row items-center pb-2 gap-2 w-[50%] border-b border-b-gray">
-                            <FontAwesome6 name="store" size={18} color="black" />
-                            <Text>Colete em {currentOrder?.address}</Text>
+            } catch (error) {
+                console.error("Erro:", error);
+            }
+        };
+        fetchCurrentOrder();
+    }, [isUpdated]);
 
-                        </View>
-                        <Image
-                            source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDxIZuYWiY5x3xXGFEjPqcPuiG3LUsSxSoA&s'}}
-                            style={{ flex: 1, resizeMode: 'cover'}}
-                        />
-                    </View>
-                    
-                </View>
-            </View>
-            
-        </View>
-    )
+    const updatecollectionStatus = async (newStatus: string) => {
+        try {
+            const response = await axios.patch(`${LOCAL_IP}/orders/${currentOrder?.id}`, {
+                collectionStatus: newStatus,
+            });
+        
+            if (response.status === 200) {
+                setcollectionStatus(newStatus);
+                setIsUpdated(true);
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar o status da entrega:", error);
+        }
+      };
+
+    
+    const renderContent = () => {
+        switch (collectionStatus) {
+            case 'started':
+            return <StartedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'arrived':
+            return <ArrivedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'in-progress':
+            return <InProgressStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'completed':
+            return <CompletedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            default:
+            return null;
+        }
+    };
+
+return (
+  <View className="flex w-full h-full">
+    <BackArrow color="black" title="Coleta"/>
+    {renderContent()}
+  </View>
+);
 }

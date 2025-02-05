@@ -311,42 +311,27 @@
       "vehiclePlate": "HTX-5738",
       "photo": "https://img.freepik.com/vetores-premium/entregador-na-scooter-fazendo-ilustracao-de-servico-de-entrega_602666-23.jpg?semt=ais_hybrid",
       "rating": "4.8",
-      "availability": false
+      "availability": true
     }
   ],
   "cart": [],
   "orders": [
     {
-      "id": "6b76",
       "items": [
         {
-          "id": "8d84",
           "foodId": "2",
           "restaurantId": "2",
-          "quantity": 1
-        }
-      ],
-      "address": "Escola de Ciência e Tecnologia (ECT)",
-      "latitude": -5.843395493045956,
-      "longitude": -35.199395317946305,
-      "status": "Delivered",
-      "courierId": "321"
-    },
-    {
-      "items": [
-        {
-          "foodId": "1",
-          "restaurantId": "1",
           "quantity": 1,
           "id": 1
         }
       ],
-      "address": "Setor III",
-      "latitude": -5.840709167986833,
-      "longitude": -35.20058612478776,
+      "address": "Setor IV",
+      "latitude": -5.842412943228999,
+      "longitude": -35.19972013385473,
       "status": "Out for Delivery",
-      "id": "5simRDI",
-      "courierId": "321"
+      "id": 1,
+      "courierId": "321",
+      "collectionStatus": "completed"
     }
   ]
 }

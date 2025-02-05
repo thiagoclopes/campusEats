@@ -109,7 +109,7 @@ export default function DeliveryHome() {
 
 	const acceptOrder = async (order: Order) => {
 		try {
-			const updatedOrder = { ...order, courierId: courierId};
+			const updatedOrder = { ...order, courierId: courierId, collectionStatus: 'started'};
 	
 			await axios.patch(`${LOCAL_IP}/orders/${order.id}`, updatedOrder);
 			setOrders((prevOrders) => prevOrders.filter((o: Order) => o.id !== order.id));
