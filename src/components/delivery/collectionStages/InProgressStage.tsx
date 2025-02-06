@@ -30,14 +30,20 @@ export default function InProgressStage({ currentOrder, updatecollectionStatus }
     
     return(
         <View className="flex-1 justify-between flex-col px-4 py-8">
-                <View className="flex flex-col elevation-md rounded-md px-4 py-6 bg-white">
+                <View className="flex flex-col elevation-md rounded-md px-4 py-10 bg-white shadow-sm">
                     <View className="flex flex-row justify-between ">
-                        <Text>Pedido Nº 4502</Text>
-                        <Text className="text-green-700 bg-green-400 px-6 rounded-lg">Pronto</Text>
+                        <View className="">
+                            <Text className="font-bold text-lg">Pedido Nº 4502</Text>
+                        </View>
+                        <View className="d-flex justify-center bg-green-400 rounded-lg px-6">
+                            <Text className="text-green-700 ">Pronto</Text>
+                        </View>
                     </View>
                     
-                    <Text className="mt-10">INFORME O CÓDIGO DE COLETA PARA A LOJA</Text>
-                    <Text className="m-auto mt-8 w-[50%] text-center bg-gray-line p-4">1038</Text>
+                    <Text className="mt-10 text-center">INFORME O CÓDIGO DE COLETA PARA A LOJA</Text>
+                    <View className="bg-gray-line p-4 m-auto mt-8 w-[50%] rounded">
+                        <Text className="font-semibold text-2xl text-center">1038</Text>
+                    </View>
                     <Text className="text-center mt-8"> EM SEGUIDA, CONCLUA A ENTREGA</Text>
                 </View>
 

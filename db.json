@@ -328,10 +328,58 @@
       "address": "Setor IV",
       "latitude": -5.842412943228999,
       "longitude": -35.19972013385473,
-      "status": "Out for Delivery",
+      "status": "Delivered",
       "id": 1,
       "courierId": "321",
       "collectionStatus": "completed"
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Delivered",
+      "id": 2,
+      "courierId": "321",
+      "collectionStatus": "started"
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Setor II",
+      "latitude": -5.840452832201686,
+      "longitude": -35.19724725069943,
+      "status": "Awaiting Confirmation",
+      "id": 3
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Out for Delivery",
+      "id": 4,
+      "courierId": "321"
     }
   ]
 }

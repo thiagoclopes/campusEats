@@ -1,7 +1,7 @@
 import PopUpCollection from "@/src/app/delivery/popUpCollection";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Image } from "react-native";
 import OpenMapsButton from "./OpenMapsButton";
 
 interface Order {
@@ -27,25 +27,40 @@ interface ArrivedStageProps {
     updatecollectionStatus: (newStatus: string) => void;
 }
 
-export default function ArrivedStage({ currentOrder, updatecollectionStatus }: ArrivedStageProps){
+export default function ArrivedStage({ currentOrder, updatecollectionStatus }: ArrivedStageProps) {
     const [modalVisible, setModalVisible] = useState(false);
-    
-    return(
+
+    return (
         <View className="flex-1 justify-between flex-col px-4 py-8">
             <View className="flex flex-col gap-4">
-                <View className="elevation-md rounded-md bg-white">
-                    <View className="flex flex-row p-4 w-full justify-between">
-                        <View className="flex flex-row items-center pb-2 gap-2 w-[50%] border-b border-b-gray">
-                            <FontAwesome6 name="store" size={18} color="black" />
-                            <Text>Colete em {currentOrder?.address}</Text>
+                <View className="flex flex-row items-center bg-white mt-2 rounded-xl shadow-sm">
+                    <View className="w-80 px-4 ">
+                        <View className="flex flex-row">
+                            <Ionicons className="my-auto " name="storefront" size={16} color="black" />
+                            <Text className="font-semibold p-2 ml-2">Colete em {currentOrder?.address}</Text>
+                            <Text className="font-medium p-2 ml-2">1.5km</Text>
                         </View>
-                        <OpenMapsButton/>
+                        <View className="flex h-[1px] w-full bg-gray" />
+                        <Text className="text-sm p-2">Final da rua</Text>
+                    </View>
+                    <View className="aspect-square flex-1 flex items-center justify-end ml-auto">
+                        <Image
+                            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKDxIZuYWiY5x3xXGFEjPqcPuiG3LUsSxSoA&s' }}
+                            style={{ flex: 1, resizeMode: 'cover' }}
+                            className="w-full rounded-r-xl"
+                        />
                     </View>
                 </View>
 
-                <View className="flex flex-row justify-between elevation-md rounded-md px-4 py-6 bg-white">
-                    <Text>Pedido Nº 4502</Text>
-                    <Text className="text-green-700 bg-green-400 px-6 rounded-lg">Pronto</Text>
+                <View className="flex flex-col elevation-md rounded-md px-4 py-10 bg-white shadow">
+                    <View className="flex flex-row justify-between ">
+                        <View className="">
+                            <Text className="font-bold text-lg">Pedido Nº 4502</Text>
+                        </View>
+                        <View className="d-flex justify-center bg-green-400 rounded-lg px-6">
+                            <Text className="text-green-700 ">Pronto</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
 
@@ -63,7 +78,7 @@ export default function ArrivedStage({ currentOrder, updatecollectionStatus }: A
                 onRequestClose={() => setModalVisible(false)}
             >
                 {currentOrder?.id ? (
-                    <PopUpCollection 
+                    <PopUpCollection
                         setModalVisible={setModalVisible}
                         updatecollectionStatus={updatecollectionStatus}
                         newStatus="in-progress"
@@ -72,7 +87,7 @@ export default function ArrivedStage({ currentOrder, updatecollectionStatus }: A
                         secondaryButtonText="Voltar"
                     />
                 ) : null}
-                
+
             </Modal>
         </View>
     )

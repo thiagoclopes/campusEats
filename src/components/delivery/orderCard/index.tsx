@@ -1,6 +1,6 @@
 import LOCAL_IP from "@/config";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import TimerCircle from "./timerCircle";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
