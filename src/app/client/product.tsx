@@ -10,6 +10,7 @@ import axios from "axios";
 import { validateCart } from "../../utils/client/cartMiddleware";
 import VendorConflictModal from "../../components/client/cartModals/VendorConflictModal";
 import PendingOrderModal from "../../components/client/cartModals/PendingOrderModal";
+import React from "react";
 
 const statusBarHeight = Constants.statusBarHeight
 

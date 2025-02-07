@@ -70,7 +70,7 @@ export default function Menu() {
                             <AntDesign name='down' size={16} color="#EF2A39" />
                         </TouchableOpacity>
                     </View>
-        <Products restaurantId={restaurantId} showFilters={false} showHeartIcon={false} />
+        <Products restaurantId={restaurantId} showFilters={false} showHeartIcon={false} type="restaurant" />
       </View>
       <Footer />
     </View>

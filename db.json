@@ -83,7 +83,7 @@
   "products": [
     {
       "id": "1",
-      "name": "Duplo Burguer",
+      "name": "Duplo burger",
       "restaurantId": "1",
       "rating": "4.9",
       "isFavorite": true,

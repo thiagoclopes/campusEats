@@ -64,7 +64,7 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
 };
 
 
-export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories, sortBy, showHeartIcon = true}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[]; sortBy?: string | null; showHeartIcon?: boolean;}) {
+export function Products({ restaurantId, showFavorites, showFilters = true, searchQuery, categories, sortBy, showHeartIcon = true, type="client"}: { restaurantId?: string; showFavorites?: boolean; showFilters?: boolean; searchQuery?: string; categories?: string[]; sortBy?: string | null; showHeartIcon?: boolean; type?: "client" | "restaurant";}) {
     const [items, setItems] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -215,7 +215,7 @@ export function Products({ restaurantId, showFavorites, showFilters = true, sear
                                     <View key={item.id} className="w-1/2 p-2">
                                         <Pressable
                                             className="bg-white rounded-xl p-3"
-                                            onPress={() => router.push(`/client/product?id=${item.id}`)}
+                                            onPress={() => router.push(`/${type}/product?id=${item.id}`)}
                                             style={{
                                                 shadowColor: '#000',
                                                 shadowOffset: { width: 0, height: 2 },
