@@ -1,6 +1,7 @@
 import { View, Pressable, Text, Image } from "react-native";
 import { Ionicons, Feather, Fontisto, AntDesign } from '@expo/vector-icons'
 import { router } from "expo-router";
+import React from "react";
 export function Header() {
     return (
         <View className=" w-full flex flex-row items-center justify-between px-4 pt-4">
