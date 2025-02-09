@@ -2,7 +2,6 @@ import PopUpCollection from "@/src/app/delivery/popUpCollection";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, Image } from "react-native";
-import OpenMapsButton from "./OpenMapsButton";
 
 interface Order {
     id: string;

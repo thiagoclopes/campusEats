@@ -32,6 +32,7 @@ export default function Collection(){
     const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
     const [collectionStatus, setcollectionStatus] = useState<string>('');
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
+    const [screenTitle, setScreenTitle] = useState<string>('Coleta');
 
     useEffect(() => {
         const fetchCurrentOrder = async () => {
@@ -63,19 +64,25 @@ export default function Collection(){
         } catch (error) {
             console.error("Erro ao atualizar o status da entrega:", error);
         }
-      };
+    };
+
+    useEffect(() => {
+        if (collectionStatus === "completed") {
+            setScreenTitle("Entrega");
+        }
+    }, [collectionStatus]);
 
     
     const renderContent = () => {
         switch (collectionStatus) {
             case 'started':
-            return <StartedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+                return <StartedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             case 'arrived':
-            return <ArrivedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+                return <ArrivedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             case 'in-progress':
-            return <InProgressStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+                return <InProgressStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             case 'completed':
-            return <CompletedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+                return <CompletedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             default:
             return null;
         }
@@ -83,7 +90,7 @@ export default function Collection(){
 
 return (
   <View className="flex w-full h-full">
-    <BackArrow color="black" title="Coleta"/>
+    <BackArrow color="black" title={screenTitle}/>
     {renderContent()}
   </View>
 );

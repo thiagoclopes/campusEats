@@ -59,7 +59,7 @@ export default function StartedStage({ currentOrder, updatecollectionStatus }: S
                 </View>
                 
                 <View className="flex flex-row justify-end mt-4">
-                    <OpenMapsButton/>
+                    <OpenMapsButton latitude={-5.839725964271484} longitude={-35.195752600335815}/>
                 </View>
             </View>
 

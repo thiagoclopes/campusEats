@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Footer } from "@/src/components/restaurant/footer";
 import BackArrow from "@/src/components/shared/backArrow";
 import { useState } from "react";
+import React = require("react");
 
 export default function Orders() {
 	type TabOptions = 'novos' | 'em-preparo' | 'prontos';

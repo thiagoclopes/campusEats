@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, FlatList  } from "react-native";
 import MapView, {Region } from "react-native-maps";
 import { getCurrentPositionAsync, Accuracy } from "expo-location";
@@ -7,9 +7,10 @@ import { Entypo, Feather, FontAwesome6 } from "@expo/vector-icons";
 import Sidebar from "@/src/components/delivery/sidebar";
 import CourierStatusSheet from "@/src/components/delivery/courierStatusSheet";
 import axios from "axios";
-import LOCAL_IP from "@/config";
 import OrderCard from "@/src/components/delivery/orderCard";
 import { router } from "expo-router";
+import LOCAL_IP from "@/config";
+import React from "react";
 
 interface Order {
     id: string;
