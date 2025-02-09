@@ -331,7 +331,7 @@
       "status": "Out for delivery",
       "id": 1,
       "courierId": "321",
-      "collectionStatus": "completed"
+      "collectionStatus": "delivery-arrived"
     }
   ]
 }

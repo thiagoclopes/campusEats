@@ -64,7 +64,7 @@ export default function InProgressStage({ currentOrder, updatecollectionStatus }
                     <PopUpCollection 
                         setModalVisible={setModalVisible}
                         updatecollectionStatus={updatecollectionStatus}
-                        newStatus="completed"
+                        newStatus="collection-completed"
                         title="Você já coletou todos os pedidos?"
                         buttonText="Sim, confirmar saída"
                         secondaryButtonText="Voltar"

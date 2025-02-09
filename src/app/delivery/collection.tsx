@@ -1,6 +1,8 @@
 import LOCAL_IP from "@/config";
 import ArrivedStage from "@/src/components/delivery/collectionStages/ArrivedStage";
-import CompletedStage from "@/src/components/delivery/collectionStages/CompletedStage";
+import Delivered from "@/src/components/delivery/collectionStages/Delivered";
+import DeliveryArrivedStage from "@/src/components/delivery/collectionStages/DeliveryArrivedStage";
+import DeliveryStartedStage from "@/src/components/delivery/collectionStages/DeliveryStartedStage";
 import InProgressStage from "@/src/components/delivery/collectionStages/InProgressStage";
 import StartedStage from "@/src/components/delivery/collectionStages/StartedStage";
 import BackArrow from "@/src/components/shared/backArrow";
@@ -8,7 +10,6 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { View } from "react-native";
-
 
 interface Order {
     id: string;
@@ -67,8 +68,14 @@ export default function Collection(){
     };
 
     useEffect(() => {
-        if (collectionStatus === "completed") {
+        if (
+            collectionStatus === "collection-completed" ||
+            collectionStatus === "delivery-arrived" ||
+            collectionStatus === "delivered" 
+        ) {
             setScreenTitle("Entrega");
+        } else {
+            setScreenTitle("Coleta");
         }
     }, [collectionStatus]);
 
@@ -81,8 +88,12 @@ export default function Collection(){
                 return <ArrivedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             case 'in-progress':
                 return <InProgressStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
-            case 'completed':
-                return <CompletedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'collection-completed':
+                return <DeliveryStartedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'delivery-arrived':
+                return <DeliveryArrivedStage currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
+            case 'delivered':
+                return <Delivered currentOrder={currentOrder} updatecollectionStatus={updatecollectionStatus}/>;
             default:
             return null;
         }

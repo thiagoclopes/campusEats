@@ -22,12 +22,12 @@ interface CartItem {
 }
 
 
-interface CompletedStageProps {
+interface DeliveredStageProps {
     currentOrder: Order | null
     updatecollectionStatus: (newStatus: string) => void;
 }
 
-export default function CompletedStage({ currentOrder, updatecollectionStatus }: CompletedStageProps){
+export default function DeliveredStage({ currentOrder, updatecollectionStatus }: DeliveredStageProps){
     const [modalVisible, setModalVisible] = useState(false);
     
     return(
@@ -77,7 +77,7 @@ export default function CompletedStage({ currentOrder, updatecollectionStatus }:
                     <PopUpCollection
                         setModalVisible={setModalVisible}
                         updatecollectionStatus={updatecollectionStatus}
-                        newStatus="completed"
+                        newStatus="delivered"
                         title="Você realmente chegou na coleta?"
                         buttonText="Sim, confirmar chegada"
                         secondaryButtonText="Voltar"
