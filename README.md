@@ -2,7 +2,7 @@
 
 CampusEats é um aplicativo de delivery projetado para atender estudantes e profissionais dentro do campus da UFRN. Ele conecta restaurantes, lanchonetes e entregadores, proporcionando uma experiência rápida e eficiente para pedidos de comida.
 
-<img src="https://collective-gold-clownfish.myfilebase.com/ipfs/QmasN6vBVrvp1GUCojNTm8DB7qXqRPe1ftFNBvz7UrKc8w" alt="HomeScreen" width="300"/>
+<img src="https://collective-gold-clownfish.myfilebase.com/ipfs/QmasN6vBVrvp1GUCojNTm8DB7qXqRPe1ftFNBvz7UrKc8w" alt="HomeScreen" width="200"/>
 
 🚧 Este repositório está em desenvolvimento! 🚧
 
