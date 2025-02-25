@@ -34,6 +34,7 @@ interface FoodItem {
     category: string;
     url: string;
     price: number;
+    deliveryTime: number;
 }
 
 const fetchCartItems = async (): Promise<CartItem[]> => {
@@ -130,7 +131,18 @@ const handleToggleModal = () => {
     useEffect(() => {
         const getCartItems = async () => {
             const items = await fetchCartItems();
-            setCartItems(items);
+            const mergedItems = items.reduce((acc: CartItem[], item) => {
+                const existingItem = acc.find(i => i.foodId === item.foodId);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                } else {
+                    acc.push({ ...item });
+                }
+                return acc;
+            }, []);
+            
+            setCartItems(mergedItems);
+            
 			
 			if (items.length === 0) {
                 setFoodItems([]);
@@ -343,7 +355,8 @@ const handleToggleModal = () => {
                         <PaymentDetails 
     subtotal={totalAmount} 
     deliveryFee={3.75} 
-    deliveryTime="15 - 30mins" 
+    deliveryTime={Math.max(...foodItems.map(item => (item.deliveryTime))).toString() + " mins"}
+
 />
                         <Modal
                             animationType="none"
