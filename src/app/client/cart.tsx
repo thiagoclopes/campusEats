@@ -176,7 +176,7 @@ const handleToggleModal = () => {
             if (orderId) {
                 const subtotal = totalAmount;
                 const deliveryFee = 3.75;
-                const deliveryTime = "15 - 30mins";
+                const deliveryTime = `${Math.max(...foodItems.map(item => item.deliveryTime)).toString()} mins`;
 
                 router.push({
                     pathname: `/client/orderConfirmation`,
@@ -235,7 +235,7 @@ const handleToggleModal = () => {
             console.error("Erro ao salvar os itens do carrinho:", error);
             alert("Ocorreu um erro ao salvar o carrinho. Tente novamente.");
         } finally {
-            if (route) router.push(route); // Navega independentemente do sucesso ou erro
+            if (route) router.push(route); 
         }
     };
     
@@ -420,3 +420,6 @@ const handleToggleModal = () => {
 };
 
 export default Cart;
+
+// Quando está no carrinho e clica no backarrow, um item a mais é adicionado.
+// Quando volta seleciona endereço e depois volta para adicionar mais itens e abre o carrinho novamente, o endereço não fica salvo.

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import WaitingForRestaurant from "../../components/client/waitingForRestaurant";
 import axios from "axios";
 import LOCAL_IP from "@/config";
+import React from "react";
 
 interface Order {
     id: string;
@@ -32,6 +33,8 @@ export default function OrderConfirmation(){
     const [isPaymentValidating, setIsPaymentValidating] = useState(false);
     const [isReadyForPayment, setIsReadyForPayment] = useState(false);
     const [paymentMethodSelected, setPaymentMethodSelected] = useState("");
+
+    const total = Number(subtotal) + Number(deliveryFee);
 
     useEffect(() => {
         axios.get(`${LOCAL_IP}/orders/${orderId}`)
@@ -152,7 +155,7 @@ export default function OrderConfirmation(){
                                 disabled={paymentMethodSelected.length === 0}
                             >
                                 <Text className="text-center text-white font-semibold">
-                                    Efetuar pagamento - R$ total
+                                    Efetuar pagamento - R$ {total.toFixed(2).replace('.', ',')}
                                 </Text>
                             </TouchableOpacity>
 
@@ -168,6 +171,6 @@ export default function OrderConfirmation(){
 // Total deve ser recebido como props
 // quando estiver confirmando pagamento, desaparecer botão de efetuar
 // se o "troco para" for menor que o valor total, aparecer mensagem 
-
+// Ajeitar rota do backarrow
 // trocar deve aparecer imediatamente em baixo do cartão
 // ao clicar em profile/cards ou /address e clicar no backarrow, deve voltar para o resumo do pedido

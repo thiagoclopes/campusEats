@@ -321,32 +321,7 @@
       "availability": true
     }
   ],
-  "cart": [
-    {
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 3,
-      "id": 1
-    },
-    {
-      "foodId": "7",
-      "restaurantId": "1",
-      "quantity": 1,
-      "id": 2
-    },
-    {
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1,
-      "id": 3
-    },
-    {
-      "foodId": "1",
-      "restaurantId": "1",
-      "quantity": 1,
-      "id": 4
-    }
-  ],
+  "cart": [],
   "orders": [
     {
       "items": [
@@ -364,6 +339,93 @@
       "id": 1,
       "courierId": "321",
       "collectionStatus": "delivery-arrived"
+    },
+    {
+      "items": [
+        {
+          "foodId": "7",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 2
+        },
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 3,
+          "id": 3
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Awaiting Confirmation",
+      "id": 2
+    },
+    {
+      "items": [
+        {
+          "foodId": "7",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 5
+        },
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 6
+        }
+      ],
+      "address": "Setor II",
+      "latitude": -5.840452832201686,
+      "longitude": -35.19724725069943,
+      "status": "Awaiting Confirmation",
+      "id": 3
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Awaiting Confirmation",
+      "id": 4
+    },
+    {
+      "items": [
+        {
+          "foodId": "2",
+          "restaurantId": "2",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Awaiting Confirmation",
+      "id": 5
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 1,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Awaiting Confirmation",
+      "id": 6
     }
   ]
 }
