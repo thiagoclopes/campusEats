@@ -1,11 +1,12 @@
 import { Image, StatusBar, Text, TouchableOpacity, View, Pressable, ScrollView, ActivityIndicator } from 'react-native';
 import BackArrow from '../../components/shared/backArrow';
 import { Footer } from '../../components/client/footer';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import LOCAL_IP from '../../../config';
 import { Linking } from 'react-native';
+import React from 'react';
 
 
 interface Restaurant {
@@ -19,6 +20,7 @@ interface Restaurant {
   instagram: string;
   localization: string;
   sales: number;
+  isFavorite: boolean;
 }
 
 import { Products } from '../../components/client/productsList';
@@ -83,6 +85,9 @@ export default function RestaurantProfile() {
                     <Image source={{ uri: restaurant.logo }} style={{ width: '100%', height: '100%' }} />
                 </View>
                 <View className="w-full h-full rounded-t-3xl -mt-10 bg-white shadow-lg">
+                <Pressable className='absolute top-6 right-6'>
+                        <AntDesign name="heart" size={24} color="red" /> 
+                </Pressable>
                     <View className="items-center mt-12">
                         <Text className="text-xl font-semibold">{restaurant.name}</Text>
                         <View className="flex flex-row items-center mt-1">
@@ -157,3 +162,7 @@ export default function RestaurantProfile() {
         </View>
     );
 }
+
+// Botão de favoritar restaurante não funciona ainda
+// Se clicar em um produto e voltar, vai para a home e não para o profile
+

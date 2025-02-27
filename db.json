@@ -14,7 +14,8 @@
       "coords": {
         "latitude": -5.84409,
         "longitude": -35.19985
-      }
+      },
+      "isFavorite": true
     },
     {
       "id": "2",
@@ -27,7 +28,8 @@
       "instagram": "amarmitaria",
       "localization": "",
       "locationType": "mobile",
-      "coords": {}
+      "coords": {},
+      "isFavorite": true
     },
     {
       "id": "3",
@@ -43,7 +45,8 @@
       "coords": {
         "latitude": -5.839732,
         "longitude": -35.1957
-      }
+      },
+      "isFavorite": true
     }
   ],
   "profile": [
@@ -321,7 +324,14 @@
       "availability": true
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "foodId": "1",
+      "restaurantId": "1",
+      "quantity": 1,
+      "id": 2
+    }
+  ],
   "orders": [
     {
       "items": [
@@ -426,6 +436,21 @@
       "longitude": -35.199395317946305,
       "status": "Awaiting Confirmation",
       "id": 6
+    },
+    {
+      "items": [
+        {
+          "foodId": "1",
+          "restaurantId": "1",
+          "quantity": 2,
+          "id": 1
+        }
+      ],
+      "address": "Escola de Ciência e Tecnologia (ECT)",
+      "latitude": -5.843395493045956,
+      "longitude": -35.199395317946305,
+      "status": "Out for Delivery",
+      "id": 7
     }
   ]
 }

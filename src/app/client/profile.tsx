@@ -16,6 +16,7 @@ import {
   import { Link, useRouter } from "expo-router";
   import { Footer } from "../../components/client/footer";
   import LOCAL_IP from "@/config";
+  import React from "react";
   
   type Section = {
     title: string;
@@ -122,7 +123,7 @@ import {
               />
             </View>
             <View className="w-full h-full rounded-t-3xl px-4 -mt-10 bg-white shadow-lg">
-              <Text className="font-semibold mt-28 ml-4 mb-2">Nome</Text>
+              <Text className="font-semibold mt-20 ml-4 mb-2">Nome</Text>
               <TextInput
                 value={profile.name}
                 editable={isEditing}
@@ -151,14 +152,14 @@ import {
               />
               {isEditing ? (
                 <TouchableOpacity
-                  className="flex justify-center mt-4 mb-4 w-[50%] shadow-sm py-2 rounded-full bg-green-500"
+                  className="flex justify-center mt-4 mb-4 ml-auto w-[50%] shadow-sm py-2 rounded-full bg-green-500"
                   onPress={handleSave}
                 >
                   <Text className="text-center text-white">Salvar</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
-                  className="flex justify-center mt-4 mb-4 w-[50%] shadow-sm py-2 rounded-full bg-black"
+                  className="flex justify-center mt-4 mb-4 ml-auto w-[50%] shadow-sm py-2 rounded-full bg-black"
                   onPress={() => setIsEditing(true)}
                 >
                   <Text className="text-center text-white">Editar Perfil</Text>

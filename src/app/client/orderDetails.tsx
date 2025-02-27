@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import BackArrow from "../../components/shared/backArrow";
+import React from "react";
 
 interface Order {
     id: string;
@@ -248,3 +249,5 @@ export default function OrderDetails(){
     )
     
 }
+
+//totalOrder não está pegando a taxa de entrega

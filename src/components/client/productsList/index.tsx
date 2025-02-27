@@ -53,11 +53,9 @@ const updateFavoriteStatus = async (id: string, isFavorite: boolean) => {
         console.log('Favorito atualizado com sucesso:', response.data);
     } catch (error) {
         if (error instanceof AxiosError) {
-            // Aqui, o TypeScript sabe que `error` é do tipo AxiosError
             console.error('Erro na resposta:', error.response?.data);
             console.error('Status:', error.response?.status);
         } else {
-            // Se o erro não for uma instância de AxiosError
             console.error('Erro desconhecido:', error);
         }
     }
